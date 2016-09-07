@@ -1,0 +1,3288 @@
+source:  S_TGFbeta *= sgn_th(S_HIF1)
+input: ['S_HIF1']
+output: S_TGFbeta
+table:
+(0,) 0
+(1,) 1
+target: S_TGFbeta *= S_HIF1
+
+source:  S_DnaDamage *= sgn_th(S_Mutagen+S_ROS)
+input: ['S_Mutagen', 'S_ROS']
+output: S_DnaDamage
+table:
+(0, 0) 0
+(0, 1) 1
+(1, 0) 1
+(1, 1) 1
+target: S_DnaDamage *= S_Mutagen or S_ROS
+
+source:  S_p53_Mdm2 *= sgn_th(S_p53+S_Mdm2-1)
+input: ['S_p53', 'S_Mdm2']
+output: S_p53_Mdm2
+table:
+(0, 0) 0
+(0, 1) 0
+(1, 0) 0
+(1, 1) 1
+target: S_p53_Mdm2 *= S_Mdm2 and S_p53
+
+source:  S_AMP_ATP *= sgn_th(-S_Nutrients+1)
+input: ['S_Nutrients']
+output: S_AMP_ATP
+table:
+(0,) 1
+(1,) 0
+target: S_AMP_ATP *= not S_Nutrients
+
+source:  S_NF1 *= sgn_th(-S_PKC+1)
+input: ['S_PKC']
+output: S_NF1
+table:
+(0,) 1
+(1,) 0
+target: S_NF1 *= not S_PKC
+
+source:  S_PKC *= sgn_th(S_RTK+S_WNT)
+input: ['S_RTK', 'S_WNT']
+output: S_PKC
+table:
+(0, 0) 0
+(0, 1) 1
+(1, 0) 1
+(1, 1) 1
+target: S_PKC *= S_RTK or S_WNT
+
+source:  S_RTK *= sgn_th(S_GFs)
+input: ['S_GFs']
+output: S_RTK
+table:
+(0,) 0
+(1,) 1
+target: S_RTK *= S_GFs
+
+source:  S_RAGS *= sgn_th(S_Nutrients-S_Hypoxia)
+input: ['S_Nutrients', 'S_Hypoxia']
+output: S_RAGS
+table:
+(0, 0) 0
+(0, 1) 0
+(1, 0) 1
+(1, 1) 0
+target: S_RAGS *= S_Nutrients and not S_Hypoxia
+
+source:  S_Ras *= sgn_th(-S_NF1+S_RTK+1)
+input: ['S_NF1', 'S_RTK']
+output: S_Ras
+table:
+(0, 0) 1
+(0, 1) 1
+(1, 0) 0
+(1, 1) 1
+target: S_Ras *= S_RTK or not S_NF1
+
+source:  S_PI3K *= sgn_th(S_Ras+S_hTERT)
+input: ['S_Ras', 'S_hTERT']
+output: S_PI3K
+table:
+(0, 0) 0
+(0, 1) 1
+(1, 0) 1
+(1, 1) 1
+target: S_PI3K *= S_Ras or S_hTERT
+
+source:  S_PTEN *= True
+input: []
+output: S_PTEN
+table:
+N/A
+target: S_PTEN *= True
+
+source:  S_PIP3 *= sgn_th(S_PI3K-S_PTEN-S_p53_PTEN+1)
+input: ['S_PI3K', 'S_PTEN', 'S_p53_PTEN']
+output: S_PIP3
+table:
+(0, 0, 0) 1
+(0, 0, 1) 0
+(0, 1, 0) 0
+(0, 1, 1) 0
+(1, 0, 0) 1
+(1, 0, 1) 1
+(1, 1, 0) 1
+(1, 1, 1) 0
+target: S_PIP3 *= S_PI3K and not S_PTEN or S_PI3K and not S_p53_PTEN or not S_PTEN and not S_p53_PTEN
+
+source:  S_PDK1 *= sgn_th(S_PIP3+S_HIF1+S_Myc_Max)
+input: ['S_PIP3', 'S_HIF1', 'S_Myc_Max']
+output: S_PDK1
+table:
+(0, 0, 0) 0
+(0, 0, 1) 1
+(0, 1, 0) 1
+(0, 1, 1) 1
+(1, 0, 0) 1
+(1, 0, 1) 1
+(1, 1, 0) 1
+(1, 1, 1) 1
+target: S_PDK1 *= S_HIF1 or S_Myc_Max or S_PIP3
+
+source:  S_IKK *= sgn_th(S_PKC+S_AKT+S_mTOR-S_PHDs-S_p53+S_TAK1)
+input: ['S_PKC', 'S_AKT', 'S_mTOR', 'S_PHDs', 'S_p53', 'S_TAK1']
+output: S_IKK
+table:
+(0, 0, 0, 0, 0, 0) 0
+(0, 0, 0, 0, 0, 1) 1
+(0, 0, 0, 0, 1, 0) 0
+(0, 0, 0, 0, 1, 1) 0
+(0, 0, 0, 1, 0, 0) 0
+(0, 0, 0, 1, 0, 1) 0
+(0, 0, 0, 1, 1, 0) 0
+(0, 0, 0, 1, 1, 1) 0
+(0, 0, 1, 0, 0, 0) 1
+(0, 0, 1, 0, 0, 1) 1
+(0, 0, 1, 0, 1, 0) 0
+(0, 0, 1, 0, 1, 1) 1
+(0, 0, 1, 1, 0, 0) 0
+(0, 0, 1, 1, 0, 1) 1
+(0, 0, 1, 1, 1, 0) 0
+(0, 0, 1, 1, 1, 1) 0
+(0, 1, 0, 0, 0, 0) 1
+(0, 1, 0, 0, 0, 1) 1
+(0, 1, 0, 0, 1, 0) 0
+(0, 1, 0, 0, 1, 1) 1
+(0, 1, 0, 1, 0, 0) 0
+(0, 1, 0, 1, 0, 1) 1
+(0, 1, 0, 1, 1, 0) 0
+(0, 1, 0, 1, 1, 1) 0
+(0, 1, 1, 0, 0, 0) 1
+(0, 1, 1, 0, 0, 1) 1
+(0, 1, 1, 0, 1, 0) 1
+(0, 1, 1, 0, 1, 1) 1
+(0, 1, 1, 1, 0, 0) 1
+(0, 1, 1, 1, 0, 1) 1
+(0, 1, 1, 1, 1, 0) 0
+(0, 1, 1, 1, 1, 1) 1
+(1, 0, 0, 0, 0, 0) 1
+(1, 0, 0, 0, 0, 1) 1
+(1, 0, 0, 0, 1, 0) 0
+(1, 0, 0, 0, 1, 1) 1
+(1, 0, 0, 1, 0, 0) 0
+(1, 0, 0, 1, 0, 1) 1
+(1, 0, 0, 1, 1, 0) 0
+(1, 0, 0, 1, 1, 1) 0
+(1, 0, 1, 0, 0, 0) 1
+(1, 0, 1, 0, 0, 1) 1
+(1, 0, 1, 0, 1, 0) 1
+(1, 0, 1, 0, 1, 1) 1
+(1, 0, 1, 1, 0, 0) 1
+(1, 0, 1, 1, 0, 1) 1
+(1, 0, 1, 1, 1, 0) 0
+(1, 0, 1, 1, 1, 1) 1
+(1, 1, 0, 0, 0, 0) 1
+(1, 1, 0, 0, 0, 1) 1
+(1, 1, 0, 0, 1, 0) 1
+(1, 1, 0, 0, 1, 1) 1
+(1, 1, 0, 1, 0, 0) 1
+(1, 1, 0, 1, 0, 1) 1
+(1, 1, 0, 1, 1, 0) 0
+(1, 1, 0, 1, 1, 1) 1
+(1, 1, 1, 0, 0, 0) 1
+(1, 1, 1, 0, 0, 1) 1
+(1, 1, 1, 0, 1, 0) 1
+(1, 1, 1, 0, 1, 1) 1
+(1, 1, 1, 1, 0, 0) 1
+(1, 1, 1, 1, 0, 1) 1
+(1, 1, 1, 1, 1, 0) 1
+(1, 1, 1, 1, 1, 1) 1
+target: S_IKK *= S_AKT and S_PKC and S_TAK1 or S_AKT and S_PKC and S_mTOR or S_AKT and S_PKC and not S_PHDs or S_AKT and S_PKC and not S_p53 or S_AKT and S_TAK1 and S_mTOR or S_AKT and S_TAK1 and not S_PHDs or S_AKT and S_TAK1 and not S_p53 or S_AKT and S_mTOR and not S_PHDs or S_AKT and S_mTOR and not S_p53 or S_AKT and not S_PHDs and not S_p53 or S_PKC and S_TAK1 and S_mTOR or S_PKC and S_TAK1 and not S_PHDs or S_PKC and S_TAK1 and not S_p53 or S_PKC and S_mTOR and not S_PHDs or S_PKC and S_mTOR and not S_p53 or S_PKC and not S_PHDs and not S_p53 or S_TAK1 and S_mTOR and not S_PHDs or S_TAK1 and S_mTOR and not S_p53 or S_TAK1 and not S_PHDs and not S_p53 or S_mTOR and not S_PHDs and not S_p53
+
+source:  S_NF_kB *= sgn_th(S_PIP3+2*S_IKK-S_E_cadh+S_Snail-1)
+input: ['S_PIP3', 'S_IKK', 'S_E_cadh', 'S_Snail']
+output: S_NF_kB
+table:
+(0, 0, 0, 0) 0
+(0, 0, 0, 1) 0
+(0, 0, 1, 0) 0
+(0, 0, 1, 1) 0
+(0, 1, 0, 0) 1
+(0, 1, 0, 1) 1
+(0, 1, 1, 0) 0
+(0, 1, 1, 1) 1
+(1, 0, 0, 0) 0
+(1, 0, 0, 1) 1
+(1, 0, 1, 0) 0
+(1, 0, 1, 1) 0
+(1, 1, 0, 0) 1
+(1, 1, 0, 1) 1
+(1, 1, 1, 0) 1
+(1, 1, 1, 1) 1
+target: S_NF_kB *= S_IKK and S_PIP3 or S_IKK and S_Snail or S_IKK and not S_E_cadh or S_PIP3 and S_Snail and not S_E_cadh
+
+source:  S_RAF *= sgn_th(S_PKC+S_Ras)
+input: ['S_PKC', 'S_Ras']
+output: S_RAF
+table:
+(0, 0) 0
+(0, 1) 1
+(1, 0) 1
+(1, 1) 1
+target: S_RAF *= S_PKC or S_Ras
+
+source:  S_ERK *= sgn_th(S_RAF)
+input: ['S_RAF']
+output: S_ERK
+table:
+(0,) 0
+(1,) 1
+target: S_ERK *= S_RAF
+
+source:  S_p90 *= sgn_th(S_PDK1+S_ERK)
+input: ['S_PDK1', 'S_ERK']
+output: S_p90
+table:
+(0, 0) 0
+(0, 1) 1
+(1, 0) 1
+(1, 1) 1
+target: S_p90 *= S_ERK or S_PDK1
+
+source:  S_AKT *= sgn_th(S_PIP3+S_PDK1-1)
+input: ['S_PIP3', 'S_PDK1']
+output: S_AKT
+table:
+(0, 0) 0
+(0, 1) 0
+(1, 0) 0
+(1, 1) 1
+target: S_AKT *= S_PDK1 and S_PIP3
+
+source:  S_WNT *= sgn_th(-S_p53+S_Gli)
+input: ['S_p53', 'S_Gli']
+output: S_WNT
+table:
+(0, 0) 0
+(0, 1) 1
+(1, 0) 0
+(1, 1) 0
+target: S_WNT *= S_Gli and not S_p53
+
+source:  S_Dsh *= sgn_th(S_WNT)
+input: ['S_WNT']
+output: S_Dsh
+table:
+(0,) 0
+(1,) 1
+target: S_Dsh *= S_WNT
+
+source:  S_APC *= sgn_th(S_PTEN+1)
+input: ['S_PTEN']
+output: S_APC
+table:
+(0,) 1
+(1,) 1
+target: S_APC *= 1
+
+source:  S_GSK_3 *= sgn_th(-S_p90-S_AKT-S_Dsh-S_mTOR+3)
+input: ['S_p90', 'S_AKT', 'S_Dsh', 'S_mTOR']
+output: S_GSK_3
+table:
+(0, 0, 0, 0) 1
+(0, 0, 0, 1) 1
+(0, 0, 1, 0) 1
+(0, 0, 1, 1) 1
+(0, 1, 0, 0) 1
+(0, 1, 0, 1) 1
+(0, 1, 1, 0) 1
+(0, 1, 1, 1) 0
+(1, 0, 0, 0) 1
+(1, 0, 0, 1) 1
+(1, 0, 1, 0) 1
+(1, 0, 1, 1) 0
+(1, 1, 0, 0) 1
+(1, 1, 0, 1) 0
+(1, 1, 1, 0) 0
+(1, 1, 1, 1) 0
+target: S_GSK_3 *= not S_AKT and not S_Dsh or not S_AKT and not S_mTOR or not S_AKT and not S_p90 or not S_Dsh and not S_mTOR or not S_Dsh and not S_p90 or not S_mTOR and not S_p90
+
+source:  S_GSK_3_APC *= sgn_th(S_APC+S_GSK_3-1)
+input: ['S_APC', 'S_GSK_3']
+output: S_GSK_3_APC
+table:
+(0, 0) 0
+(0, 1) 0
+(1, 0) 0
+(1, 1) 1
+target: S_GSK_3_APC *= S_APC and S_GSK_3
+
+source:  S_beta_cat *= sgn_th(-S_GSK_3_APC-S_p53+1)
+input: ['S_GSK_3_APC', 'S_p53']
+output: S_beta_cat
+table:
+(0, 0) 1
+(0, 1) 0
+(1, 0) 0
+(1, 1) 0
+target: S_beta_cat *= not S_GSK_3_APC and not S_p53
+
+source:  S_Slug *= sgn_th(-S_p53_Mdm2+S_NF_kB+S_TCF)
+input: ['S_p53_Mdm2', 'S_NF_kB', 'S_TCF']
+output: S_Slug
+table:
+(0, 0, 0) 0
+(0, 0, 1) 1
+(0, 1, 0) 1
+(0, 1, 1) 1
+(1, 0, 0) 0
+(1, 0, 1) 0
+(1, 1, 0) 0
+(1, 1, 1) 1
+target: S_Slug *= S_NF_kB and S_TCF or S_NF_kB and not S_p53_Mdm2 or S_TCF and not S_p53_Mdm2
+
+source:  S_mTOR *= sgn_th(S_RAGS+S_AKT+S_RHEB-S_AMPK-1)
+input: ['S_RAGS', 'S_AKT', 'S_RHEB', 'S_AMPK']
+output: S_mTOR
+table:
+(0, 0, 0, 0) 0
+(0, 0, 0, 1) 0
+(0, 0, 1, 0) 0
+(0, 0, 1, 1) 0
+(0, 1, 0, 0) 0
+(0, 1, 0, 1) 0
+(0, 1, 1, 0) 1
+(0, 1, 1, 1) 0
+(1, 0, 0, 0) 0
+(1, 0, 0, 1) 0
+(1, 0, 1, 0) 1
+(1, 0, 1, 1) 0
+(1, 1, 0, 0) 1
+(1, 1, 0, 1) 0
+(1, 1, 1, 0) 1
+(1, 1, 1, 1) 1
+target: S_mTOR *= S_AKT and S_RAGS and S_RHEB or S_AKT and S_RAGS and not S_AMPK or S_AKT and S_RHEB and not S_AMPK or S_RAGS and S_RHEB and not S_AMPK
+
+source:  S_HIF1 *= sgn_th(S_Hypoxia+S_mTOR-2*S_VHL-S_PHDs+S_Myc_Max-S_p53-S_FOXO+2)
+input: ['S_Hypoxia', 'S_mTOR', 'S_VHL', 'S_PHDs', 'S_Myc_Max', 'S_p53', 'S_FOXO']
+output: S_HIF1
+table:
+(0, 0, 0, 0, 0, 0, 0) 1
+(0, 0, 0, 0, 0, 0, 1) 1
+(0, 0, 0, 0, 0, 1, 0) 1
+(0, 0, 0, 0, 0, 1, 1) 0
+(0, 0, 0, 0, 1, 0, 0) 1
+(0, 0, 0, 0, 1, 0, 1) 1
+(0, 0, 0, 0, 1, 1, 0) 1
+(0, 0, 0, 0, 1, 1, 1) 1
+(0, 0, 0, 1, 0, 0, 0) 1
+(0, 0, 0, 1, 0, 0, 1) 0
+(0, 0, 0, 1, 0, 1, 0) 0
+(0, 0, 0, 1, 0, 1, 1) 0
+(0, 0, 0, 1, 1, 0, 0) 1
+(0, 0, 0, 1, 1, 0, 1) 1
+(0, 0, 0, 1, 1, 1, 0) 1
+(0, 0, 0, 1, 1, 1, 1) 0
+(0, 0, 1, 0, 0, 0, 0) 0
+(0, 0, 1, 0, 0, 0, 1) 0
+(0, 0, 1, 0, 0, 1, 0) 0
+(0, 0, 1, 0, 0, 1, 1) 0
+(0, 0, 1, 0, 1, 0, 0) 1
+(0, 0, 1, 0, 1, 0, 1) 0
+(0, 0, 1, 0, 1, 1, 0) 0
+(0, 0, 1, 0, 1, 1, 1) 0
+(0, 0, 1, 1, 0, 0, 0) 0
+(0, 0, 1, 1, 0, 0, 1) 0
+(0, 0, 1, 1, 0, 1, 0) 0
+(0, 0, 1, 1, 0, 1, 1) 0
+(0, 0, 1, 1, 1, 0, 0) 0
+(0, 0, 1, 1, 1, 0, 1) 0
+(0, 0, 1, 1, 1, 1, 0) 0
+(0, 0, 1, 1, 1, 1, 1) 0
+(0, 1, 0, 0, 0, 0, 0) 1
+(0, 1, 0, 0, 0, 0, 1) 1
+(0, 1, 0, 0, 0, 1, 0) 1
+(0, 1, 0, 0, 0, 1, 1) 1
+(0, 1, 0, 0, 1, 0, 0) 1
+(0, 1, 0, 0, 1, 0, 1) 1
+(0, 1, 0, 0, 1, 1, 0) 1
+(0, 1, 0, 0, 1, 1, 1) 1
+(0, 1, 0, 1, 0, 0, 0) 1
+(0, 1, 0, 1, 0, 0, 1) 1
+(0, 1, 0, 1, 0, 1, 0) 1
+(0, 1, 0, 1, 0, 1, 1) 0
+(0, 1, 0, 1, 1, 0, 0) 1
+(0, 1, 0, 1, 1, 0, 1) 1
+(0, 1, 0, 1, 1, 1, 0) 1
+(0, 1, 0, 1, 1, 1, 1) 1
+(0, 1, 1, 0, 0, 0, 0) 1
+(0, 1, 1, 0, 0, 0, 1) 0
+(0, 1, 1, 0, 0, 1, 0) 0
+(0, 1, 1, 0, 0, 1, 1) 0
+(0, 1, 1, 0, 1, 0, 0) 1
+(0, 1, 1, 0, 1, 0, 1) 1
+(0, 1, 1, 0, 1, 1, 0) 1
+(0, 1, 1, 0, 1, 1, 1) 0
+(0, 1, 1, 1, 0, 0, 0) 0
+(0, 1, 1, 1, 0, 0, 1) 0
+(0, 1, 1, 1, 0, 1, 0) 0
+(0, 1, 1, 1, 0, 1, 1) 0
+(0, 1, 1, 1, 1, 0, 0) 1
+(0, 1, 1, 1, 1, 0, 1) 0
+(0, 1, 1, 1, 1, 1, 0) 0
+(0, 1, 1, 1, 1, 1, 1) 0
+(1, 0, 0, 0, 0, 0, 0) 1
+(1, 0, 0, 0, 0, 0, 1) 1
+(1, 0, 0, 0, 0, 1, 0) 1
+(1, 0, 0, 0, 0, 1, 1) 1
+(1, 0, 0, 0, 1, 0, 0) 1
+(1, 0, 0, 0, 1, 0, 1) 1
+(1, 0, 0, 0, 1, 1, 0) 1
+(1, 0, 0, 0, 1, 1, 1) 1
+(1, 0, 0, 1, 0, 0, 0) 1
+(1, 0, 0, 1, 0, 0, 1) 1
+(1, 0, 0, 1, 0, 1, 0) 1
+(1, 0, 0, 1, 0, 1, 1) 0
+(1, 0, 0, 1, 1, 0, 0) 1
+(1, 0, 0, 1, 1, 0, 1) 1
+(1, 0, 0, 1, 1, 1, 0) 1
+(1, 0, 0, 1, 1, 1, 1) 1
+(1, 0, 1, 0, 0, 0, 0) 1
+(1, 0, 1, 0, 0, 0, 1) 0
+(1, 0, 1, 0, 0, 1, 0) 0
+(1, 0, 1, 0, 0, 1, 1) 0
+(1, 0, 1, 0, 1, 0, 0) 1
+(1, 0, 1, 0, 1, 0, 1) 1
+(1, 0, 1, 0, 1, 1, 0) 1
+(1, 0, 1, 0, 1, 1, 1) 0
+(1, 0, 1, 1, 0, 0, 0) 0
+(1, 0, 1, 1, 0, 0, 1) 0
+(1, 0, 1, 1, 0, 1, 0) 0
+(1, 0, 1, 1, 0, 1, 1) 0
+(1, 0, 1, 1, 1, 0, 0) 1
+(1, 0, 1, 1, 1, 0, 1) 0
+(1, 0, 1, 1, 1, 1, 0) 0
+(1, 0, 1, 1, 1, 1, 1) 0
+(1, 1, 0, 0, 0, 0, 0) 1
+(1, 1, 0, 0, 0, 0, 1) 1
+(1, 1, 0, 0, 0, 1, 0) 1
+(1, 1, 0, 0, 0, 1, 1) 1
+(1, 1, 0, 0, 1, 0, 0) 1
+(1, 1, 0, 0, 1, 0, 1) 1
+(1, 1, 0, 0, 1, 1, 0) 1
+(1, 1, 0, 0, 1, 1, 1) 1
+(1, 1, 0, 1, 0, 0, 0) 1
+(1, 1, 0, 1, 0, 0, 1) 1
+(1, 1, 0, 1, 0, 1, 0) 1
+(1, 1, 0, 1, 0, 1, 1) 1
+(1, 1, 0, 1, 1, 0, 0) 1
+(1, 1, 0, 1, 1, 0, 1) 1
+(1, 1, 0, 1, 1, 1, 0) 1
+(1, 1, 0, 1, 1, 1, 1) 1
+(1, 1, 1, 0, 0, 0, 0) 1
+(1, 1, 1, 0, 0, 0, 1) 1
+(1, 1, 1, 0, 0, 1, 0) 1
+(1, 1, 1, 0, 0, 1, 1) 0
+(1, 1, 1, 0, 1, 0, 0) 1
+(1, 1, 1, 0, 1, 0, 1) 1
+(1, 1, 1, 0, 1, 1, 0) 1
+(1, 1, 1, 0, 1, 1, 1) 1
+(1, 1, 1, 1, 0, 0, 0) 1
+(1, 1, 1, 1, 0, 0, 1) 0
+(1, 1, 1, 1, 0, 1, 0) 0
+(1, 1, 1, 1, 0, 1, 1) 0
+(1, 1, 1, 1, 1, 0, 0) 1
+(1, 1, 1, 1, 1, 0, 1) 1
+(1, 1, 1, 1, 1, 1, 0) 1
+(1, 1, 1, 1, 1, 1, 1) 0
+target: S_HIF1 *= S_Hypoxia and S_Myc_Max and not S_VHL or S_Hypoxia and S_mTOR and not S_VHL or S_Hypoxia and not S_FOXO and not S_VHL or S_Hypoxia and not S_PHDs and not S_VHL or S_Hypoxia and not S_VHL and not S_p53 or S_Myc_Max and S_mTOR and not S_VHL or S_Myc_Max and not S_FOXO and not S_VHL or S_Myc_Max and not S_PHDs and not S_VHL or S_Myc_Max and not S_VHL and not S_p53 or S_mTOR and not S_FOXO and not S_VHL or S_mTOR and not S_PHDs and not S_VHL or S_mTOR and not S_VHL and not S_p53 or not S_FOXO and not S_PHDs and not S_VHL or not S_FOXO and not S_VHL and not S_p53 or not S_PHDs and not S_VHL and not S_p53 or S_Hypoxia and S_Myc_Max and S_mTOR and not S_FOXO or S_Hypoxia and S_Myc_Max and S_mTOR and not S_PHDs or S_Hypoxia and S_Myc_Max and S_mTOR and not S_p53 or S_Hypoxia and S_Myc_Max and not S_FOXO and not S_PHDs or S_Hypoxia and S_Myc_Max and not S_FOXO and not S_p53 or S_Hypoxia and S_Myc_Max and not S_PHDs and not S_p53 or S_Hypoxia and S_mTOR and not S_FOXO and not S_PHDs or S_Hypoxia and S_mTOR and not S_FOXO and not S_p53 or S_Hypoxia and S_mTOR and not S_PHDs and not S_p53 or S_Hypoxia and not S_FOXO and not S_PHDs and not S_p53 or S_Myc_Max and S_mTOR and not S_FOXO and not S_PHDs or S_Myc_Max and S_mTOR and not S_FOXO and not S_p53 or S_Myc_Max and S_mTOR and not S_PHDs and not S_p53 or S_Myc_Max and not S_FOXO and not S_PHDs and not S_p53 or S_mTOR and not S_FOXO and not S_PHDs and not S_p53
+
+source:  S_COX412 *= sgn_th(S_HIF1)
+input: ['S_HIF1']
+output: S_COX412
+table:
+(0,) 0
+(1,) 1
+target: S_COX412 *= S_HIF1
+
+source:  S_VHL *= sgn_th(-S_Hypoxia-S_ROS+1)
+input: ['S_Hypoxia', 'S_ROS']
+output: S_VHL
+table:
+(0, 0) 1
+(0, 1) 0
+(1, 0) 0
+(1, 1) 0
+target: S_VHL *= not S_Hypoxia and not S_ROS
+
+source:  S_PHDs *= sgn_th(-S_Hypoxia+S_ROS+1)
+input: ['S_Hypoxia', 'S_ROS']
+output: S_PHDs
+table:
+(0, 0) 1
+(0, 1) 1
+(1, 0) 0
+(1, 1) 1
+target: S_PHDs *= S_ROS or not S_Hypoxia
+
+source:  S_Myc_Max *= sgn_th(-S_TGFbeta+S_Myc+S_Max-S_MXI1-S_SmadE2F-1)
+input: ['S_TGFbeta', 'S_Myc', 'S_Max', 'S_MXI1', 'S_SmadE2F']
+output: S_Myc_Max
+table:
+(0, 0, 0, 0, 0) 0
+(0, 0, 0, 0, 1) 0
+(0, 0, 0, 1, 0) 0
+(0, 0, 0, 1, 1) 0
+(0, 0, 1, 0, 0) 0
+(0, 0, 1, 0, 1) 0
+(0, 0, 1, 1, 0) 0
+(0, 0, 1, 1, 1) 0
+(0, 1, 0, 0, 0) 0
+(0, 1, 0, 0, 1) 0
+(0, 1, 0, 1, 0) 0
+(0, 1, 0, 1, 1) 0
+(0, 1, 1, 0, 0) 1
+(0, 1, 1, 0, 1) 0
+(0, 1, 1, 1, 0) 0
+(0, 1, 1, 1, 1) 0
+(1, 0, 0, 0, 0) 0
+(1, 0, 0, 0, 1) 0
+(1, 0, 0, 1, 0) 0
+(1, 0, 0, 1, 1) 0
+(1, 0, 1, 0, 0) 0
+(1, 0, 1, 0, 1) 0
+(1, 0, 1, 1, 0) 0
+(1, 0, 1, 1, 1) 0
+(1, 1, 0, 0, 0) 0
+(1, 1, 0, 0, 1) 0
+(1, 1, 0, 1, 0) 0
+(1, 1, 0, 1, 1) 0
+(1, 1, 1, 0, 0) 0
+(1, 1, 1, 0, 1) 0
+(1, 1, 1, 1, 0) 0
+(1, 1, 1, 1, 1) 0
+target: S_Myc_Max *= S_Max and S_Myc and not S_MXI1 and not S_SmadE2F and not S_TGFbeta
+
+source:  S_Myc *= sgn_th(S_NF_kB+S_ERK-S_HIF1+S_E2F+S_FosJun+S_TCF+S_Gli-1)
+input: ['S_NF_kB', 'S_ERK', 'S_HIF1', 'S_E2F', 'S_FosJun', 'S_TCF', 'S_Gli']
+output: S_Myc
+table:
+(0, 0, 0, 0, 0, 0, 0) 0
+(0, 0, 0, 0, 0, 0, 1) 0
+(0, 0, 0, 0, 0, 1, 0) 0
+(0, 0, 0, 0, 0, 1, 1) 1
+(0, 0, 0, 0, 1, 0, 0) 0
+(0, 0, 0, 0, 1, 0, 1) 1
+(0, 0, 0, 0, 1, 1, 0) 1
+(0, 0, 0, 0, 1, 1, 1) 1
+(0, 0, 0, 1, 0, 0, 0) 0
+(0, 0, 0, 1, 0, 0, 1) 1
+(0, 0, 0, 1, 0, 1, 0) 1
+(0, 0, 0, 1, 0, 1, 1) 1
+(0, 0, 0, 1, 1, 0, 0) 1
+(0, 0, 0, 1, 1, 0, 1) 1
+(0, 0, 0, 1, 1, 1, 0) 1
+(0, 0, 0, 1, 1, 1, 1) 1
+(0, 0, 1, 0, 0, 0, 0) 0
+(0, 0, 1, 0, 0, 0, 1) 0
+(0, 0, 1, 0, 0, 1, 0) 0
+(0, 0, 1, 0, 0, 1, 1) 0
+(0, 0, 1, 0, 1, 0, 0) 0
+(0, 0, 1, 0, 1, 0, 1) 0
+(0, 0, 1, 0, 1, 1, 0) 0
+(0, 0, 1, 0, 1, 1, 1) 1
+(0, 0, 1, 1, 0, 0, 0) 0
+(0, 0, 1, 1, 0, 0, 1) 0
+(0, 0, 1, 1, 0, 1, 0) 0
+(0, 0, 1, 1, 0, 1, 1) 1
+(0, 0, 1, 1, 1, 0, 0) 0
+(0, 0, 1, 1, 1, 0, 1) 1
+(0, 0, 1, 1, 1, 1, 0) 1
+(0, 0, 1, 1, 1, 1, 1) 1
+(0, 1, 0, 0, 0, 0, 0) 0
+(0, 1, 0, 0, 0, 0, 1) 1
+(0, 1, 0, 0, 0, 1, 0) 1
+(0, 1, 0, 0, 0, 1, 1) 1
+(0, 1, 0, 0, 1, 0, 0) 1
+(0, 1, 0, 0, 1, 0, 1) 1
+(0, 1, 0, 0, 1, 1, 0) 1
+(0, 1, 0, 0, 1, 1, 1) 1
+(0, 1, 0, 1, 0, 0, 0) 1
+(0, 1, 0, 1, 0, 0, 1) 1
+(0, 1, 0, 1, 0, 1, 0) 1
+(0, 1, 0, 1, 0, 1, 1) 1
+(0, 1, 0, 1, 1, 0, 0) 1
+(0, 1, 0, 1, 1, 0, 1) 1
+(0, 1, 0, 1, 1, 1, 0) 1
+(0, 1, 0, 1, 1, 1, 1) 1
+(0, 1, 1, 0, 0, 0, 0) 0
+(0, 1, 1, 0, 0, 0, 1) 0
+(0, 1, 1, 0, 0, 1, 0) 0
+(0, 1, 1, 0, 0, 1, 1) 1
+(0, 1, 1, 0, 1, 0, 0) 0
+(0, 1, 1, 0, 1, 0, 1) 1
+(0, 1, 1, 0, 1, 1, 0) 1
+(0, 1, 1, 0, 1, 1, 1) 1
+(0, 1, 1, 1, 0, 0, 0) 0
+(0, 1, 1, 1, 0, 0, 1) 1
+(0, 1, 1, 1, 0, 1, 0) 1
+(0, 1, 1, 1, 0, 1, 1) 1
+(0, 1, 1, 1, 1, 0, 0) 1
+(0, 1, 1, 1, 1, 0, 1) 1
+(0, 1, 1, 1, 1, 1, 0) 1
+(0, 1, 1, 1, 1, 1, 1) 1
+(1, 0, 0, 0, 0, 0, 0) 0
+(1, 0, 0, 0, 0, 0, 1) 1
+(1, 0, 0, 0, 0, 1, 0) 1
+(1, 0, 0, 0, 0, 1, 1) 1
+(1, 0, 0, 0, 1, 0, 0) 1
+(1, 0, 0, 0, 1, 0, 1) 1
+(1, 0, 0, 0, 1, 1, 0) 1
+(1, 0, 0, 0, 1, 1, 1) 1
+(1, 0, 0, 1, 0, 0, 0) 1
+(1, 0, 0, 1, 0, 0, 1) 1
+(1, 0, 0, 1, 0, 1, 0) 1
+(1, 0, 0, 1, 0, 1, 1) 1
+(1, 0, 0, 1, 1, 0, 0) 1
+(1, 0, 0, 1, 1, 0, 1) 1
+(1, 0, 0, 1, 1, 1, 0) 1
+(1, 0, 0, 1, 1, 1, 1) 1
+(1, 0, 1, 0, 0, 0, 0) 0
+(1, 0, 1, 0, 0, 0, 1) 0
+(1, 0, 1, 0, 0, 1, 0) 0
+(1, 0, 1, 0, 0, 1, 1) 1
+(1, 0, 1, 0, 1, 0, 0) 0
+(1, 0, 1, 0, 1, 0, 1) 1
+(1, 0, 1, 0, 1, 1, 0) 1
+(1, 0, 1, 0, 1, 1, 1) 1
+(1, 0, 1, 1, 0, 0, 0) 0
+(1, 0, 1, 1, 0, 0, 1) 1
+(1, 0, 1, 1, 0, 1, 0) 1
+(1, 0, 1, 1, 0, 1, 1) 1
+(1, 0, 1, 1, 1, 0, 0) 1
+(1, 0, 1, 1, 1, 0, 1) 1
+(1, 0, 1, 1, 1, 1, 0) 1
+(1, 0, 1, 1, 1, 1, 1) 1
+(1, 1, 0, 0, 0, 0, 0) 1
+(1, 1, 0, 0, 0, 0, 1) 1
+(1, 1, 0, 0, 0, 1, 0) 1
+(1, 1, 0, 0, 0, 1, 1) 1
+(1, 1, 0, 0, 1, 0, 0) 1
+(1, 1, 0, 0, 1, 0, 1) 1
+(1, 1, 0, 0, 1, 1, 0) 1
+(1, 1, 0, 0, 1, 1, 1) 1
+(1, 1, 0, 1, 0, 0, 0) 1
+(1, 1, 0, 1, 0, 0, 1) 1
+(1, 1, 0, 1, 0, 1, 0) 1
+(1, 1, 0, 1, 0, 1, 1) 1
+(1, 1, 0, 1, 1, 0, 0) 1
+(1, 1, 0, 1, 1, 0, 1) 1
+(1, 1, 0, 1, 1, 1, 0) 1
+(1, 1, 0, 1, 1, 1, 1) 1
+(1, 1, 1, 0, 0, 0, 0) 0
+(1, 1, 1, 0, 0, 0, 1) 1
+(1, 1, 1, 0, 0, 1, 0) 1
+(1, 1, 1, 0, 0, 1, 1) 1
+(1, 1, 1, 0, 1, 0, 0) 1
+(1, 1, 1, 0, 1, 0, 1) 1
+(1, 1, 1, 0, 1, 1, 0) 1
+(1, 1, 1, 0, 1, 1, 1) 1
+(1, 1, 1, 1, 0, 0, 0) 1
+(1, 1, 1, 1, 0, 0, 1) 1
+(1, 1, 1, 1, 0, 1, 0) 1
+(1, 1, 1, 1, 0, 1, 1) 1
+(1, 1, 1, 1, 1, 0, 0) 1
+(1, 1, 1, 1, 1, 0, 1) 1
+(1, 1, 1, 1, 1, 1, 0) 1
+(1, 1, 1, 1, 1, 1, 1) 1
+target: S_Myc *= S_E2F and S_ERK and S_FosJun or S_E2F and S_ERK and S_Gli or S_E2F and S_ERK and S_NF_kB or S_E2F and S_ERK and S_TCF or S_E2F and S_ERK and not S_HIF1 or S_E2F and S_FosJun and S_Gli or S_E2F and S_FosJun and S_NF_kB or S_E2F and S_FosJun and S_TCF or S_E2F and S_FosJun and not S_HIF1 or S_E2F and S_Gli and S_NF_kB or S_E2F and S_Gli and S_TCF or S_E2F and S_Gli and not S_HIF1 or S_E2F and S_NF_kB and S_TCF or S_E2F and S_NF_kB and not S_HIF1 or S_E2F and S_TCF and not S_HIF1 or S_ERK and S_FosJun and S_Gli or S_ERK and S_FosJun and S_NF_kB or S_ERK and S_FosJun and S_TCF or S_ERK and S_FosJun and not S_HIF1 or S_ERK and S_Gli and S_NF_kB or S_ERK and S_Gli and S_TCF or S_ERK and S_Gli and not S_HIF1 or S_ERK and S_NF_kB and S_TCF or S_ERK and S_NF_kB and not S_HIF1 or S_ERK and S_TCF and not S_HIF1 or S_FosJun and S_Gli and S_NF_kB or S_FosJun and S_Gli and S_TCF or S_FosJun and S_Gli and not S_HIF1 or S_FosJun and S_NF_kB and S_TCF or S_FosJun and S_NF_kB and not S_HIF1 or S_FosJun and S_TCF and not S_HIF1 or S_Gli and S_NF_kB and S_TCF or S_Gli and S_NF_kB and not S_HIF1 or S_Gli and S_TCF and not S_HIF1 or S_NF_kB and S_TCF and not S_HIF1
+
+source:  S_Max *= True
+input: []
+output: S_Max
+table:
+N/A
+target: S_Max *= True
+
+source:  S_MXI1 *= sgn_th(S_HIF1)
+input: ['S_HIF1']
+output: S_MXI1
+table:
+(0,) 0
+(1,) 1
+target: S_MXI1 *= S_HIF1
+
+source:  S_TSC1_TSC2 *= sgn_th(-S_RAF-S_ERK-S_p90-S_AKT+S_HIF1+S_p53+S_AMPK+1)
+input: ['S_RAF', 'S_ERK', 'S_p90', 'S_AKT', 'S_HIF1', 'S_p53', 'S_AMPK']
+output: S_TSC1_TSC2
+table:
+(0, 0, 0, 0, 0, 0, 0) 1
+(0, 0, 0, 0, 0, 0, 1) 1
+(0, 0, 0, 0, 0, 1, 0) 1
+(0, 0, 0, 0, 0, 1, 1) 1
+(0, 0, 0, 0, 1, 0, 0) 1
+(0, 0, 0, 0, 1, 0, 1) 1
+(0, 0, 0, 0, 1, 1, 0) 1
+(0, 0, 0, 0, 1, 1, 1) 1
+(0, 0, 0, 1, 0, 0, 0) 0
+(0, 0, 0, 1, 0, 0, 1) 1
+(0, 0, 0, 1, 0, 1, 0) 1
+(0, 0, 0, 1, 0, 1, 1) 1
+(0, 0, 0, 1, 1, 0, 0) 1
+(0, 0, 0, 1, 1, 0, 1) 1
+(0, 0, 0, 1, 1, 1, 0) 1
+(0, 0, 0, 1, 1, 1, 1) 1
+(0, 0, 1, 0, 0, 0, 0) 0
+(0, 0, 1, 0, 0, 0, 1) 1
+(0, 0, 1, 0, 0, 1, 0) 1
+(0, 0, 1, 0, 0, 1, 1) 1
+(0, 0, 1, 0, 1, 0, 0) 1
+(0, 0, 1, 0, 1, 0, 1) 1
+(0, 0, 1, 0, 1, 1, 0) 1
+(0, 0, 1, 0, 1, 1, 1) 1
+(0, 0, 1, 1, 0, 0, 0) 0
+(0, 0, 1, 1, 0, 0, 1) 0
+(0, 0, 1, 1, 0, 1, 0) 0
+(0, 0, 1, 1, 0, 1, 1) 1
+(0, 0, 1, 1, 1, 0, 0) 0
+(0, 0, 1, 1, 1, 0, 1) 1
+(0, 0, 1, 1, 1, 1, 0) 1
+(0, 0, 1, 1, 1, 1, 1) 1
+(0, 1, 0, 0, 0, 0, 0) 0
+(0, 1, 0, 0, 0, 0, 1) 1
+(0, 1, 0, 0, 0, 1, 0) 1
+(0, 1, 0, 0, 0, 1, 1) 1
+(0, 1, 0, 0, 1, 0, 0) 1
+(0, 1, 0, 0, 1, 0, 1) 1
+(0, 1, 0, 0, 1, 1, 0) 1
+(0, 1, 0, 0, 1, 1, 1) 1
+(0, 1, 0, 1, 0, 0, 0) 0
+(0, 1, 0, 1, 0, 0, 1) 0
+(0, 1, 0, 1, 0, 1, 0) 0
+(0, 1, 0, 1, 0, 1, 1) 1
+(0, 1, 0, 1, 1, 0, 0) 0
+(0, 1, 0, 1, 1, 0, 1) 1
+(0, 1, 0, 1, 1, 1, 0) 1
+(0, 1, 0, 1, 1, 1, 1) 1
+(0, 1, 1, 0, 0, 0, 0) 0
+(0, 1, 1, 0, 0, 0, 1) 0
+(0, 1, 1, 0, 0, 1, 0) 0
+(0, 1, 1, 0, 0, 1, 1) 1
+(0, 1, 1, 0, 1, 0, 0) 0
+(0, 1, 1, 0, 1, 0, 1) 1
+(0, 1, 1, 0, 1, 1, 0) 1
+(0, 1, 1, 0, 1, 1, 1) 1
+(0, 1, 1, 1, 0, 0, 0) 0
+(0, 1, 1, 1, 0, 0, 1) 0
+(0, 1, 1, 1, 0, 1, 0) 0
+(0, 1, 1, 1, 0, 1, 1) 0
+(0, 1, 1, 1, 1, 0, 0) 0
+(0, 1, 1, 1, 1, 0, 1) 0
+(0, 1, 1, 1, 1, 1, 0) 0
+(0, 1, 1, 1, 1, 1, 1) 1
+(1, 0, 0, 0, 0, 0, 0) 0
+(1, 0, 0, 0, 0, 0, 1) 1
+(1, 0, 0, 0, 0, 1, 0) 1
+(1, 0, 0, 0, 0, 1, 1) 1
+(1, 0, 0, 0, 1, 0, 0) 1
+(1, 0, 0, 0, 1, 0, 1) 1
+(1, 0, 0, 0, 1, 1, 0) 1
+(1, 0, 0, 0, 1, 1, 1) 1
+(1, 0, 0, 1, 0, 0, 0) 0
+(1, 0, 0, 1, 0, 0, 1) 0
+(1, 0, 0, 1, 0, 1, 0) 0
+(1, 0, 0, 1, 0, 1, 1) 1
+(1, 0, 0, 1, 1, 0, 0) 0
+(1, 0, 0, 1, 1, 0, 1) 1
+(1, 0, 0, 1, 1, 1, 0) 1
+(1, 0, 0, 1, 1, 1, 1) 1
+(1, 0, 1, 0, 0, 0, 0) 0
+(1, 0, 1, 0, 0, 0, 1) 0
+(1, 0, 1, 0, 0, 1, 0) 0
+(1, 0, 1, 0, 0, 1, 1) 1
+(1, 0, 1, 0, 1, 0, 0) 0
+(1, 0, 1, 0, 1, 0, 1) 1
+(1, 0, 1, 0, 1, 1, 0) 1
+(1, 0, 1, 0, 1, 1, 1) 1
+(1, 0, 1, 1, 0, 0, 0) 0
+(1, 0, 1, 1, 0, 0, 1) 0
+(1, 0, 1, 1, 0, 1, 0) 0
+(1, 0, 1, 1, 0, 1, 1) 0
+(1, 0, 1, 1, 1, 0, 0) 0
+(1, 0, 1, 1, 1, 0, 1) 0
+(1, 0, 1, 1, 1, 1, 0) 0
+(1, 0, 1, 1, 1, 1, 1) 1
+(1, 1, 0, 0, 0, 0, 0) 0
+(1, 1, 0, 0, 0, 0, 1) 0
+(1, 1, 0, 0, 0, 1, 0) 0
+(1, 1, 0, 0, 0, 1, 1) 1
+(1, 1, 0, 0, 1, 0, 0) 0
+(1, 1, 0, 0, 1, 0, 1) 1
+(1, 1, 0, 0, 1, 1, 0) 1
+(1, 1, 0, 0, 1, 1, 1) 1
+(1, 1, 0, 1, 0, 0, 0) 0
+(1, 1, 0, 1, 0, 0, 1) 0
+(1, 1, 0, 1, 0, 1, 0) 0
+(1, 1, 0, 1, 0, 1, 1) 0
+(1, 1, 0, 1, 1, 0, 0) 0
+(1, 1, 0, 1, 1, 0, 1) 0
+(1, 1, 0, 1, 1, 1, 0) 0
+(1, 1, 0, 1, 1, 1, 1) 1
+(1, 1, 1, 0, 0, 0, 0) 0
+(1, 1, 1, 0, 0, 0, 1) 0
+(1, 1, 1, 0, 0, 1, 0) 0
+(1, 1, 1, 0, 0, 1, 1) 0
+(1, 1, 1, 0, 1, 0, 0) 0
+(1, 1, 1, 0, 1, 0, 1) 0
+(1, 1, 1, 0, 1, 1, 0) 0
+(1, 1, 1, 0, 1, 1, 1) 1
+(1, 1, 1, 1, 0, 0, 0) 0
+(1, 1, 1, 1, 0, 0, 1) 0
+(1, 1, 1, 1, 0, 1, 0) 0
+(1, 1, 1, 1, 0, 1, 1) 0
+(1, 1, 1, 1, 1, 0, 0) 0
+(1, 1, 1, 1, 1, 0, 1) 0
+(1, 1, 1, 1, 1, 1, 0) 0
+(1, 1, 1, 1, 1, 1, 1) 0
+target: S_TSC1_TSC2 *= S_AMPK and S_HIF1 and S_p53 and not S_AKT or S_AMPK and S_HIF1 and S_p53 and not S_ERK or S_AMPK and S_HIF1 and S_p53 and not S_RAF or S_AMPK and S_HIF1 and S_p53 and not S_p90 or S_AMPK and S_HIF1 and not S_AKT and not S_ERK or S_AMPK and S_HIF1 and not S_AKT and not S_RAF or S_AMPK and S_HIF1 and not S_AKT and not S_p90 or S_AMPK and S_HIF1 and not S_ERK and not S_RAF or S_AMPK and S_HIF1 and not S_ERK and not S_p90 or S_AMPK and S_HIF1 and not S_RAF and not S_p90 or S_AMPK and S_p53 and not S_AKT and not S_ERK or S_AMPK and S_p53 and not S_AKT and not S_RAF or S_AMPK and S_p53 and not S_AKT and not S_p90 or S_AMPK and S_p53 and not S_ERK and not S_RAF or S_AMPK and S_p53 and not S_ERK and not S_p90 or S_AMPK and S_p53 and not S_RAF and not S_p90 or S_AMPK and not S_AKT and not S_ERK and not S_RAF or S_AMPK and not S_AKT and not S_ERK and not S_p90 or S_AMPK and not S_AKT and not S_RAF and not S_p90 or S_AMPK and not S_ERK and not S_RAF and not S_p90 or S_HIF1 and S_p53 and not S_AKT and not S_ERK or S_HIF1 and S_p53 and not S_AKT and not S_RAF or S_HIF1 and S_p53 and not S_AKT and not S_p90 or S_HIF1 and S_p53 and not S_ERK and not S_RAF or S_HIF1 and S_p53 and not S_ERK and not S_p90 or S_HIF1 and S_p53 and not S_RAF and not S_p90 or S_HIF1 and not S_AKT and not S_ERK and not S_RAF or S_HIF1 and not S_AKT and not S_ERK and not S_p90 or S_HIF1 and not S_AKT and not S_RAF and not S_p90 or S_HIF1 and not S_ERK and not S_RAF and not S_p90 or S_p53 and not S_AKT and not S_ERK and not S_RAF or S_p53 and not S_AKT and not S_ERK and not S_p90 or S_p53 and not S_AKT and not S_RAF and not S_p90 or S_p53 and not S_ERK and not S_RAF and not S_p90 or not S_AKT and not S_ERK and not S_RAF and not S_p90
+
+source:  S_RHEB *= sgn_th(-S_TSC1_TSC2+1)
+input: ['S_TSC1_TSC2']
+output: S_RHEB
+table:
+(0,) 1
+(1,) 0
+target: S_RHEB *= not S_TSC1_TSC2
+
+source:  S_p53 *= sgn_th(S_HIF1-S_Bcl_2-S_Mdm2+S_CHK1_2+1)
+input: ['S_HIF1', 'S_Bcl_2', 'S_Mdm2', 'S_CHK1_2']
+output: S_p53
+table:
+(0, 0, 0, 0) 1
+(0, 0, 0, 1) 1
+(0, 0, 1, 0) 0
+(0, 0, 1, 1) 1
+(0, 1, 0, 0) 0
+(0, 1, 0, 1) 1
+(0, 1, 1, 0) 0
+(0, 1, 1, 1) 0
+(1, 0, 0, 0) 1
+(1, 0, 0, 1) 1
+(1, 0, 1, 0) 1
+(1, 0, 1, 1) 1
+(1, 1, 0, 0) 1
+(1, 1, 0, 1) 1
+(1, 1, 1, 0) 0
+(1, 1, 1, 1) 1
+target: S_p53 *= S_CHK1_2 and S_HIF1 or S_CHK1_2 and not S_Bcl_2 or S_CHK1_2 and not S_Mdm2 or S_HIF1 and not S_Bcl_2 or S_HIF1 and not S_Mdm2 or not S_Bcl_2 and not S_Mdm2
+
+source:  S_Bcl_2 *= sgn_th(2*S_NF_kB-S_p53-S_BAX-S_BAD)
+input: ['S_NF_kB', 'S_p53', 'S_BAX', 'S_BAD']
+output: S_Bcl_2
+table:
+(0, 0, 0, 0) 0
+(0, 0, 0, 1) 0
+(0, 0, 1, 0) 0
+(0, 0, 1, 1) 0
+(0, 1, 0, 0) 0
+(0, 1, 0, 1) 0
+(0, 1, 1, 0) 0
+(0, 1, 1, 1) 0
+(1, 0, 0, 0) 1
+(1, 0, 0, 1) 1
+(1, 0, 1, 0) 1
+(1, 0, 1, 1) 0
+(1, 1, 0, 0) 1
+(1, 1, 0, 1) 0
+(1, 1, 1, 0) 0
+(1, 1, 1, 1) 0
+target: S_Bcl_2 *= S_NF_kB and not S_BAD and not S_BAX or S_NF_kB and not S_BAD and not S_p53 or S_NF_kB and not S_BAX and not S_p53
+
+source:  S_BAX *= sgn_th(-S_HIF1+S_p53-S_Bcl_2+S_JNK)
+input: ['S_HIF1', 'S_p53', 'S_Bcl_2', 'S_JNK']
+output: S_BAX
+table:
+(0, 0, 0, 0) 0
+(0, 0, 0, 1) 1
+(0, 0, 1, 0) 0
+(0, 0, 1, 1) 0
+(0, 1, 0, 0) 1
+(0, 1, 0, 1) 1
+(0, 1, 1, 0) 0
+(0, 1, 1, 1) 1
+(1, 0, 0, 0) 0
+(1, 0, 0, 1) 0
+(1, 0, 1, 0) 0
+(1, 0, 1, 1) 0
+(1, 1, 0, 0) 0
+(1, 1, 0, 1) 1
+(1, 1, 1, 0) 0
+(1, 1, 1, 1) 0
+target: S_BAX *= S_JNK and S_p53 and not S_Bcl_2 or S_JNK and S_p53 and not S_HIF1 or S_JNK and not S_Bcl_2 and not S_HIF1 or S_p53 and not S_Bcl_2 and not S_HIF1
+
+source:  S_BAD *= sgn_th(-S_RAF-S_p90-S_AKT-S_HIF1+1)
+input: ['S_RAF', 'S_p90', 'S_AKT', 'S_HIF1']
+output: S_BAD
+table:
+(0, 0, 0, 0) 1
+(0, 0, 0, 1) 0
+(0, 0, 1, 0) 0
+(0, 0, 1, 1) 0
+(0, 1, 0, 0) 0
+(0, 1, 0, 1) 0
+(0, 1, 1, 0) 0
+(0, 1, 1, 1) 0
+(1, 0, 0, 0) 0
+(1, 0, 0, 1) 0
+(1, 0, 1, 0) 0
+(1, 0, 1, 1) 0
+(1, 1, 0, 0) 0
+(1, 1, 0, 1) 0
+(1, 1, 1, 0) 0
+(1, 1, 1, 1) 0
+target: S_BAD *= not S_AKT and not S_HIF1 and not S_RAF and not S_p90
+
+source:  S_Bcl_XL *= sgn_th(-S_p53-S_BAD+1)
+input: ['S_p53', 'S_BAD']
+output: S_Bcl_XL
+table:
+(0, 0) 1
+(0, 1) 0
+(1, 0) 0
+(1, 1) 0
+target: S_Bcl_XL *= not S_BAD and not S_p53
+
+source:  S_Rb *= sgn_th(-S_CycA-S_CycB-S_CycD-S_CycE-S_Mdm2+2)
+input: ['S_CycA', 'S_CycB', 'S_CycD', 'S_CycE', 'S_Mdm2']
+output: S_Rb
+table:
+(0, 0, 0, 0, 0) 1
+(0, 0, 0, 0, 1) 1
+(0, 0, 0, 1, 0) 1
+(0, 0, 0, 1, 1) 0
+(0, 0, 1, 0, 0) 1
+(0, 0, 1, 0, 1) 0
+(0, 0, 1, 1, 0) 0
+(0, 0, 1, 1, 1) 0
+(0, 1, 0, 0, 0) 1
+(0, 1, 0, 0, 1) 0
+(0, 1, 0, 1, 0) 0
+(0, 1, 0, 1, 1) 0
+(0, 1, 1, 0, 0) 0
+(0, 1, 1, 0, 1) 0
+(0, 1, 1, 1, 0) 0
+(0, 1, 1, 1, 1) 0
+(1, 0, 0, 0, 0) 1
+(1, 0, 0, 0, 1) 0
+(1, 0, 0, 1, 0) 0
+(1, 0, 0, 1, 1) 0
+(1, 0, 1, 0, 0) 0
+(1, 0, 1, 0, 1) 0
+(1, 0, 1, 1, 0) 0
+(1, 0, 1, 1, 1) 0
+(1, 1, 0, 0, 0) 0
+(1, 1, 0, 0, 1) 0
+(1, 1, 0, 1, 0) 0
+(1, 1, 0, 1, 1) 0
+(1, 1, 1, 0, 0) 0
+(1, 1, 1, 0, 1) 0
+(1, 1, 1, 1, 0) 0
+(1, 1, 1, 1, 1) 0
+target: S_Rb *= not S_CycA and not S_CycB and not S_CycD and not S_CycE or not S_CycA and not S_CycB and not S_CycD and not S_Mdm2 or not S_CycA and not S_CycB and not S_CycE and not S_Mdm2 or not S_CycA and not S_CycD and not S_CycE and not S_Mdm2 or not S_CycB and not S_CycD and not S_CycE and not S_Mdm2
+
+source:  S_E2F *= sgn_th((-2)*S_Rb-S_CycA-S_CycB+S_E2F+1)
+input: ['S_Rb', 'S_CycA', 'S_CycB', 'S_E2F']
+output: S_E2F
+table:
+(0, 0, 0, 0) 1
+(0, 0, 0, 1) 1
+(0, 0, 1, 0) 0
+(0, 0, 1, 1) 1
+(0, 1, 0, 0) 0
+(0, 1, 0, 1) 1
+(0, 1, 1, 0) 0
+(0, 1, 1, 1) 0
+(1, 0, 0, 0) 0
+(1, 0, 0, 1) 0
+(1, 0, 1, 0) 0
+(1, 0, 1, 1) 0
+(1, 1, 0, 0) 0
+(1, 1, 0, 1) 0
+(1, 1, 1, 0) 0
+(1, 1, 1, 1) 0
+target: S_E2F *= S_E2F and not S_CycA and not S_Rb or S_E2F and not S_CycB and not S_Rb or not S_CycA and not S_CycB and not S_Rb
+
+source:  S_p14 *= sgn_th(S_Ras+S_Myc_Max+S_E2F-3)
+input: ['S_Ras', 'S_Myc_Max', 'S_E2F']
+output: S_p14
+table:
+(0, 0, 0) 0
+(0, 0, 1) 0
+(0, 1, 0) 0
+(0, 1, 1) 0
+(1, 0, 0) 0
+(1, 0, 1) 0
+(1, 1, 0) 0
+(1, 1, 1) 0
+target: S_p14 *= 0
+
+source:  S_CycA *= sgn_th(S_CycA-S_Rb-S_cdc20-S_p27-S_p21+S_E2F_CyclinE+S_cdh1_UbcH10)
+input: ['S_CycA', 'S_Rb', 'S_cdc20', 'S_p27', 'S_p21', 'S_E2F_CyclinE', 'S_cdh1_UbcH10']
+output: S_CycA
+table:
+(0, 0, 0, 0, 0, 0, 0) 0
+(0, 0, 0, 0, 0, 0, 1) 1
+(0, 0, 0, 0, 0, 1, 0) 1
+(0, 0, 0, 0, 0, 1, 1) 1
+(0, 0, 0, 0, 1, 0, 0) 0
+(0, 0, 0, 0, 1, 0, 1) 0
+(0, 0, 0, 0, 1, 1, 0) 0
+(0, 0, 0, 0, 1, 1, 1) 1
+(0, 0, 0, 1, 0, 0, 0) 0
+(0, 0, 0, 1, 0, 0, 1) 0
+(0, 0, 0, 1, 0, 1, 0) 0
+(0, 0, 0, 1, 0, 1, 1) 1
+(0, 0, 0, 1, 1, 0, 0) 0
+(0, 0, 0, 1, 1, 0, 1) 0
+(0, 0, 0, 1, 1, 1, 0) 0
+(0, 0, 0, 1, 1, 1, 1) 0
+(0, 0, 1, 0, 0, 0, 0) 0
+(0, 0, 1, 0, 0, 0, 1) 0
+(0, 0, 1, 0, 0, 1, 0) 0
+(0, 0, 1, 0, 0, 1, 1) 1
+(0, 0, 1, 0, 1, 0, 0) 0
+(0, 0, 1, 0, 1, 0, 1) 0
+(0, 0, 1, 0, 1, 1, 0) 0
+(0, 0, 1, 0, 1, 1, 1) 0
+(0, 0, 1, 1, 0, 0, 0) 0
+(0, 0, 1, 1, 0, 0, 1) 0
+(0, 0, 1, 1, 0, 1, 0) 0
+(0, 0, 1, 1, 0, 1, 1) 0
+(0, 0, 1, 1, 1, 0, 0) 0
+(0, 0, 1, 1, 1, 0, 1) 0
+(0, 0, 1, 1, 1, 1, 0) 0
+(0, 0, 1, 1, 1, 1, 1) 0
+(0, 1, 0, 0, 0, 0, 0) 0
+(0, 1, 0, 0, 0, 0, 1) 0
+(0, 1, 0, 0, 0, 1, 0) 0
+(0, 1, 0, 0, 0, 1, 1) 1
+(0, 1, 0, 0, 1, 0, 0) 0
+(0, 1, 0, 0, 1, 0, 1) 0
+(0, 1, 0, 0, 1, 1, 0) 0
+(0, 1, 0, 0, 1, 1, 1) 0
+(0, 1, 0, 1, 0, 0, 0) 0
+(0, 1, 0, 1, 0, 0, 1) 0
+(0, 1, 0, 1, 0, 1, 0) 0
+(0, 1, 0, 1, 0, 1, 1) 0
+(0, 1, 0, 1, 1, 0, 0) 0
+(0, 1, 0, 1, 1, 0, 1) 0
+(0, 1, 0, 1, 1, 1, 0) 0
+(0, 1, 0, 1, 1, 1, 1) 0
+(0, 1, 1, 0, 0, 0, 0) 0
+(0, 1, 1, 0, 0, 0, 1) 0
+(0, 1, 1, 0, 0, 1, 0) 0
+(0, 1, 1, 0, 0, 1, 1) 0
+(0, 1, 1, 0, 1, 0, 0) 0
+(0, 1, 1, 0, 1, 0, 1) 0
+(0, 1, 1, 0, 1, 1, 0) 0
+(0, 1, 1, 0, 1, 1, 1) 0
+(0, 1, 1, 1, 0, 0, 0) 0
+(0, 1, 1, 1, 0, 0, 1) 0
+(0, 1, 1, 1, 0, 1, 0) 0
+(0, 1, 1, 1, 0, 1, 1) 0
+(0, 1, 1, 1, 1, 0, 0) 0
+(0, 1, 1, 1, 1, 0, 1) 0
+(0, 1, 1, 1, 1, 1, 0) 0
+(0, 1, 1, 1, 1, 1, 1) 0
+(1, 0, 0, 0, 0, 0, 0) 1
+(1, 0, 0, 0, 0, 0, 1) 1
+(1, 0, 0, 0, 0, 1, 0) 1
+(1, 0, 0, 0, 0, 1, 1) 1
+(1, 0, 0, 0, 1, 0, 0) 0
+(1, 0, 0, 0, 1, 0, 1) 1
+(1, 0, 0, 0, 1, 1, 0) 1
+(1, 0, 0, 0, 1, 1, 1) 1
+(1, 0, 0, 1, 0, 0, 0) 0
+(1, 0, 0, 1, 0, 0, 1) 1
+(1, 0, 0, 1, 0, 1, 0) 1
+(1, 0, 0, 1, 0, 1, 1) 1
+(1, 0, 0, 1, 1, 0, 0) 0
+(1, 0, 0, 1, 1, 0, 1) 0
+(1, 0, 0, 1, 1, 1, 0) 0
+(1, 0, 0, 1, 1, 1, 1) 1
+(1, 0, 1, 0, 0, 0, 0) 0
+(1, 0, 1, 0, 0, 0, 1) 1
+(1, 0, 1, 0, 0, 1, 0) 1
+(1, 0, 1, 0, 0, 1, 1) 1
+(1, 0, 1, 0, 1, 0, 0) 0
+(1, 0, 1, 0, 1, 0, 1) 0
+(1, 0, 1, 0, 1, 1, 0) 0
+(1, 0, 1, 0, 1, 1, 1) 1
+(1, 0, 1, 1, 0, 0, 0) 0
+(1, 0, 1, 1, 0, 0, 1) 0
+(1, 0, 1, 1, 0, 1, 0) 0
+(1, 0, 1, 1, 0, 1, 1) 1
+(1, 0, 1, 1, 1, 0, 0) 0
+(1, 0, 1, 1, 1, 0, 1) 0
+(1, 0, 1, 1, 1, 1, 0) 0
+(1, 0, 1, 1, 1, 1, 1) 0
+(1, 1, 0, 0, 0, 0, 0) 0
+(1, 1, 0, 0, 0, 0, 1) 1
+(1, 1, 0, 0, 0, 1, 0) 1
+(1, 1, 0, 0, 0, 1, 1) 1
+(1, 1, 0, 0, 1, 0, 0) 0
+(1, 1, 0, 0, 1, 0, 1) 0
+(1, 1, 0, 0, 1, 1, 0) 0
+(1, 1, 0, 0, 1, 1, 1) 1
+(1, 1, 0, 1, 0, 0, 0) 0
+(1, 1, 0, 1, 0, 0, 1) 0
+(1, 1, 0, 1, 0, 1, 0) 0
+(1, 1, 0, 1, 0, 1, 1) 1
+(1, 1, 0, 1, 1, 0, 0) 0
+(1, 1, 0, 1, 1, 0, 1) 0
+(1, 1, 0, 1, 1, 1, 0) 0
+(1, 1, 0, 1, 1, 1, 1) 0
+(1, 1, 1, 0, 0, 0, 0) 0
+(1, 1, 1, 0, 0, 0, 1) 0
+(1, 1, 1, 0, 0, 1, 0) 0
+(1, 1, 1, 0, 0, 1, 1) 1
+(1, 1, 1, 0, 1, 0, 0) 0
+(1, 1, 1, 0, 1, 0, 1) 0
+(1, 1, 1, 0, 1, 1, 0) 0
+(1, 1, 1, 0, 1, 1, 1) 0
+(1, 1, 1, 1, 0, 0, 0) 0
+(1, 1, 1, 1, 0, 0, 1) 0
+(1, 1, 1, 1, 0, 1, 0) 0
+(1, 1, 1, 1, 0, 1, 1) 0
+(1, 1, 1, 1, 1, 0, 0) 0
+(1, 1, 1, 1, 1, 0, 1) 0
+(1, 1, 1, 1, 1, 1, 0) 0
+(1, 1, 1, 1, 1, 1, 1) 0
+target: S_CycA *= S_CycA and S_E2F_CyclinE and S_cdh1_UbcH10 and not S_Rb and not S_cdc20 or S_CycA and S_E2F_CyclinE and S_cdh1_UbcH10 and not S_Rb and not S_p21 or S_CycA and S_E2F_CyclinE and S_cdh1_UbcH10 and not S_Rb and not S_p27 or S_CycA and S_E2F_CyclinE and S_cdh1_UbcH10 and not S_cdc20 and not S_p21 or S_CycA and S_E2F_CyclinE and S_cdh1_UbcH10 and not S_cdc20 and not S_p27 or S_CycA and S_E2F_CyclinE and S_cdh1_UbcH10 and not S_p21 and not S_p27 or S_CycA and S_E2F_CyclinE and not S_Rb and not S_cdc20 and not S_p21 or S_CycA and S_E2F_CyclinE and not S_Rb and not S_cdc20 and not S_p27 or S_CycA and S_E2F_CyclinE and not S_Rb and not S_p21 and not S_p27 or S_CycA and S_E2F_CyclinE and not S_cdc20 and not S_p21 and not S_p27 or S_CycA and S_cdh1_UbcH10 and not S_Rb and not S_cdc20 and not S_p21 or S_CycA and S_cdh1_UbcH10 and not S_Rb and not S_cdc20 and not S_p27 or S_CycA and S_cdh1_UbcH10 and not S_Rb and not S_p21 and not S_p27 or S_CycA and S_cdh1_UbcH10 and not S_cdc20 and not S_p21 and not S_p27 or S_CycA and not S_Rb and not S_cdc20 and not S_p21 and not S_p27 or S_E2F_CyclinE and S_cdh1_UbcH10 and not S_Rb and not S_cdc20 and not S_p21 or S_E2F_CyclinE and S_cdh1_UbcH10 and not S_Rb and not S_cdc20 and not S_p27 or S_E2F_CyclinE and S_cdh1_UbcH10 and not S_Rb and not S_p21 and not S_p27 or S_E2F_CyclinE and S_cdh1_UbcH10 and not S_cdc20 and not S_p21 and not S_p27 or S_E2F_CyclinE and not S_Rb and not S_cdc20 and not S_p21 and not S_p27 or S_cdh1_UbcH10 and not S_Rb and not S_cdc20 and not S_p21 and not S_p27
+
+source:  S_CycB *= sgn_th(-S_p53-S_cdh1-S_cdc20-S_p27-S_p21+1)
+input: ['S_p53', 'S_cdh1', 'S_cdc20', 'S_p27', 'S_p21']
+output: S_CycB
+table:
+(0, 0, 0, 0, 0) 1
+(0, 0, 0, 0, 1) 0
+(0, 0, 0, 1, 0) 0
+(0, 0, 0, 1, 1) 0
+(0, 0, 1, 0, 0) 0
+(0, 0, 1, 0, 1) 0
+(0, 0, 1, 1, 0) 0
+(0, 0, 1, 1, 1) 0
+(0, 1, 0, 0, 0) 0
+(0, 1, 0, 0, 1) 0
+(0, 1, 0, 1, 0) 0
+(0, 1, 0, 1, 1) 0
+(0, 1, 1, 0, 0) 0
+(0, 1, 1, 0, 1) 0
+(0, 1, 1, 1, 0) 0
+(0, 1, 1, 1, 1) 0
+(1, 0, 0, 0, 0) 0
+(1, 0, 0, 0, 1) 0
+(1, 0, 0, 1, 0) 0
+(1, 0, 0, 1, 1) 0
+(1, 0, 1, 0, 0) 0
+(1, 0, 1, 0, 1) 0
+(1, 0, 1, 1, 0) 0
+(1, 0, 1, 1, 1) 0
+(1, 1, 0, 0, 0) 0
+(1, 1, 0, 0, 1) 0
+(1, 1, 0, 1, 0) 0
+(1, 1, 0, 1, 1) 0
+(1, 1, 1, 0, 0) 0
+(1, 1, 1, 0, 1) 0
+(1, 1, 1, 1, 0) 0
+(1, 1, 1, 1, 1) 0
+target: S_CycB *= not S_cdc20 and not S_cdh1 and not S_p21 and not S_p27 and not S_p53
+
+source:  S_CycD *= sgn_th(S_NF_kB+(-2)*S_GSK_3+S_Myc_Max-S_p27-S_p21-S_p15-S_FOXO+S_FosJun+S_TCF+S_Gli)
+input: ['S_NF_kB', 'S_GSK_3', 'S_Myc_Max', 'S_p27', 'S_p21', 'S_p15', 'S_FOXO', 'S_FosJun', 'S_TCF', 'S_Gli']
+output: S_CycD
+table:
+(0, 0, 0, 0, 0, 0, 0, 0, 0, 0) 0
+(0, 0, 0, 0, 0, 0, 0, 0, 0, 1) 1
+(0, 0, 0, 0, 0, 0, 0, 0, 1, 0) 1
+(0, 0, 0, 0, 0, 0, 0, 0, 1, 1) 1
+(0, 0, 0, 0, 0, 0, 0, 1, 0, 0) 1
+(0, 0, 0, 0, 0, 0, 0, 1, 0, 1) 1
+(0, 0, 0, 0, 0, 0, 0, 1, 1, 0) 1
+(0, 0, 0, 0, 0, 0, 0, 1, 1, 1) 1
+(0, 0, 0, 0, 0, 0, 1, 0, 0, 0) 0
+(0, 0, 0, 0, 0, 0, 1, 0, 0, 1) 0
+(0, 0, 0, 0, 0, 0, 1, 0, 1, 0) 0
+(0, 0, 0, 0, 0, 0, 1, 0, 1, 1) 1
+(0, 0, 0, 0, 0, 0, 1, 1, 0, 0) 0
+(0, 0, 0, 0, 0, 0, 1, 1, 0, 1) 1
+(0, 0, 0, 0, 0, 0, 1, 1, 1, 0) 1
+(0, 0, 0, 0, 0, 0, 1, 1, 1, 1) 1
+(0, 0, 0, 0, 0, 1, 0, 0, 0, 0) 0
+(0, 0, 0, 0, 0, 1, 0, 0, 0, 1) 0
+(0, 0, 0, 0, 0, 1, 0, 0, 1, 0) 0
+(0, 0, 0, 0, 0, 1, 0, 0, 1, 1) 1
+(0, 0, 0, 0, 0, 1, 0, 1, 0, 0) 0
+(0, 0, 0, 0, 0, 1, 0, 1, 0, 1) 1
+(0, 0, 0, 0, 0, 1, 0, 1, 1, 0) 1
+(0, 0, 0, 0, 0, 1, 0, 1, 1, 1) 1
+(0, 0, 0, 0, 0, 1, 1, 0, 0, 0) 0
+(0, 0, 0, 0, 0, 1, 1, 0, 0, 1) 0
+(0, 0, 0, 0, 0, 1, 1, 0, 1, 0) 0
+(0, 0, 0, 0, 0, 1, 1, 0, 1, 1) 0
+(0, 0, 0, 0, 0, 1, 1, 1, 0, 0) 0
+(0, 0, 0, 0, 0, 1, 1, 1, 0, 1) 0
+(0, 0, 0, 0, 0, 1, 1, 1, 1, 0) 0
+(0, 0, 0, 0, 0, 1, 1, 1, 1, 1) 1
+(0, 0, 0, 0, 1, 0, 0, 0, 0, 0) 0
+(0, 0, 0, 0, 1, 0, 0, 0, 0, 1) 0
+(0, 0, 0, 0, 1, 0, 0, 0, 1, 0) 0
+(0, 0, 0, 0, 1, 0, 0, 0, 1, 1) 1
+(0, 0, 0, 0, 1, 0, 0, 1, 0, 0) 0
+(0, 0, 0, 0, 1, 0, 0, 1, 0, 1) 1
+(0, 0, 0, 0, 1, 0, 0, 1, 1, 0) 1
+(0, 0, 0, 0, 1, 0, 0, 1, 1, 1) 1
+(0, 0, 0, 0, 1, 0, 1, 0, 0, 0) 0
+(0, 0, 0, 0, 1, 0, 1, 0, 0, 1) 0
+(0, 0, 0, 0, 1, 0, 1, 0, 1, 0) 0
+(0, 0, 0, 0, 1, 0, 1, 0, 1, 1) 0
+(0, 0, 0, 0, 1, 0, 1, 1, 0, 0) 0
+(0, 0, 0, 0, 1, 0, 1, 1, 0, 1) 0
+(0, 0, 0, 0, 1, 0, 1, 1, 1, 0) 0
+(0, 0, 0, 0, 1, 0, 1, 1, 1, 1) 1
+(0, 0, 0, 0, 1, 1, 0, 0, 0, 0) 0
+(0, 0, 0, 0, 1, 1, 0, 0, 0, 1) 0
+(0, 0, 0, 0, 1, 1, 0, 0, 1, 0) 0
+(0, 0, 0, 0, 1, 1, 0, 0, 1, 1) 0
+(0, 0, 0, 0, 1, 1, 0, 1, 0, 0) 0
+(0, 0, 0, 0, 1, 1, 0, 1, 0, 1) 0
+(0, 0, 0, 0, 1, 1, 0, 1, 1, 0) 0
+(0, 0, 0, 0, 1, 1, 0, 1, 1, 1) 1
+(0, 0, 0, 0, 1, 1, 1, 0, 0, 0) 0
+(0, 0, 0, 0, 1, 1, 1, 0, 0, 1) 0
+(0, 0, 0, 0, 1, 1, 1, 0, 1, 0) 0
+(0, 0, 0, 0, 1, 1, 1, 0, 1, 1) 0
+(0, 0, 0, 0, 1, 1, 1, 1, 0, 0) 0
+(0, 0, 0, 0, 1, 1, 1, 1, 0, 1) 0
+(0, 0, 0, 0, 1, 1, 1, 1, 1, 0) 0
+(0, 0, 0, 0, 1, 1, 1, 1, 1, 1) 0
+(0, 0, 0, 1, 0, 0, 0, 0, 0, 0) 0
+(0, 0, 0, 1, 0, 0, 0, 0, 0, 1) 0
+(0, 0, 0, 1, 0, 0, 0, 0, 1, 0) 0
+(0, 0, 0, 1, 0, 0, 0, 0, 1, 1) 1
+(0, 0, 0, 1, 0, 0, 0, 1, 0, 0) 0
+(0, 0, 0, 1, 0, 0, 0, 1, 0, 1) 1
+(0, 0, 0, 1, 0, 0, 0, 1, 1, 0) 1
+(0, 0, 0, 1, 0, 0, 0, 1, 1, 1) 1
+(0, 0, 0, 1, 0, 0, 1, 0, 0, 0) 0
+(0, 0, 0, 1, 0, 0, 1, 0, 0, 1) 0
+(0, 0, 0, 1, 0, 0, 1, 0, 1, 0) 0
+(0, 0, 0, 1, 0, 0, 1, 0, 1, 1) 0
+(0, 0, 0, 1, 0, 0, 1, 1, 0, 0) 0
+(0, 0, 0, 1, 0, 0, 1, 1, 0, 1) 0
+(0, 0, 0, 1, 0, 0, 1, 1, 1, 0) 0
+(0, 0, 0, 1, 0, 0, 1, 1, 1, 1) 1
+(0, 0, 0, 1, 0, 1, 0, 0, 0, 0) 0
+(0, 0, 0, 1, 0, 1, 0, 0, 0, 1) 0
+(0, 0, 0, 1, 0, 1, 0, 0, 1, 0) 0
+(0, 0, 0, 1, 0, 1, 0, 0, 1, 1) 0
+(0, 0, 0, 1, 0, 1, 0, 1, 0, 0) 0
+(0, 0, 0, 1, 0, 1, 0, 1, 0, 1) 0
+(0, 0, 0, 1, 0, 1, 0, 1, 1, 0) 0
+(0, 0, 0, 1, 0, 1, 0, 1, 1, 1) 1
+(0, 0, 0, 1, 0, 1, 1, 0, 0, 0) 0
+(0, 0, 0, 1, 0, 1, 1, 0, 0, 1) 0
+(0, 0, 0, 1, 0, 1, 1, 0, 1, 0) 0
+(0, 0, 0, 1, 0, 1, 1, 0, 1, 1) 0
+(0, 0, 0, 1, 0, 1, 1, 1, 0, 0) 0
+(0, 0, 0, 1, 0, 1, 1, 1, 0, 1) 0
+(0, 0, 0, 1, 0, 1, 1, 1, 1, 0) 0
+(0, 0, 0, 1, 0, 1, 1, 1, 1, 1) 0
+(0, 0, 0, 1, 1, 0, 0, 0, 0, 0) 0
+(0, 0, 0, 1, 1, 0, 0, 0, 0, 1) 0
+(0, 0, 0, 1, 1, 0, 0, 0, 1, 0) 0
+(0, 0, 0, 1, 1, 0, 0, 0, 1, 1) 0
+(0, 0, 0, 1, 1, 0, 0, 1, 0, 0) 0
+(0, 0, 0, 1, 1, 0, 0, 1, 0, 1) 0
+(0, 0, 0, 1, 1, 0, 0, 1, 1, 0) 0
+(0, 0, 0, 1, 1, 0, 0, 1, 1, 1) 1
+(0, 0, 0, 1, 1, 0, 1, 0, 0, 0) 0
+(0, 0, 0, 1, 1, 0, 1, 0, 0, 1) 0
+(0, 0, 0, 1, 1, 0, 1, 0, 1, 0) 0
+(0, 0, 0, 1, 1, 0, 1, 0, 1, 1) 0
+(0, 0, 0, 1, 1, 0, 1, 1, 0, 0) 0
+(0, 0, 0, 1, 1, 0, 1, 1, 0, 1) 0
+(0, 0, 0, 1, 1, 0, 1, 1, 1, 0) 0
+(0, 0, 0, 1, 1, 0, 1, 1, 1, 1) 0
+(0, 0, 0, 1, 1, 1, 0, 0, 0, 0) 0
+(0, 0, 0, 1, 1, 1, 0, 0, 0, 1) 0
+(0, 0, 0, 1, 1, 1, 0, 0, 1, 0) 0
+(0, 0, 0, 1, 1, 1, 0, 0, 1, 1) 0
+(0, 0, 0, 1, 1, 1, 0, 1, 0, 0) 0
+(0, 0, 0, 1, 1, 1, 0, 1, 0, 1) 0
+(0, 0, 0, 1, 1, 1, 0, 1, 1, 0) 0
+(0, 0, 0, 1, 1, 1, 0, 1, 1, 1) 0
+(0, 0, 0, 1, 1, 1, 1, 0, 0, 0) 0
+(0, 0, 0, 1, 1, 1, 1, 0, 0, 1) 0
+(0, 0, 0, 1, 1, 1, 1, 0, 1, 0) 0
+(0, 0, 0, 1, 1, 1, 1, 0, 1, 1) 0
+(0, 0, 0, 1, 1, 1, 1, 1, 0, 0) 0
+(0, 0, 0, 1, 1, 1, 1, 1, 0, 1) 0
+(0, 0, 0, 1, 1, 1, 1, 1, 1, 0) 0
+(0, 0, 0, 1, 1, 1, 1, 1, 1, 1) 0
+(0, 0, 1, 0, 0, 0, 0, 0, 0, 0) 1
+(0, 0, 1, 0, 0, 0, 0, 0, 0, 1) 1
+(0, 0, 1, 0, 0, 0, 0, 0, 1, 0) 1
+(0, 0, 1, 0, 0, 0, 0, 0, 1, 1) 1
+(0, 0, 1, 0, 0, 0, 0, 1, 0, 0) 1
+(0, 0, 1, 0, 0, 0, 0, 1, 0, 1) 1
+(0, 0, 1, 0, 0, 0, 0, 1, 1, 0) 1
+(0, 0, 1, 0, 0, 0, 0, 1, 1, 1) 1
+(0, 0, 1, 0, 0, 0, 1, 0, 0, 0) 0
+(0, 0, 1, 0, 0, 0, 1, 0, 0, 1) 1
+(0, 0, 1, 0, 0, 0, 1, 0, 1, 0) 1
+(0, 0, 1, 0, 0, 0, 1, 0, 1, 1) 1
+(0, 0, 1, 0, 0, 0, 1, 1, 0, 0) 1
+(0, 0, 1, 0, 0, 0, 1, 1, 0, 1) 1
+(0, 0, 1, 0, 0, 0, 1, 1, 1, 0) 1
+(0, 0, 1, 0, 0, 0, 1, 1, 1, 1) 1
+(0, 0, 1, 0, 0, 1, 0, 0, 0, 0) 0
+(0, 0, 1, 0, 0, 1, 0, 0, 0, 1) 1
+(0, 0, 1, 0, 0, 1, 0, 0, 1, 0) 1
+(0, 0, 1, 0, 0, 1, 0, 0, 1, 1) 1
+(0, 0, 1, 0, 0, 1, 0, 1, 0, 0) 1
+(0, 0, 1, 0, 0, 1, 0, 1, 0, 1) 1
+(0, 0, 1, 0, 0, 1, 0, 1, 1, 0) 1
+(0, 0, 1, 0, 0, 1, 0, 1, 1, 1) 1
+(0, 0, 1, 0, 0, 1, 1, 0, 0, 0) 0
+(0, 0, 1, 0, 0, 1, 1, 0, 0, 1) 0
+(0, 0, 1, 0, 0, 1, 1, 0, 1, 0) 0
+(0, 0, 1, 0, 0, 1, 1, 0, 1, 1) 1
+(0, 0, 1, 0, 0, 1, 1, 1, 0, 0) 0
+(0, 0, 1, 0, 0, 1, 1, 1, 0, 1) 1
+(0, 0, 1, 0, 0, 1, 1, 1, 1, 0) 1
+(0, 0, 1, 0, 0, 1, 1, 1, 1, 1) 1
+(0, 0, 1, 0, 1, 0, 0, 0, 0, 0) 0
+(0, 0, 1, 0, 1, 0, 0, 0, 0, 1) 1
+(0, 0, 1, 0, 1, 0, 0, 0, 1, 0) 1
+(0, 0, 1, 0, 1, 0, 0, 0, 1, 1) 1
+(0, 0, 1, 0, 1, 0, 0, 1, 0, 0) 1
+(0, 0, 1, 0, 1, 0, 0, 1, 0, 1) 1
+(0, 0, 1, 0, 1, 0, 0, 1, 1, 0) 1
+(0, 0, 1, 0, 1, 0, 0, 1, 1, 1) 1
+(0, 0, 1, 0, 1, 0, 1, 0, 0, 0) 0
+(0, 0, 1, 0, 1, 0, 1, 0, 0, 1) 0
+(0, 0, 1, 0, 1, 0, 1, 0, 1, 0) 0
+(0, 0, 1, 0, 1, 0, 1, 0, 1, 1) 1
+(0, 0, 1, 0, 1, 0, 1, 1, 0, 0) 0
+(0, 0, 1, 0, 1, 0, 1, 1, 0, 1) 1
+(0, 0, 1, 0, 1, 0, 1, 1, 1, 0) 1
+(0, 0, 1, 0, 1, 0, 1, 1, 1, 1) 1
+(0, 0, 1, 0, 1, 1, 0, 0, 0, 0) 0
+(0, 0, 1, 0, 1, 1, 0, 0, 0, 1) 0
+(0, 0, 1, 0, 1, 1, 0, 0, 1, 0) 0
+(0, 0, 1, 0, 1, 1, 0, 0, 1, 1) 1
+(0, 0, 1, 0, 1, 1, 0, 1, 0, 0) 0
+(0, 0, 1, 0, 1, 1, 0, 1, 0, 1) 1
+(0, 0, 1, 0, 1, 1, 0, 1, 1, 0) 1
+(0, 0, 1, 0, 1, 1, 0, 1, 1, 1) 1
+(0, 0, 1, 0, 1, 1, 1, 0, 0, 0) 0
+(0, 0, 1, 0, 1, 1, 1, 0, 0, 1) 0
+(0, 0, 1, 0, 1, 1, 1, 0, 1, 0) 0
+(0, 0, 1, 0, 1, 1, 1, 0, 1, 1) 0
+(0, 0, 1, 0, 1, 1, 1, 1, 0, 0) 0
+(0, 0, 1, 0, 1, 1, 1, 1, 0, 1) 0
+(0, 0, 1, 0, 1, 1, 1, 1, 1, 0) 0
+(0, 0, 1, 0, 1, 1, 1, 1, 1, 1) 1
+(0, 0, 1, 1, 0, 0, 0, 0, 0, 0) 0
+(0, 0, 1, 1, 0, 0, 0, 0, 0, 1) 1
+(0, 0, 1, 1, 0, 0, 0, 0, 1, 0) 1
+(0, 0, 1, 1, 0, 0, 0, 0, 1, 1) 1
+(0, 0, 1, 1, 0, 0, 0, 1, 0, 0) 1
+(0, 0, 1, 1, 0, 0, 0, 1, 0, 1) 1
+(0, 0, 1, 1, 0, 0, 0, 1, 1, 0) 1
+(0, 0, 1, 1, 0, 0, 0, 1, 1, 1) 1
+(0, 0, 1, 1, 0, 0, 1, 0, 0, 0) 0
+(0, 0, 1, 1, 0, 0, 1, 0, 0, 1) 0
+(0, 0, 1, 1, 0, 0, 1, 0, 1, 0) 0
+(0, 0, 1, 1, 0, 0, 1, 0, 1, 1) 1
+(0, 0, 1, 1, 0, 0, 1, 1, 0, 0) 0
+(0, 0, 1, 1, 0, 0, 1, 1, 0, 1) 1
+(0, 0, 1, 1, 0, 0, 1, 1, 1, 0) 1
+(0, 0, 1, 1, 0, 0, 1, 1, 1, 1) 1
+(0, 0, 1, 1, 0, 1, 0, 0, 0, 0) 0
+(0, 0, 1, 1, 0, 1, 0, 0, 0, 1) 0
+(0, 0, 1, 1, 0, 1, 0, 0, 1, 0) 0
+(0, 0, 1, 1, 0, 1, 0, 0, 1, 1) 1
+(0, 0, 1, 1, 0, 1, 0, 1, 0, 0) 0
+(0, 0, 1, 1, 0, 1, 0, 1, 0, 1) 1
+(0, 0, 1, 1, 0, 1, 0, 1, 1, 0) 1
+(0, 0, 1, 1, 0, 1, 0, 1, 1, 1) 1
+(0, 0, 1, 1, 0, 1, 1, 0, 0, 0) 0
+(0, 0, 1, 1, 0, 1, 1, 0, 0, 1) 0
+(0, 0, 1, 1, 0, 1, 1, 0, 1, 0) 0
+(0, 0, 1, 1, 0, 1, 1, 0, 1, 1) 0
+(0, 0, 1, 1, 0, 1, 1, 1, 0, 0) 0
+(0, 0, 1, 1, 0, 1, 1, 1, 0, 1) 0
+(0, 0, 1, 1, 0, 1, 1, 1, 1, 0) 0
+(0, 0, 1, 1, 0, 1, 1, 1, 1, 1) 1
+(0, 0, 1, 1, 1, 0, 0, 0, 0, 0) 0
+(0, 0, 1, 1, 1, 0, 0, 0, 0, 1) 0
+(0, 0, 1, 1, 1, 0, 0, 0, 1, 0) 0
+(0, 0, 1, 1, 1, 0, 0, 0, 1, 1) 1
+(0, 0, 1, 1, 1, 0, 0, 1, 0, 0) 0
+(0, 0, 1, 1, 1, 0, 0, 1, 0, 1) 1
+(0, 0, 1, 1, 1, 0, 0, 1, 1, 0) 1
+(0, 0, 1, 1, 1, 0, 0, 1, 1, 1) 1
+(0, 0, 1, 1, 1, 0, 1, 0, 0, 0) 0
+(0, 0, 1, 1, 1, 0, 1, 0, 0, 1) 0
+(0, 0, 1, 1, 1, 0, 1, 0, 1, 0) 0
+(0, 0, 1, 1, 1, 0, 1, 0, 1, 1) 0
+(0, 0, 1, 1, 1, 0, 1, 1, 0, 0) 0
+(0, 0, 1, 1, 1, 0, 1, 1, 0, 1) 0
+(0, 0, 1, 1, 1, 0, 1, 1, 1, 0) 0
+(0, 0, 1, 1, 1, 0, 1, 1, 1, 1) 1
+(0, 0, 1, 1, 1, 1, 0, 0, 0, 0) 0
+(0, 0, 1, 1, 1, 1, 0, 0, 0, 1) 0
+(0, 0, 1, 1, 1, 1, 0, 0, 1, 0) 0
+(0, 0, 1, 1, 1, 1, 0, 0, 1, 1) 0
+(0, 0, 1, 1, 1, 1, 0, 1, 0, 0) 0
+(0, 0, 1, 1, 1, 1, 0, 1, 0, 1) 0
+(0, 0, 1, 1, 1, 1, 0, 1, 1, 0) 0
+(0, 0, 1, 1, 1, 1, 0, 1, 1, 1) 1
+(0, 0, 1, 1, 1, 1, 1, 0, 0, 0) 0
+(0, 0, 1, 1, 1, 1, 1, 0, 0, 1) 0
+(0, 0, 1, 1, 1, 1, 1, 0, 1, 0) 0
+(0, 0, 1, 1, 1, 1, 1, 0, 1, 1) 0
+(0, 0, 1, 1, 1, 1, 1, 1, 0, 0) 0
+(0, 0, 1, 1, 1, 1, 1, 1, 0, 1) 0
+(0, 0, 1, 1, 1, 1, 1, 1, 1, 0) 0
+(0, 0, 1, 1, 1, 1, 1, 1, 1, 1) 0
+(0, 1, 0, 0, 0, 0, 0, 0, 0, 0) 0
+(0, 1, 0, 0, 0, 0, 0, 0, 0, 1) 0
+(0, 1, 0, 0, 0, 0, 0, 0, 1, 0) 0
+(0, 1, 0, 0, 0, 0, 0, 0, 1, 1) 0
+(0, 1, 0, 0, 0, 0, 0, 1, 0, 0) 0
+(0, 1, 0, 0, 0, 0, 0, 1, 0, 1) 0
+(0, 1, 0, 0, 0, 0, 0, 1, 1, 0) 0
+(0, 1, 0, 0, 0, 0, 0, 1, 1, 1) 1
+(0, 1, 0, 0, 0, 0, 1, 0, 0, 0) 0
+(0, 1, 0, 0, 0, 0, 1, 0, 0, 1) 0
+(0, 1, 0, 0, 0, 0, 1, 0, 1, 0) 0
+(0, 1, 0, 0, 0, 0, 1, 0, 1, 1) 0
+(0, 1, 0, 0, 0, 0, 1, 1, 0, 0) 0
+(0, 1, 0, 0, 0, 0, 1, 1, 0, 1) 0
+(0, 1, 0, 0, 0, 0, 1, 1, 1, 0) 0
+(0, 1, 0, 0, 0, 0, 1, 1, 1, 1) 0
+(0, 1, 0, 0, 0, 1, 0, 0, 0, 0) 0
+(0, 1, 0, 0, 0, 1, 0, 0, 0, 1) 0
+(0, 1, 0, 0, 0, 1, 0, 0, 1, 0) 0
+(0, 1, 0, 0, 0, 1, 0, 0, 1, 1) 0
+(0, 1, 0, 0, 0, 1, 0, 1, 0, 0) 0
+(0, 1, 0, 0, 0, 1, 0, 1, 0, 1) 0
+(0, 1, 0, 0, 0, 1, 0, 1, 1, 0) 0
+(0, 1, 0, 0, 0, 1, 0, 1, 1, 1) 0
+(0, 1, 0, 0, 0, 1, 1, 0, 0, 0) 0
+(0, 1, 0, 0, 0, 1, 1, 0, 0, 1) 0
+(0, 1, 0, 0, 0, 1, 1, 0, 1, 0) 0
+(0, 1, 0, 0, 0, 1, 1, 0, 1, 1) 0
+(0, 1, 0, 0, 0, 1, 1, 1, 0, 0) 0
+(0, 1, 0, 0, 0, 1, 1, 1, 0, 1) 0
+(0, 1, 0, 0, 0, 1, 1, 1, 1, 0) 0
+(0, 1, 0, 0, 0, 1, 1, 1, 1, 1) 0
+(0, 1, 0, 0, 1, 0, 0, 0, 0, 0) 0
+(0, 1, 0, 0, 1, 0, 0, 0, 0, 1) 0
+(0, 1, 0, 0, 1, 0, 0, 0, 1, 0) 0
+(0, 1, 0, 0, 1, 0, 0, 0, 1, 1) 0
+(0, 1, 0, 0, 1, 0, 0, 1, 0, 0) 0
+(0, 1, 0, 0, 1, 0, 0, 1, 0, 1) 0
+(0, 1, 0, 0, 1, 0, 0, 1, 1, 0) 0
+(0, 1, 0, 0, 1, 0, 0, 1, 1, 1) 0
+(0, 1, 0, 0, 1, 0, 1, 0, 0, 0) 0
+(0, 1, 0, 0, 1, 0, 1, 0, 0, 1) 0
+(0, 1, 0, 0, 1, 0, 1, 0, 1, 0) 0
+(0, 1, 0, 0, 1, 0, 1, 0, 1, 1) 0
+(0, 1, 0, 0, 1, 0, 1, 1, 0, 0) 0
+(0, 1, 0, 0, 1, 0, 1, 1, 0, 1) 0
+(0, 1, 0, 0, 1, 0, 1, 1, 1, 0) 0
+(0, 1, 0, 0, 1, 0, 1, 1, 1, 1) 0
+(0, 1, 0, 0, 1, 1, 0, 0, 0, 0) 0
+(0, 1, 0, 0, 1, 1, 0, 0, 0, 1) 0
+(0, 1, 0, 0, 1, 1, 0, 0, 1, 0) 0
+(0, 1, 0, 0, 1, 1, 0, 0, 1, 1) 0
+(0, 1, 0, 0, 1, 1, 0, 1, 0, 0) 0
+(0, 1, 0, 0, 1, 1, 0, 1, 0, 1) 0
+(0, 1, 0, 0, 1, 1, 0, 1, 1, 0) 0
+(0, 1, 0, 0, 1, 1, 0, 1, 1, 1) 0
+(0, 1, 0, 0, 1, 1, 1, 0, 0, 0) 0
+(0, 1, 0, 0, 1, 1, 1, 0, 0, 1) 0
+(0, 1, 0, 0, 1, 1, 1, 0, 1, 0) 0
+(0, 1, 0, 0, 1, 1, 1, 0, 1, 1) 0
+(0, 1, 0, 0, 1, 1, 1, 1, 0, 0) 0
+(0, 1, 0, 0, 1, 1, 1, 1, 0, 1) 0
+(0, 1, 0, 0, 1, 1, 1, 1, 1, 0) 0
+(0, 1, 0, 0, 1, 1, 1, 1, 1, 1) 0
+(0, 1, 0, 1, 0, 0, 0, 0, 0, 0) 0
+(0, 1, 0, 1, 0, 0, 0, 0, 0, 1) 0
+(0, 1, 0, 1, 0, 0, 0, 0, 1, 0) 0
+(0, 1, 0, 1, 0, 0, 0, 0, 1, 1) 0
+(0, 1, 0, 1, 0, 0, 0, 1, 0, 0) 0
+(0, 1, 0, 1, 0, 0, 0, 1, 0, 1) 0
+(0, 1, 0, 1, 0, 0, 0, 1, 1, 0) 0
+(0, 1, 0, 1, 0, 0, 0, 1, 1, 1) 0
+(0, 1, 0, 1, 0, 0, 1, 0, 0, 0) 0
+(0, 1, 0, 1, 0, 0, 1, 0, 0, 1) 0
+(0, 1, 0, 1, 0, 0, 1, 0, 1, 0) 0
+(0, 1, 0, 1, 0, 0, 1, 0, 1, 1) 0
+(0, 1, 0, 1, 0, 0, 1, 1, 0, 0) 0
+(0, 1, 0, 1, 0, 0, 1, 1, 0, 1) 0
+(0, 1, 0, 1, 0, 0, 1, 1, 1, 0) 0
+(0, 1, 0, 1, 0, 0, 1, 1, 1, 1) 0
+(0, 1, 0, 1, 0, 1, 0, 0, 0, 0) 0
+(0, 1, 0, 1, 0, 1, 0, 0, 0, 1) 0
+(0, 1, 0, 1, 0, 1, 0, 0, 1, 0) 0
+(0, 1, 0, 1, 0, 1, 0, 0, 1, 1) 0
+(0, 1, 0, 1, 0, 1, 0, 1, 0, 0) 0
+(0, 1, 0, 1, 0, 1, 0, 1, 0, 1) 0
+(0, 1, 0, 1, 0, 1, 0, 1, 1, 0) 0
+(0, 1, 0, 1, 0, 1, 0, 1, 1, 1) 0
+(0, 1, 0, 1, 0, 1, 1, 0, 0, 0) 0
+(0, 1, 0, 1, 0, 1, 1, 0, 0, 1) 0
+(0, 1, 0, 1, 0, 1, 1, 0, 1, 0) 0
+(0, 1, 0, 1, 0, 1, 1, 0, 1, 1) 0
+(0, 1, 0, 1, 0, 1, 1, 1, 0, 0) 0
+(0, 1, 0, 1, 0, 1, 1, 1, 0, 1) 0
+(0, 1, 0, 1, 0, 1, 1, 1, 1, 0) 0
+(0, 1, 0, 1, 0, 1, 1, 1, 1, 1) 0
+(0, 1, 0, 1, 1, 0, 0, 0, 0, 0) 0
+(0, 1, 0, 1, 1, 0, 0, 0, 0, 1) 0
+(0, 1, 0, 1, 1, 0, 0, 0, 1, 0) 0
+(0, 1, 0, 1, 1, 0, 0, 0, 1, 1) 0
+(0, 1, 0, 1, 1, 0, 0, 1, 0, 0) 0
+(0, 1, 0, 1, 1, 0, 0, 1, 0, 1) 0
+(0, 1, 0, 1, 1, 0, 0, 1, 1, 0) 0
+(0, 1, 0, 1, 1, 0, 0, 1, 1, 1) 0
+(0, 1, 0, 1, 1, 0, 1, 0, 0, 0) 0
+(0, 1, 0, 1, 1, 0, 1, 0, 0, 1) 0
+(0, 1, 0, 1, 1, 0, 1, 0, 1, 0) 0
+(0, 1, 0, 1, 1, 0, 1, 0, 1, 1) 0
+(0, 1, 0, 1, 1, 0, 1, 1, 0, 0) 0
+(0, 1, 0, 1, 1, 0, 1, 1, 0, 1) 0
+(0, 1, 0, 1, 1, 0, 1, 1, 1, 0) 0
+(0, 1, 0, 1, 1, 0, 1, 1, 1, 1) 0
+(0, 1, 0, 1, 1, 1, 0, 0, 0, 0) 0
+(0, 1, 0, 1, 1, 1, 0, 0, 0, 1) 0
+(0, 1, 0, 1, 1, 1, 0, 0, 1, 0) 0
+(0, 1, 0, 1, 1, 1, 0, 0, 1, 1) 0
+(0, 1, 0, 1, 1, 1, 0, 1, 0, 0) 0
+(0, 1, 0, 1, 1, 1, 0, 1, 0, 1) 0
+(0, 1, 0, 1, 1, 1, 0, 1, 1, 0) 0
+(0, 1, 0, 1, 1, 1, 0, 1, 1, 1) 0
+(0, 1, 0, 1, 1, 1, 1, 0, 0, 0) 0
+(0, 1, 0, 1, 1, 1, 1, 0, 0, 1) 0
+(0, 1, 0, 1, 1, 1, 1, 0, 1, 0) 0
+(0, 1, 0, 1, 1, 1, 1, 0, 1, 1) 0
+(0, 1, 0, 1, 1, 1, 1, 1, 0, 0) 0
+(0, 1, 0, 1, 1, 1, 1, 1, 0, 1) 0
+(0, 1, 0, 1, 1, 1, 1, 1, 1, 0) 0
+(0, 1, 0, 1, 1, 1, 1, 1, 1, 1) 0
+(0, 1, 1, 0, 0, 0, 0, 0, 0, 0) 0
+(0, 1, 1, 0, 0, 0, 0, 0, 0, 1) 0
+(0, 1, 1, 0, 0, 0, 0, 0, 1, 0) 0
+(0, 1, 1, 0, 0, 0, 0, 0, 1, 1) 1
+(0, 1, 1, 0, 0, 0, 0, 1, 0, 0) 0
+(0, 1, 1, 0, 0, 0, 0, 1, 0, 1) 1
+(0, 1, 1, 0, 0, 0, 0, 1, 1, 0) 1
+(0, 1, 1, 0, 0, 0, 0, 1, 1, 1) 1
+(0, 1, 1, 0, 0, 0, 1, 0, 0, 0) 0
+(0, 1, 1, 0, 0, 0, 1, 0, 0, 1) 0
+(0, 1, 1, 0, 0, 0, 1, 0, 1, 0) 0
+(0, 1, 1, 0, 0, 0, 1, 0, 1, 1) 0
+(0, 1, 1, 0, 0, 0, 1, 1, 0, 0) 0
+(0, 1, 1, 0, 0, 0, 1, 1, 0, 1) 0
+(0, 1, 1, 0, 0, 0, 1, 1, 1, 0) 0
+(0, 1, 1, 0, 0, 0, 1, 1, 1, 1) 1
+(0, 1, 1, 0, 0, 1, 0, 0, 0, 0) 0
+(0, 1, 1, 0, 0, 1, 0, 0, 0, 1) 0
+(0, 1, 1, 0, 0, 1, 0, 0, 1, 0) 0
+(0, 1, 1, 0, 0, 1, 0, 0, 1, 1) 0
+(0, 1, 1, 0, 0, 1, 0, 1, 0, 0) 0
+(0, 1, 1, 0, 0, 1, 0, 1, 0, 1) 0
+(0, 1, 1, 0, 0, 1, 0, 1, 1, 0) 0
+(0, 1, 1, 0, 0, 1, 0, 1, 1, 1) 1
+(0, 1, 1, 0, 0, 1, 1, 0, 0, 0) 0
+(0, 1, 1, 0, 0, 1, 1, 0, 0, 1) 0
+(0, 1, 1, 0, 0, 1, 1, 0, 1, 0) 0
+(0, 1, 1, 0, 0, 1, 1, 0, 1, 1) 0
+(0, 1, 1, 0, 0, 1, 1, 1, 0, 0) 0
+(0, 1, 1, 0, 0, 1, 1, 1, 0, 1) 0
+(0, 1, 1, 0, 0, 1, 1, 1, 1, 0) 0
+(0, 1, 1, 0, 0, 1, 1, 1, 1, 1) 0
+(0, 1, 1, 0, 1, 0, 0, 0, 0, 0) 0
+(0, 1, 1, 0, 1, 0, 0, 0, 0, 1) 0
+(0, 1, 1, 0, 1, 0, 0, 0, 1, 0) 0
+(0, 1, 1, 0, 1, 0, 0, 0, 1, 1) 0
+(0, 1, 1, 0, 1, 0, 0, 1, 0, 0) 0
+(0, 1, 1, 0, 1, 0, 0, 1, 0, 1) 0
+(0, 1, 1, 0, 1, 0, 0, 1, 1, 0) 0
+(0, 1, 1, 0, 1, 0, 0, 1, 1, 1) 1
+(0, 1, 1, 0, 1, 0, 1, 0, 0, 0) 0
+(0, 1, 1, 0, 1, 0, 1, 0, 0, 1) 0
+(0, 1, 1, 0, 1, 0, 1, 0, 1, 0) 0
+(0, 1, 1, 0, 1, 0, 1, 0, 1, 1) 0
+(0, 1, 1, 0, 1, 0, 1, 1, 0, 0) 0
+(0, 1, 1, 0, 1, 0, 1, 1, 0, 1) 0
+(0, 1, 1, 0, 1, 0, 1, 1, 1, 0) 0
+(0, 1, 1, 0, 1, 0, 1, 1, 1, 1) 0
+(0, 1, 1, 0, 1, 1, 0, 0, 0, 0) 0
+(0, 1, 1, 0, 1, 1, 0, 0, 0, 1) 0
+(0, 1, 1, 0, 1, 1, 0, 0, 1, 0) 0
+(0, 1, 1, 0, 1, 1, 0, 0, 1, 1) 0
+(0, 1, 1, 0, 1, 1, 0, 1, 0, 0) 0
+(0, 1, 1, 0, 1, 1, 0, 1, 0, 1) 0
+(0, 1, 1, 0, 1, 1, 0, 1, 1, 0) 0
+(0, 1, 1, 0, 1, 1, 0, 1, 1, 1) 0
+(0, 1, 1, 0, 1, 1, 1, 0, 0, 0) 0
+(0, 1, 1, 0, 1, 1, 1, 0, 0, 1) 0
+(0, 1, 1, 0, 1, 1, 1, 0, 1, 0) 0
+(0, 1, 1, 0, 1, 1, 1, 0, 1, 1) 0
+(0, 1, 1, 0, 1, 1, 1, 1, 0, 0) 0
+(0, 1, 1, 0, 1, 1, 1, 1, 0, 1) 0
+(0, 1, 1, 0, 1, 1, 1, 1, 1, 0) 0
+(0, 1, 1, 0, 1, 1, 1, 1, 1, 1) 0
+(0, 1, 1, 1, 0, 0, 0, 0, 0, 0) 0
+(0, 1, 1, 1, 0, 0, 0, 0, 0, 1) 0
+(0, 1, 1, 1, 0, 0, 0, 0, 1, 0) 0
+(0, 1, 1, 1, 0, 0, 0, 0, 1, 1) 0
+(0, 1, 1, 1, 0, 0, 0, 1, 0, 0) 0
+(0, 1, 1, 1, 0, 0, 0, 1, 0, 1) 0
+(0, 1, 1, 1, 0, 0, 0, 1, 1, 0) 0
+(0, 1, 1, 1, 0, 0, 0, 1, 1, 1) 1
+(0, 1, 1, 1, 0, 0, 1, 0, 0, 0) 0
+(0, 1, 1, 1, 0, 0, 1, 0, 0, 1) 0
+(0, 1, 1, 1, 0, 0, 1, 0, 1, 0) 0
+(0, 1, 1, 1, 0, 0, 1, 0, 1, 1) 0
+(0, 1, 1, 1, 0, 0, 1, 1, 0, 0) 0
+(0, 1, 1, 1, 0, 0, 1, 1, 0, 1) 0
+(0, 1, 1, 1, 0, 0, 1, 1, 1, 0) 0
+(0, 1, 1, 1, 0, 0, 1, 1, 1, 1) 0
+(0, 1, 1, 1, 0, 1, 0, 0, 0, 0) 0
+(0, 1, 1, 1, 0, 1, 0, 0, 0, 1) 0
+(0, 1, 1, 1, 0, 1, 0, 0, 1, 0) 0
+(0, 1, 1, 1, 0, 1, 0, 0, 1, 1) 0
+(0, 1, 1, 1, 0, 1, 0, 1, 0, 0) 0
+(0, 1, 1, 1, 0, 1, 0, 1, 0, 1) 0
+(0, 1, 1, 1, 0, 1, 0, 1, 1, 0) 0
+(0, 1, 1, 1, 0, 1, 0, 1, 1, 1) 0
+(0, 1, 1, 1, 0, 1, 1, 0, 0, 0) 0
+(0, 1, 1, 1, 0, 1, 1, 0, 0, 1) 0
+(0, 1, 1, 1, 0, 1, 1, 0, 1, 0) 0
+(0, 1, 1, 1, 0, 1, 1, 0, 1, 1) 0
+(0, 1, 1, 1, 0, 1, 1, 1, 0, 0) 0
+(0, 1, 1, 1, 0, 1, 1, 1, 0, 1) 0
+(0, 1, 1, 1, 0, 1, 1, 1, 1, 0) 0
+(0, 1, 1, 1, 0, 1, 1, 1, 1, 1) 0
+(0, 1, 1, 1, 1, 0, 0, 0, 0, 0) 0
+(0, 1, 1, 1, 1, 0, 0, 0, 0, 1) 0
+(0, 1, 1, 1, 1, 0, 0, 0, 1, 0) 0
+(0, 1, 1, 1, 1, 0, 0, 0, 1, 1) 0
+(0, 1, 1, 1, 1, 0, 0, 1, 0, 0) 0
+(0, 1, 1, 1, 1, 0, 0, 1, 0, 1) 0
+(0, 1, 1, 1, 1, 0, 0, 1, 1, 0) 0
+(0, 1, 1, 1, 1, 0, 0, 1, 1, 1) 0
+(0, 1, 1, 1, 1, 0, 1, 0, 0, 0) 0
+(0, 1, 1, 1, 1, 0, 1, 0, 0, 1) 0
+(0, 1, 1, 1, 1, 0, 1, 0, 1, 0) 0
+(0, 1, 1, 1, 1, 0, 1, 0, 1, 1) 0
+(0, 1, 1, 1, 1, 0, 1, 1, 0, 0) 0
+(0, 1, 1, 1, 1, 0, 1, 1, 0, 1) 0
+(0, 1, 1, 1, 1, 0, 1, 1, 1, 0) 0
+(0, 1, 1, 1, 1, 0, 1, 1, 1, 1) 0
+(0, 1, 1, 1, 1, 1, 0, 0, 0, 0) 0
+(0, 1, 1, 1, 1, 1, 0, 0, 0, 1) 0
+(0, 1, 1, 1, 1, 1, 0, 0, 1, 0) 0
+(0, 1, 1, 1, 1, 1, 0, 0, 1, 1) 0
+(0, 1, 1, 1, 1, 1, 0, 1, 0, 0) 0
+(0, 1, 1, 1, 1, 1, 0, 1, 0, 1) 0
+(0, 1, 1, 1, 1, 1, 0, 1, 1, 0) 0
+(0, 1, 1, 1, 1, 1, 0, 1, 1, 1) 0
+(0, 1, 1, 1, 1, 1, 1, 0, 0, 0) 0
+(0, 1, 1, 1, 1, 1, 1, 0, 0, 1) 0
+(0, 1, 1, 1, 1, 1, 1, 0, 1, 0) 0
+(0, 1, 1, 1, 1, 1, 1, 0, 1, 1) 0
+(0, 1, 1, 1, 1, 1, 1, 1, 0, 0) 0
+(0, 1, 1, 1, 1, 1, 1, 1, 0, 1) 0
+(0, 1, 1, 1, 1, 1, 1, 1, 1, 0) 0
+(0, 1, 1, 1, 1, 1, 1, 1, 1, 1) 0
+(1, 0, 0, 0, 0, 0, 0, 0, 0, 0) 1
+(1, 0, 0, 0, 0, 0, 0, 0, 0, 1) 1
+(1, 0, 0, 0, 0, 0, 0, 0, 1, 0) 1
+(1, 0, 0, 0, 0, 0, 0, 0, 1, 1) 1
+(1, 0, 0, 0, 0, 0, 0, 1, 0, 0) 1
+(1, 0, 0, 0, 0, 0, 0, 1, 0, 1) 1
+(1, 0, 0, 0, 0, 0, 0, 1, 1, 0) 1
+(1, 0, 0, 0, 0, 0, 0, 1, 1, 1) 1
+(1, 0, 0, 0, 0, 0, 1, 0, 0, 0) 0
+(1, 0, 0, 0, 0, 0, 1, 0, 0, 1) 1
+(1, 0, 0, 0, 0, 0, 1, 0, 1, 0) 1
+(1, 0, 0, 0, 0, 0, 1, 0, 1, 1) 1
+(1, 0, 0, 0, 0, 0, 1, 1, 0, 0) 1
+(1, 0, 0, 0, 0, 0, 1, 1, 0, 1) 1
+(1, 0, 0, 0, 0, 0, 1, 1, 1, 0) 1
+(1, 0, 0, 0, 0, 0, 1, 1, 1, 1) 1
+(1, 0, 0, 0, 0, 1, 0, 0, 0, 0) 0
+(1, 0, 0, 0, 0, 1, 0, 0, 0, 1) 1
+(1, 0, 0, 0, 0, 1, 0, 0, 1, 0) 1
+(1, 0, 0, 0, 0, 1, 0, 0, 1, 1) 1
+(1, 0, 0, 0, 0, 1, 0, 1, 0, 0) 1
+(1, 0, 0, 0, 0, 1, 0, 1, 0, 1) 1
+(1, 0, 0, 0, 0, 1, 0, 1, 1, 0) 1
+(1, 0, 0, 0, 0, 1, 0, 1, 1, 1) 1
+(1, 0, 0, 0, 0, 1, 1, 0, 0, 0) 0
+(1, 0, 0, 0, 0, 1, 1, 0, 0, 1) 0
+(1, 0, 0, 0, 0, 1, 1, 0, 1, 0) 0
+(1, 0, 0, 0, 0, 1, 1, 0, 1, 1) 1
+(1, 0, 0, 0, 0, 1, 1, 1, 0, 0) 0
+(1, 0, 0, 0, 0, 1, 1, 1, 0, 1) 1
+(1, 0, 0, 0, 0, 1, 1, 1, 1, 0) 1
+(1, 0, 0, 0, 0, 1, 1, 1, 1, 1) 1
+(1, 0, 0, 0, 1, 0, 0, 0, 0, 0) 0
+(1, 0, 0, 0, 1, 0, 0, 0, 0, 1) 1
+(1, 0, 0, 0, 1, 0, 0, 0, 1, 0) 1
+(1, 0, 0, 0, 1, 0, 0, 0, 1, 1) 1
+(1, 0, 0, 0, 1, 0, 0, 1, 0, 0) 1
+(1, 0, 0, 0, 1, 0, 0, 1, 0, 1) 1
+(1, 0, 0, 0, 1, 0, 0, 1, 1, 0) 1
+(1, 0, 0, 0, 1, 0, 0, 1, 1, 1) 1
+(1, 0, 0, 0, 1, 0, 1, 0, 0, 0) 0
+(1, 0, 0, 0, 1, 0, 1, 0, 0, 1) 0
+(1, 0, 0, 0, 1, 0, 1, 0, 1, 0) 0
+(1, 0, 0, 0, 1, 0, 1, 0, 1, 1) 1
+(1, 0, 0, 0, 1, 0, 1, 1, 0, 0) 0
+(1, 0, 0, 0, 1, 0, 1, 1, 0, 1) 1
+(1, 0, 0, 0, 1, 0, 1, 1, 1, 0) 1
+(1, 0, 0, 0, 1, 0, 1, 1, 1, 1) 1
+(1, 0, 0, 0, 1, 1, 0, 0, 0, 0) 0
+(1, 0, 0, 0, 1, 1, 0, 0, 0, 1) 0
+(1, 0, 0, 0, 1, 1, 0, 0, 1, 0) 0
+(1, 0, 0, 0, 1, 1, 0, 0, 1, 1) 1
+(1, 0, 0, 0, 1, 1, 0, 1, 0, 0) 0
+(1, 0, 0, 0, 1, 1, 0, 1, 0, 1) 1
+(1, 0, 0, 0, 1, 1, 0, 1, 1, 0) 1
+(1, 0, 0, 0, 1, 1, 0, 1, 1, 1) 1
+(1, 0, 0, 0, 1, 1, 1, 0, 0, 0) 0
+(1, 0, 0, 0, 1, 1, 1, 0, 0, 1) 0
+(1, 0, 0, 0, 1, 1, 1, 0, 1, 0) 0
+(1, 0, 0, 0, 1, 1, 1, 0, 1, 1) 0
+(1, 0, 0, 0, 1, 1, 1, 1, 0, 0) 0
+(1, 0, 0, 0, 1, 1, 1, 1, 0, 1) 0
+(1, 0, 0, 0, 1, 1, 1, 1, 1, 0) 0
+(1, 0, 0, 0, 1, 1, 1, 1, 1, 1) 1
+(1, 0, 0, 1, 0, 0, 0, 0, 0, 0) 0
+(1, 0, 0, 1, 0, 0, 0, 0, 0, 1) 1
+(1, 0, 0, 1, 0, 0, 0, 0, 1, 0) 1
+(1, 0, 0, 1, 0, 0, 0, 0, 1, 1) 1
+(1, 0, 0, 1, 0, 0, 0, 1, 0, 0) 1
+(1, 0, 0, 1, 0, 0, 0, 1, 0, 1) 1
+(1, 0, 0, 1, 0, 0, 0, 1, 1, 0) 1
+(1, 0, 0, 1, 0, 0, 0, 1, 1, 1) 1
+(1, 0, 0, 1, 0, 0, 1, 0, 0, 0) 0
+(1, 0, 0, 1, 0, 0, 1, 0, 0, 1) 0
+(1, 0, 0, 1, 0, 0, 1, 0, 1, 0) 0
+(1, 0, 0, 1, 0, 0, 1, 0, 1, 1) 1
+(1, 0, 0, 1, 0, 0, 1, 1, 0, 0) 0
+(1, 0, 0, 1, 0, 0, 1, 1, 0, 1) 1
+(1, 0, 0, 1, 0, 0, 1, 1, 1, 0) 1
+(1, 0, 0, 1, 0, 0, 1, 1, 1, 1) 1
+(1, 0, 0, 1, 0, 1, 0, 0, 0, 0) 0
+(1, 0, 0, 1, 0, 1, 0, 0, 0, 1) 0
+(1, 0, 0, 1, 0, 1, 0, 0, 1, 0) 0
+(1, 0, 0, 1, 0, 1, 0, 0, 1, 1) 1
+(1, 0, 0, 1, 0, 1, 0, 1, 0, 0) 0
+(1, 0, 0, 1, 0, 1, 0, 1, 0, 1) 1
+(1, 0, 0, 1, 0, 1, 0, 1, 1, 0) 1
+(1, 0, 0, 1, 0, 1, 0, 1, 1, 1) 1
+(1, 0, 0, 1, 0, 1, 1, 0, 0, 0) 0
+(1, 0, 0, 1, 0, 1, 1, 0, 0, 1) 0
+(1, 0, 0, 1, 0, 1, 1, 0, 1, 0) 0
+(1, 0, 0, 1, 0, 1, 1, 0, 1, 1) 0
+(1, 0, 0, 1, 0, 1, 1, 1, 0, 0) 0
+(1, 0, 0, 1, 0, 1, 1, 1, 0, 1) 0
+(1, 0, 0, 1, 0, 1, 1, 1, 1, 0) 0
+(1, 0, 0, 1, 0, 1, 1, 1, 1, 1) 1
+(1, 0, 0, 1, 1, 0, 0, 0, 0, 0) 0
+(1, 0, 0, 1, 1, 0, 0, 0, 0, 1) 0
+(1, 0, 0, 1, 1, 0, 0, 0, 1, 0) 0
+(1, 0, 0, 1, 1, 0, 0, 0, 1, 1) 1
+(1, 0, 0, 1, 1, 0, 0, 1, 0, 0) 0
+(1, 0, 0, 1, 1, 0, 0, 1, 0, 1) 1
+(1, 0, 0, 1, 1, 0, 0, 1, 1, 0) 1
+(1, 0, 0, 1, 1, 0, 0, 1, 1, 1) 1
+(1, 0, 0, 1, 1, 0, 1, 0, 0, 0) 0
+(1, 0, 0, 1, 1, 0, 1, 0, 0, 1) 0
+(1, 0, 0, 1, 1, 0, 1, 0, 1, 0) 0
+(1, 0, 0, 1, 1, 0, 1, 0, 1, 1) 0
+(1, 0, 0, 1, 1, 0, 1, 1, 0, 0) 0
+(1, 0, 0, 1, 1, 0, 1, 1, 0, 1) 0
+(1, 0, 0, 1, 1, 0, 1, 1, 1, 0) 0
+(1, 0, 0, 1, 1, 0, 1, 1, 1, 1) 1
+(1, 0, 0, 1, 1, 1, 0, 0, 0, 0) 0
+(1, 0, 0, 1, 1, 1, 0, 0, 0, 1) 0
+(1, 0, 0, 1, 1, 1, 0, 0, 1, 0) 0
+(1, 0, 0, 1, 1, 1, 0, 0, 1, 1) 0
+(1, 0, 0, 1, 1, 1, 0, 1, 0, 0) 0
+(1, 0, 0, 1, 1, 1, 0, 1, 0, 1) 0
+(1, 0, 0, 1, 1, 1, 0, 1, 1, 0) 0
+(1, 0, 0, 1, 1, 1, 0, 1, 1, 1) 1
+(1, 0, 0, 1, 1, 1, 1, 0, 0, 0) 0
+(1, 0, 0, 1, 1, 1, 1, 0, 0, 1) 0
+(1, 0, 0, 1, 1, 1, 1, 0, 1, 0) 0
+(1, 0, 0, 1, 1, 1, 1, 0, 1, 1) 0
+(1, 0, 0, 1, 1, 1, 1, 1, 0, 0) 0
+(1, 0, 0, 1, 1, 1, 1, 1, 0, 1) 0
+(1, 0, 0, 1, 1, 1, 1, 1, 1, 0) 0
+(1, 0, 0, 1, 1, 1, 1, 1, 1, 1) 0
+(1, 0, 1, 0, 0, 0, 0, 0, 0, 0) 1
+(1, 0, 1, 0, 0, 0, 0, 0, 0, 1) 1
+(1, 0, 1, 0, 0, 0, 0, 0, 1, 0) 1
+(1, 0, 1, 0, 0, 0, 0, 0, 1, 1) 1
+(1, 0, 1, 0, 0, 0, 0, 1, 0, 0) 1
+(1, 0, 1, 0, 0, 0, 0, 1, 0, 1) 1
+(1, 0, 1, 0, 0, 0, 0, 1, 1, 0) 1
+(1, 0, 1, 0, 0, 0, 0, 1, 1, 1) 1
+(1, 0, 1, 0, 0, 0, 1, 0, 0, 0) 1
+(1, 0, 1, 0, 0, 0, 1, 0, 0, 1) 1
+(1, 0, 1, 0, 0, 0, 1, 0, 1, 0) 1
+(1, 0, 1, 0, 0, 0, 1, 0, 1, 1) 1
+(1, 0, 1, 0, 0, 0, 1, 1, 0, 0) 1
+(1, 0, 1, 0, 0, 0, 1, 1, 0, 1) 1
+(1, 0, 1, 0, 0, 0, 1, 1, 1, 0) 1
+(1, 0, 1, 0, 0, 0, 1, 1, 1, 1) 1
+(1, 0, 1, 0, 0, 1, 0, 0, 0, 0) 1
+(1, 0, 1, 0, 0, 1, 0, 0, 0, 1) 1
+(1, 0, 1, 0, 0, 1, 0, 0, 1, 0) 1
+(1, 0, 1, 0, 0, 1, 0, 0, 1, 1) 1
+(1, 0, 1, 0, 0, 1, 0, 1, 0, 0) 1
+(1, 0, 1, 0, 0, 1, 0, 1, 0, 1) 1
+(1, 0, 1, 0, 0, 1, 0, 1, 1, 0) 1
+(1, 0, 1, 0, 0, 1, 0, 1, 1, 1) 1
+(1, 0, 1, 0, 0, 1, 1, 0, 0, 0) 0
+(1, 0, 1, 0, 0, 1, 1, 0, 0, 1) 1
+(1, 0, 1, 0, 0, 1, 1, 0, 1, 0) 1
+(1, 0, 1, 0, 0, 1, 1, 0, 1, 1) 1
+(1, 0, 1, 0, 0, 1, 1, 1, 0, 0) 1
+(1, 0, 1, 0, 0, 1, 1, 1, 0, 1) 1
+(1, 0, 1, 0, 0, 1, 1, 1, 1, 0) 1
+(1, 0, 1, 0, 0, 1, 1, 1, 1, 1) 1
+(1, 0, 1, 0, 1, 0, 0, 0, 0, 0) 1
+(1, 0, 1, 0, 1, 0, 0, 0, 0, 1) 1
+(1, 0, 1, 0, 1, 0, 0, 0, 1, 0) 1
+(1, 0, 1, 0, 1, 0, 0, 0, 1, 1) 1
+(1, 0, 1, 0, 1, 0, 0, 1, 0, 0) 1
+(1, 0, 1, 0, 1, 0, 0, 1, 0, 1) 1
+(1, 0, 1, 0, 1, 0, 0, 1, 1, 0) 1
+(1, 0, 1, 0, 1, 0, 0, 1, 1, 1) 1
+(1, 0, 1, 0, 1, 0, 1, 0, 0, 0) 0
+(1, 0, 1, 0, 1, 0, 1, 0, 0, 1) 1
+(1, 0, 1, 0, 1, 0, 1, 0, 1, 0) 1
+(1, 0, 1, 0, 1, 0, 1, 0, 1, 1) 1
+(1, 0, 1, 0, 1, 0, 1, 1, 0, 0) 1
+(1, 0, 1, 0, 1, 0, 1, 1, 0, 1) 1
+(1, 0, 1, 0, 1, 0, 1, 1, 1, 0) 1
+(1, 0, 1, 0, 1, 0, 1, 1, 1, 1) 1
+(1, 0, 1, 0, 1, 1, 0, 0, 0, 0) 0
+(1, 0, 1, 0, 1, 1, 0, 0, 0, 1) 1
+(1, 0, 1, 0, 1, 1, 0, 0, 1, 0) 1
+(1, 0, 1, 0, 1, 1, 0, 0, 1, 1) 1
+(1, 0, 1, 0, 1, 1, 0, 1, 0, 0) 1
+(1, 0, 1, 0, 1, 1, 0, 1, 0, 1) 1
+(1, 0, 1, 0, 1, 1, 0, 1, 1, 0) 1
+(1, 0, 1, 0, 1, 1, 0, 1, 1, 1) 1
+(1, 0, 1, 0, 1, 1, 1, 0, 0, 0) 0
+(1, 0, 1, 0, 1, 1, 1, 0, 0, 1) 0
+(1, 0, 1, 0, 1, 1, 1, 0, 1, 0) 0
+(1, 0, 1, 0, 1, 1, 1, 0, 1, 1) 1
+(1, 0, 1, 0, 1, 1, 1, 1, 0, 0) 0
+(1, 0, 1, 0, 1, 1, 1, 1, 0, 1) 1
+(1, 0, 1, 0, 1, 1, 1, 1, 1, 0) 1
+(1, 0, 1, 0, 1, 1, 1, 1, 1, 1) 1
+(1, 0, 1, 1, 0, 0, 0, 0, 0, 0) 1
+(1, 0, 1, 1, 0, 0, 0, 0, 0, 1) 1
+(1, 0, 1, 1, 0, 0, 0, 0, 1, 0) 1
+(1, 0, 1, 1, 0, 0, 0, 0, 1, 1) 1
+(1, 0, 1, 1, 0, 0, 0, 1, 0, 0) 1
+(1, 0, 1, 1, 0, 0, 0, 1, 0, 1) 1
+(1, 0, 1, 1, 0, 0, 0, 1, 1, 0) 1
+(1, 0, 1, 1, 0, 0, 0, 1, 1, 1) 1
+(1, 0, 1, 1, 0, 0, 1, 0, 0, 0) 0
+(1, 0, 1, 1, 0, 0, 1, 0, 0, 1) 1
+(1, 0, 1, 1, 0, 0, 1, 0, 1, 0) 1
+(1, 0, 1, 1, 0, 0, 1, 0, 1, 1) 1
+(1, 0, 1, 1, 0, 0, 1, 1, 0, 0) 1
+(1, 0, 1, 1, 0, 0, 1, 1, 0, 1) 1
+(1, 0, 1, 1, 0, 0, 1, 1, 1, 0) 1
+(1, 0, 1, 1, 0, 0, 1, 1, 1, 1) 1
+(1, 0, 1, 1, 0, 1, 0, 0, 0, 0) 0
+(1, 0, 1, 1, 0, 1, 0, 0, 0, 1) 1
+(1, 0, 1, 1, 0, 1, 0, 0, 1, 0) 1
+(1, 0, 1, 1, 0, 1, 0, 0, 1, 1) 1
+(1, 0, 1, 1, 0, 1, 0, 1, 0, 0) 1
+(1, 0, 1, 1, 0, 1, 0, 1, 0, 1) 1
+(1, 0, 1, 1, 0, 1, 0, 1, 1, 0) 1
+(1, 0, 1, 1, 0, 1, 0, 1, 1, 1) 1
+(1, 0, 1, 1, 0, 1, 1, 0, 0, 0) 0
+(1, 0, 1, 1, 0, 1, 1, 0, 0, 1) 0
+(1, 0, 1, 1, 0, 1, 1, 0, 1, 0) 0
+(1, 0, 1, 1, 0, 1, 1, 0, 1, 1) 1
+(1, 0, 1, 1, 0, 1, 1, 1, 0, 0) 0
+(1, 0, 1, 1, 0, 1, 1, 1, 0, 1) 1
+(1, 0, 1, 1, 0, 1, 1, 1, 1, 0) 1
+(1, 0, 1, 1, 0, 1, 1, 1, 1, 1) 1
+(1, 0, 1, 1, 1, 0, 0, 0, 0, 0) 0
+(1, 0, 1, 1, 1, 0, 0, 0, 0, 1) 1
+(1, 0, 1, 1, 1, 0, 0, 0, 1, 0) 1
+(1, 0, 1, 1, 1, 0, 0, 0, 1, 1) 1
+(1, 0, 1, 1, 1, 0, 0, 1, 0, 0) 1
+(1, 0, 1, 1, 1, 0, 0, 1, 0, 1) 1
+(1, 0, 1, 1, 1, 0, 0, 1, 1, 0) 1
+(1, 0, 1, 1, 1, 0, 0, 1, 1, 1) 1
+(1, 0, 1, 1, 1, 0, 1, 0, 0, 0) 0
+(1, 0, 1, 1, 1, 0, 1, 0, 0, 1) 0
+(1, 0, 1, 1, 1, 0, 1, 0, 1, 0) 0
+(1, 0, 1, 1, 1, 0, 1, 0, 1, 1) 1
+(1, 0, 1, 1, 1, 0, 1, 1, 0, 0) 0
+(1, 0, 1, 1, 1, 0, 1, 1, 0, 1) 1
+(1, 0, 1, 1, 1, 0, 1, 1, 1, 0) 1
+(1, 0, 1, 1, 1, 0, 1, 1, 1, 1) 1
+(1, 0, 1, 1, 1, 1, 0, 0, 0, 0) 0
+(1, 0, 1, 1, 1, 1, 0, 0, 0, 1) 0
+(1, 0, 1, 1, 1, 1, 0, 0, 1, 0) 0
+(1, 0, 1, 1, 1, 1, 0, 0, 1, 1) 1
+(1, 0, 1, 1, 1, 1, 0, 1, 0, 0) 0
+(1, 0, 1, 1, 1, 1, 0, 1, 0, 1) 1
+(1, 0, 1, 1, 1, 1, 0, 1, 1, 0) 1
+(1, 0, 1, 1, 1, 1, 0, 1, 1, 1) 1
+(1, 0, 1, 1, 1, 1, 1, 0, 0, 0) 0
+(1, 0, 1, 1, 1, 1, 1, 0, 0, 1) 0
+(1, 0, 1, 1, 1, 1, 1, 0, 1, 0) 0
+(1, 0, 1, 1, 1, 1, 1, 0, 1, 1) 0
+(1, 0, 1, 1, 1, 1, 1, 1, 0, 0) 0
+(1, 0, 1, 1, 1, 1, 1, 1, 0, 1) 0
+(1, 0, 1, 1, 1, 1, 1, 1, 1, 0) 0
+(1, 0, 1, 1, 1, 1, 1, 1, 1, 1) 1
+(1, 1, 0, 0, 0, 0, 0, 0, 0, 0) 0
+(1, 1, 0, 0, 0, 0, 0, 0, 0, 1) 0
+(1, 1, 0, 0, 0, 0, 0, 0, 1, 0) 0
+(1, 1, 0, 0, 0, 0, 0, 0, 1, 1) 1
+(1, 1, 0, 0, 0, 0, 0, 1, 0, 0) 0
+(1, 1, 0, 0, 0, 0, 0, 1, 0, 1) 1
+(1, 1, 0, 0, 0, 0, 0, 1, 1, 0) 1
+(1, 1, 0, 0, 0, 0, 0, 1, 1, 1) 1
+(1, 1, 0, 0, 0, 0, 1, 0, 0, 0) 0
+(1, 1, 0, 0, 0, 0, 1, 0, 0, 1) 0
+(1, 1, 0, 0, 0, 0, 1, 0, 1, 0) 0
+(1, 1, 0, 0, 0, 0, 1, 0, 1, 1) 0
+(1, 1, 0, 0, 0, 0, 1, 1, 0, 0) 0
+(1, 1, 0, 0, 0, 0, 1, 1, 0, 1) 0
+(1, 1, 0, 0, 0, 0, 1, 1, 1, 0) 0
+(1, 1, 0, 0, 0, 0, 1, 1, 1, 1) 1
+(1, 1, 0, 0, 0, 1, 0, 0, 0, 0) 0
+(1, 1, 0, 0, 0, 1, 0, 0, 0, 1) 0
+(1, 1, 0, 0, 0, 1, 0, 0, 1, 0) 0
+(1, 1, 0, 0, 0, 1, 0, 0, 1, 1) 0
+(1, 1, 0, 0, 0, 1, 0, 1, 0, 0) 0
+(1, 1, 0, 0, 0, 1, 0, 1, 0, 1) 0
+(1, 1, 0, 0, 0, 1, 0, 1, 1, 0) 0
+(1, 1, 0, 0, 0, 1, 0, 1, 1, 1) 1
+(1, 1, 0, 0, 0, 1, 1, 0, 0, 0) 0
+(1, 1, 0, 0, 0, 1, 1, 0, 0, 1) 0
+(1, 1, 0, 0, 0, 1, 1, 0, 1, 0) 0
+(1, 1, 0, 0, 0, 1, 1, 0, 1, 1) 0
+(1, 1, 0, 0, 0, 1, 1, 1, 0, 0) 0
+(1, 1, 0, 0, 0, 1, 1, 1, 0, 1) 0
+(1, 1, 0, 0, 0, 1, 1, 1, 1, 0) 0
+(1, 1, 0, 0, 0, 1, 1, 1, 1, 1) 0
+(1, 1, 0, 0, 1, 0, 0, 0, 0, 0) 0
+(1, 1, 0, 0, 1, 0, 0, 0, 0, 1) 0
+(1, 1, 0, 0, 1, 0, 0, 0, 1, 0) 0
+(1, 1, 0, 0, 1, 0, 0, 0, 1, 1) 0
+(1, 1, 0, 0, 1, 0, 0, 1, 0, 0) 0
+(1, 1, 0, 0, 1, 0, 0, 1, 0, 1) 0
+(1, 1, 0, 0, 1, 0, 0, 1, 1, 0) 0
+(1, 1, 0, 0, 1, 0, 0, 1, 1, 1) 1
+(1, 1, 0, 0, 1, 0, 1, 0, 0, 0) 0
+(1, 1, 0, 0, 1, 0, 1, 0, 0, 1) 0
+(1, 1, 0, 0, 1, 0, 1, 0, 1, 0) 0
+(1, 1, 0, 0, 1, 0, 1, 0, 1, 1) 0
+(1, 1, 0, 0, 1, 0, 1, 1, 0, 0) 0
+(1, 1, 0, 0, 1, 0, 1, 1, 0, 1) 0
+(1, 1, 0, 0, 1, 0, 1, 1, 1, 0) 0
+(1, 1, 0, 0, 1, 0, 1, 1, 1, 1) 0
+(1, 1, 0, 0, 1, 1, 0, 0, 0, 0) 0
+(1, 1, 0, 0, 1, 1, 0, 0, 0, 1) 0
+(1, 1, 0, 0, 1, 1, 0, 0, 1, 0) 0
+(1, 1, 0, 0, 1, 1, 0, 0, 1, 1) 0
+(1, 1, 0, 0, 1, 1, 0, 1, 0, 0) 0
+(1, 1, 0, 0, 1, 1, 0, 1, 0, 1) 0
+(1, 1, 0, 0, 1, 1, 0, 1, 1, 0) 0
+(1, 1, 0, 0, 1, 1, 0, 1, 1, 1) 0
+(1, 1, 0, 0, 1, 1, 1, 0, 0, 0) 0
+(1, 1, 0, 0, 1, 1, 1, 0, 0, 1) 0
+(1, 1, 0, 0, 1, 1, 1, 0, 1, 0) 0
+(1, 1, 0, 0, 1, 1, 1, 0, 1, 1) 0
+(1, 1, 0, 0, 1, 1, 1, 1, 0, 0) 0
+(1, 1, 0, 0, 1, 1, 1, 1, 0, 1) 0
+(1, 1, 0, 0, 1, 1, 1, 1, 1, 0) 0
+(1, 1, 0, 0, 1, 1, 1, 1, 1, 1) 0
+(1, 1, 0, 1, 0, 0, 0, 0, 0, 0) 0
+(1, 1, 0, 1, 0, 0, 0, 0, 0, 1) 0
+(1, 1, 0, 1, 0, 0, 0, 0, 1, 0) 0
+(1, 1, 0, 1, 0, 0, 0, 0, 1, 1) 0
+(1, 1, 0, 1, 0, 0, 0, 1, 0, 0) 0
+(1, 1, 0, 1, 0, 0, 0, 1, 0, 1) 0
+(1, 1, 0, 1, 0, 0, 0, 1, 1, 0) 0
+(1, 1, 0, 1, 0, 0, 0, 1, 1, 1) 1
+(1, 1, 0, 1, 0, 0, 1, 0, 0, 0) 0
+(1, 1, 0, 1, 0, 0, 1, 0, 0, 1) 0
+(1, 1, 0, 1, 0, 0, 1, 0, 1, 0) 0
+(1, 1, 0, 1, 0, 0, 1, 0, 1, 1) 0
+(1, 1, 0, 1, 0, 0, 1, 1, 0, 0) 0
+(1, 1, 0, 1, 0, 0, 1, 1, 0, 1) 0
+(1, 1, 0, 1, 0, 0, 1, 1, 1, 0) 0
+(1, 1, 0, 1, 0, 0, 1, 1, 1, 1) 0
+(1, 1, 0, 1, 0, 1, 0, 0, 0, 0) 0
+(1, 1, 0, 1, 0, 1, 0, 0, 0, 1) 0
+(1, 1, 0, 1, 0, 1, 0, 0, 1, 0) 0
+(1, 1, 0, 1, 0, 1, 0, 0, 1, 1) 0
+(1, 1, 0, 1, 0, 1, 0, 1, 0, 0) 0
+(1, 1, 0, 1, 0, 1, 0, 1, 0, 1) 0
+(1, 1, 0, 1, 0, 1, 0, 1, 1, 0) 0
+(1, 1, 0, 1, 0, 1, 0, 1, 1, 1) 0
+(1, 1, 0, 1, 0, 1, 1, 0, 0, 0) 0
+(1, 1, 0, 1, 0, 1, 1, 0, 0, 1) 0
+(1, 1, 0, 1, 0, 1, 1, 0, 1, 0) 0
+(1, 1, 0, 1, 0, 1, 1, 0, 1, 1) 0
+(1, 1, 0, 1, 0, 1, 1, 1, 0, 0) 0
+(1, 1, 0, 1, 0, 1, 1, 1, 0, 1) 0
+(1, 1, 0, 1, 0, 1, 1, 1, 1, 0) 0
+(1, 1, 0, 1, 0, 1, 1, 1, 1, 1) 0
+(1, 1, 0, 1, 1, 0, 0, 0, 0, 0) 0
+(1, 1, 0, 1, 1, 0, 0, 0, 0, 1) 0
+(1, 1, 0, 1, 1, 0, 0, 0, 1, 0) 0
+(1, 1, 0, 1, 1, 0, 0, 0, 1, 1) 0
+(1, 1, 0, 1, 1, 0, 0, 1, 0, 0) 0
+(1, 1, 0, 1, 1, 0, 0, 1, 0, 1) 0
+(1, 1, 0, 1, 1, 0, 0, 1, 1, 0) 0
+(1, 1, 0, 1, 1, 0, 0, 1, 1, 1) 0
+(1, 1, 0, 1, 1, 0, 1, 0, 0, 0) 0
+(1, 1, 0, 1, 1, 0, 1, 0, 0, 1) 0
+(1, 1, 0, 1, 1, 0, 1, 0, 1, 0) 0
+(1, 1, 0, 1, 1, 0, 1, 0, 1, 1) 0
+(1, 1, 0, 1, 1, 0, 1, 1, 0, 0) 0
+(1, 1, 0, 1, 1, 0, 1, 1, 0, 1) 0
+(1, 1, 0, 1, 1, 0, 1, 1, 1, 0) 0
+(1, 1, 0, 1, 1, 0, 1, 1, 1, 1) 0
+(1, 1, 0, 1, 1, 1, 0, 0, 0, 0) 0
+(1, 1, 0, 1, 1, 1, 0, 0, 0, 1) 0
+(1, 1, 0, 1, 1, 1, 0, 0, 1, 0) 0
+(1, 1, 0, 1, 1, 1, 0, 0, 1, 1) 0
+(1, 1, 0, 1, 1, 1, 0, 1, 0, 0) 0
+(1, 1, 0, 1, 1, 1, 0, 1, 0, 1) 0
+(1, 1, 0, 1, 1, 1, 0, 1, 1, 0) 0
+(1, 1, 0, 1, 1, 1, 0, 1, 1, 1) 0
+(1, 1, 0, 1, 1, 1, 1, 0, 0, 0) 0
+(1, 1, 0, 1, 1, 1, 1, 0, 0, 1) 0
+(1, 1, 0, 1, 1, 1, 1, 0, 1, 0) 0
+(1, 1, 0, 1, 1, 1, 1, 0, 1, 1) 0
+(1, 1, 0, 1, 1, 1, 1, 1, 0, 0) 0
+(1, 1, 0, 1, 1, 1, 1, 1, 0, 1) 0
+(1, 1, 0, 1, 1, 1, 1, 1, 1, 0) 0
+(1, 1, 0, 1, 1, 1, 1, 1, 1, 1) 0
+(1, 1, 1, 0, 0, 0, 0, 0, 0, 0) 0
+(1, 1, 1, 0, 0, 0, 0, 0, 0, 1) 1
+(1, 1, 1, 0, 0, 0, 0, 0, 1, 0) 1
+(1, 1, 1, 0, 0, 0, 0, 0, 1, 1) 1
+(1, 1, 1, 0, 0, 0, 0, 1, 0, 0) 1
+(1, 1, 1, 0, 0, 0, 0, 1, 0, 1) 1
+(1, 1, 1, 0, 0, 0, 0, 1, 1, 0) 1
+(1, 1, 1, 0, 0, 0, 0, 1, 1, 1) 1
+(1, 1, 1, 0, 0, 0, 1, 0, 0, 0) 0
+(1, 1, 1, 0, 0, 0, 1, 0, 0, 1) 0
+(1, 1, 1, 0, 0, 0, 1, 0, 1, 0) 0
+(1, 1, 1, 0, 0, 0, 1, 0, 1, 1) 1
+(1, 1, 1, 0, 0, 0, 1, 1, 0, 0) 0
+(1, 1, 1, 0, 0, 0, 1, 1, 0, 1) 1
+(1, 1, 1, 0, 0, 0, 1, 1, 1, 0) 1
+(1, 1, 1, 0, 0, 0, 1, 1, 1, 1) 1
+(1, 1, 1, 0, 0, 1, 0, 0, 0, 0) 0
+(1, 1, 1, 0, 0, 1, 0, 0, 0, 1) 0
+(1, 1, 1, 0, 0, 1, 0, 0, 1, 0) 0
+(1, 1, 1, 0, 0, 1, 0, 0, 1, 1) 1
+(1, 1, 1, 0, 0, 1, 0, 1, 0, 0) 0
+(1, 1, 1, 0, 0, 1, 0, 1, 0, 1) 1
+(1, 1, 1, 0, 0, 1, 0, 1, 1, 0) 1
+(1, 1, 1, 0, 0, 1, 0, 1, 1, 1) 1
+(1, 1, 1, 0, 0, 1, 1, 0, 0, 0) 0
+(1, 1, 1, 0, 0, 1, 1, 0, 0, 1) 0
+(1, 1, 1, 0, 0, 1, 1, 0, 1, 0) 0
+(1, 1, 1, 0, 0, 1, 1, 0, 1, 1) 0
+(1, 1, 1, 0, 0, 1, 1, 1, 0, 0) 0
+(1, 1, 1, 0, 0, 1, 1, 1, 0, 1) 0
+(1, 1, 1, 0, 0, 1, 1, 1, 1, 0) 0
+(1, 1, 1, 0, 0, 1, 1, 1, 1, 1) 1
+(1, 1, 1, 0, 1, 0, 0, 0, 0, 0) 0
+(1, 1, 1, 0, 1, 0, 0, 0, 0, 1) 0
+(1, 1, 1, 0, 1, 0, 0, 0, 1, 0) 0
+(1, 1, 1, 0, 1, 0, 0, 0, 1, 1) 1
+(1, 1, 1, 0, 1, 0, 0, 1, 0, 0) 0
+(1, 1, 1, 0, 1, 0, 0, 1, 0, 1) 1
+(1, 1, 1, 0, 1, 0, 0, 1, 1, 0) 1
+(1, 1, 1, 0, 1, 0, 0, 1, 1, 1) 1
+(1, 1, 1, 0, 1, 0, 1, 0, 0, 0) 0
+(1, 1, 1, 0, 1, 0, 1, 0, 0, 1) 0
+(1, 1, 1, 0, 1, 0, 1, 0, 1, 0) 0
+(1, 1, 1, 0, 1, 0, 1, 0, 1, 1) 0
+(1, 1, 1, 0, 1, 0, 1, 1, 0, 0) 0
+(1, 1, 1, 0, 1, 0, 1, 1, 0, 1) 0
+(1, 1, 1, 0, 1, 0, 1, 1, 1, 0) 0
+(1, 1, 1, 0, 1, 0, 1, 1, 1, 1) 1
+(1, 1, 1, 0, 1, 1, 0, 0, 0, 0) 0
+(1, 1, 1, 0, 1, 1, 0, 0, 0, 1) 0
+(1, 1, 1, 0, 1, 1, 0, 0, 1, 0) 0
+(1, 1, 1, 0, 1, 1, 0, 0, 1, 1) 0
+(1, 1, 1, 0, 1, 1, 0, 1, 0, 0) 0
+(1, 1, 1, 0, 1, 1, 0, 1, 0, 1) 0
+(1, 1, 1, 0, 1, 1, 0, 1, 1, 0) 0
+(1, 1, 1, 0, 1, 1, 0, 1, 1, 1) 1
+(1, 1, 1, 0, 1, 1, 1, 0, 0, 0) 0
+(1, 1, 1, 0, 1, 1, 1, 0, 0, 1) 0
+(1, 1, 1, 0, 1, 1, 1, 0, 1, 0) 0
+(1, 1, 1, 0, 1, 1, 1, 0, 1, 1) 0
+(1, 1, 1, 0, 1, 1, 1, 1, 0, 0) 0
+(1, 1, 1, 0, 1, 1, 1, 1, 0, 1) 0
+(1, 1, 1, 0, 1, 1, 1, 1, 1, 0) 0
+(1, 1, 1, 0, 1, 1, 1, 1, 1, 1) 0
+(1, 1, 1, 1, 0, 0, 0, 0, 0, 0) 0
+(1, 1, 1, 1, 0, 0, 0, 0, 0, 1) 0
+(1, 1, 1, 1, 0, 0, 0, 0, 1, 0) 0
+(1, 1, 1, 1, 0, 0, 0, 0, 1, 1) 1
+(1, 1, 1, 1, 0, 0, 0, 1, 0, 0) 0
+(1, 1, 1, 1, 0, 0, 0, 1, 0, 1) 1
+(1, 1, 1, 1, 0, 0, 0, 1, 1, 0) 1
+(1, 1, 1, 1, 0, 0, 0, 1, 1, 1) 1
+(1, 1, 1, 1, 0, 0, 1, 0, 0, 0) 0
+(1, 1, 1, 1, 0, 0, 1, 0, 0, 1) 0
+(1, 1, 1, 1, 0, 0, 1, 0, 1, 0) 0
+(1, 1, 1, 1, 0, 0, 1, 0, 1, 1) 0
+(1, 1, 1, 1, 0, 0, 1, 1, 0, 0) 0
+(1, 1, 1, 1, 0, 0, 1, 1, 0, 1) 0
+(1, 1, 1, 1, 0, 0, 1, 1, 1, 0) 0
+(1, 1, 1, 1, 0, 0, 1, 1, 1, 1) 1
+(1, 1, 1, 1, 0, 1, 0, 0, 0, 0) 0
+(1, 1, 1, 1, 0, 1, 0, 0, 0, 1) 0
+(1, 1, 1, 1, 0, 1, 0, 0, 1, 0) 0
+(1, 1, 1, 1, 0, 1, 0, 0, 1, 1) 0
+(1, 1, 1, 1, 0, 1, 0, 1, 0, 0) 0
+(1, 1, 1, 1, 0, 1, 0, 1, 0, 1) 0
+(1, 1, 1, 1, 0, 1, 0, 1, 1, 0) 0
+(1, 1, 1, 1, 0, 1, 0, 1, 1, 1) 1
+(1, 1, 1, 1, 0, 1, 1, 0, 0, 0) 0
+(1, 1, 1, 1, 0, 1, 1, 0, 0, 1) 0
+(1, 1, 1, 1, 0, 1, 1, 0, 1, 0) 0
+(1, 1, 1, 1, 0, 1, 1, 0, 1, 1) 0
+(1, 1, 1, 1, 0, 1, 1, 1, 0, 0) 0
+(1, 1, 1, 1, 0, 1, 1, 1, 0, 1) 0
+(1, 1, 1, 1, 0, 1, 1, 1, 1, 0) 0
+(1, 1, 1, 1, 0, 1, 1, 1, 1, 1) 0
+(1, 1, 1, 1, 1, 0, 0, 0, 0, 0) 0
+(1, 1, 1, 1, 1, 0, 0, 0, 0, 1) 0
+(1, 1, 1, 1, 1, 0, 0, 0, 1, 0) 0
+(1, 1, 1, 1, 1, 0, 0, 0, 1, 1) 0
+(1, 1, 1, 1, 1, 0, 0, 1, 0, 0) 0
+(1, 1, 1, 1, 1, 0, 0, 1, 0, 1) 0
+(1, 1, 1, 1, 1, 0, 0, 1, 1, 0) 0
+(1, 1, 1, 1, 1, 0, 0, 1, 1, 1) 1
+(1, 1, 1, 1, 1, 0, 1, 0, 0, 0) 0
+(1, 1, 1, 1, 1, 0, 1, 0, 0, 1) 0
+(1, 1, 1, 1, 1, 0, 1, 0, 1, 0) 0
+(1, 1, 1, 1, 1, 0, 1, 0, 1, 1) 0
+(1, 1, 1, 1, 1, 0, 1, 1, 0, 0) 0
+(1, 1, 1, 1, 1, 0, 1, 1, 0, 1) 0
+(1, 1, 1, 1, 1, 0, 1, 1, 1, 0) 0
+(1, 1, 1, 1, 1, 0, 1, 1, 1, 1) 0
+(1, 1, 1, 1, 1, 1, 0, 0, 0, 0) 0
+(1, 1, 1, 1, 1, 1, 0, 0, 0, 1) 0
+(1, 1, 1, 1, 1, 1, 0, 0, 1, 0) 0
+(1, 1, 1, 1, 1, 1, 0, 0, 1, 1) 0
+(1, 1, 1, 1, 1, 1, 0, 1, 0, 0) 0
+(1, 1, 1, 1, 1, 1, 0, 1, 0, 1) 0
+(1, 1, 1, 1, 1, 1, 0, 1, 1, 0) 0
+(1, 1, 1, 1, 1, 1, 0, 1, 1, 1) 0
+(1, 1, 1, 1, 1, 1, 1, 0, 0, 0) 0
+(1, 1, 1, 1, 1, 1, 1, 0, 0, 1) 0
+(1, 1, 1, 1, 1, 1, 1, 0, 1, 0) 0
+(1, 1, 1, 1, 1, 1, 1, 0, 1, 1) 0
+(1, 1, 1, 1, 1, 1, 1, 1, 0, 0) 0
+(1, 1, 1, 1, 1, 1, 1, 1, 0, 1) 0
+(1, 1, 1, 1, 1, 1, 1, 1, 1, 0) 0
+(1, 1, 1, 1, 1, 1, 1, 1, 1, 1) 0
+target: S_CycD *= S_FosJun and S_Gli and S_Myc_Max and S_NF_kB and S_TCF and not S_GSK_3 or S_FosJun and S_Gli and S_Myc_Max and S_NF_kB and not S_FOXO and not S_GSK_3 or S_FosJun and S_Gli and S_Myc_Max and S_NF_kB and not S_GSK_3 and not S_p15 or S_FosJun and S_Gli and S_Myc_Max and S_NF_kB and not S_GSK_3 and not S_p21 or S_FosJun and S_Gli and S_Myc_Max and S_NF_kB and not S_GSK_3 and not S_p27 or S_FosJun and S_Gli and S_Myc_Max and S_TCF and not S_FOXO and not S_GSK_3 or S_FosJun and S_Gli and S_Myc_Max and S_TCF and not S_GSK_3 and not S_p15 or S_FosJun and S_Gli and S_Myc_Max and S_TCF and not S_GSK_3 and not S_p21 or S_FosJun and S_Gli and S_Myc_Max and S_TCF and not S_GSK_3 and not S_p27 or S_FosJun and S_Gli and S_Myc_Max and not S_FOXO and not S_GSK_3 and not S_p15 or S_FosJun and S_Gli and S_Myc_Max and not S_FOXO and not S_GSK_3 and not S_p21 or S_FosJun and S_Gli and S_Myc_Max and not S_FOXO and not S_GSK_3 and not S_p27 or S_FosJun and S_Gli and S_Myc_Max and not S_GSK_3 and not S_p15 and not S_p21 or S_FosJun and S_Gli and S_Myc_Max and not S_GSK_3 and not S_p15 and not S_p27 or S_FosJun and S_Gli and S_Myc_Max and not S_GSK_3 and not S_p21 and not S_p27 or S_FosJun and S_Gli and S_NF_kB and S_TCF and not S_FOXO and not S_GSK_3 or S_FosJun and S_Gli and S_NF_kB and S_TCF and not S_GSK_3 and not S_p15 or S_FosJun and S_Gli and S_NF_kB and S_TCF and not S_GSK_3 and not S_p21 or S_FosJun and S_Gli and S_NF_kB and S_TCF and not S_GSK_3 and not S_p27 or S_FosJun and S_Gli and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p15 or S_FosJun and S_Gli and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p21 or S_FosJun and S_Gli and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p27 or S_FosJun and S_Gli and S_NF_kB and not S_GSK_3 and not S_p15 and not S_p21 or S_FosJun and S_Gli and S_NF_kB and not S_GSK_3 and not S_p15 and not S_p27 or S_FosJun and S_Gli and S_NF_kB and not S_GSK_3 and not S_p21 and not S_p27 or S_FosJun and S_Gli and S_TCF and not S_FOXO and not S_GSK_3 and not S_p15 or S_FosJun and S_Gli and S_TCF and not S_FOXO and not S_GSK_3 and not S_p21 or S_FosJun and S_Gli and S_TCF and not S_FOXO and not S_GSK_3 and not S_p27 or S_FosJun and S_Gli and S_TCF and not S_GSK_3 and not S_p15 and not S_p21 or S_FosJun and S_Gli and S_TCF and not S_GSK_3 and not S_p15 and not S_p27 or S_FosJun and S_Gli and S_TCF and not S_GSK_3 and not S_p21 and not S_p27 or S_FosJun and S_Gli and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p21 or S_FosJun and S_Gli and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p27 or S_FosJun and S_Gli and not S_FOXO and not S_GSK_3 and not S_p21 and not S_p27 or S_FosJun and S_Gli and not S_GSK_3 and not S_p15 and not S_p21 and not S_p27 or S_FosJun and S_Myc_Max and S_NF_kB and S_TCF and not S_FOXO and not S_GSK_3 or S_FosJun and S_Myc_Max and S_NF_kB and S_TCF and not S_GSK_3 and not S_p15 or S_FosJun and S_Myc_Max and S_NF_kB and S_TCF and not S_GSK_3 and not S_p21 or S_FosJun and S_Myc_Max and S_NF_kB and S_TCF and not S_GSK_3 and not S_p27 or S_FosJun and S_Myc_Max and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p15 or S_FosJun and S_Myc_Max and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p21 or S_FosJun and S_Myc_Max and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p27 or S_FosJun and S_Myc_Max and S_NF_kB and not S_GSK_3 and not S_p15 and not S_p21 or S_FosJun and S_Myc_Max and S_NF_kB and not S_GSK_3 and not S_p15 and not S_p27 or S_FosJun and S_Myc_Max and S_NF_kB and not S_GSK_3 and not S_p21 and not S_p27 or S_FosJun and S_Myc_Max and S_TCF and not S_FOXO and not S_GSK_3 and not S_p15 or S_FosJun and S_Myc_Max and S_TCF and not S_FOXO and not S_GSK_3 and not S_p21 or S_FosJun and S_Myc_Max and S_TCF and not S_FOXO and not S_GSK_3 and not S_p27 or S_FosJun and S_Myc_Max and S_TCF and not S_GSK_3 and not S_p15 and not S_p21 or S_FosJun and S_Myc_Max and S_TCF and not S_GSK_3 and not S_p15 and not S_p27 or S_FosJun and S_Myc_Max and S_TCF and not S_GSK_3 and not S_p21 and not S_p27 or S_FosJun and S_Myc_Max and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p21 or S_FosJun and S_Myc_Max and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p27 or S_FosJun and S_Myc_Max and not S_FOXO and not S_GSK_3 and not S_p21 and not S_p27 or S_FosJun and S_Myc_Max and not S_GSK_3 and not S_p15 and not S_p21 and not S_p27 or S_FosJun and S_NF_kB and S_TCF and not S_FOXO and not S_GSK_3 and not S_p15 or S_FosJun and S_NF_kB and S_TCF and not S_FOXO and not S_GSK_3 and not S_p21 or S_FosJun and S_NF_kB and S_TCF and not S_FOXO and not S_GSK_3 and not S_p27 or S_FosJun and S_NF_kB and S_TCF and not S_GSK_3 and not S_p15 and not S_p21 or S_FosJun and S_NF_kB and S_TCF and not S_GSK_3 and not S_p15 and not S_p27 or S_FosJun and S_NF_kB and S_TCF and not S_GSK_3 and not S_p21 and not S_p27 or S_FosJun and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p21 or S_FosJun and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p27 or S_FosJun and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p21 and not S_p27 or S_FosJun and S_NF_kB and not S_GSK_3 and not S_p15 and not S_p21 and not S_p27 or S_FosJun and S_TCF and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p21 or S_FosJun and S_TCF and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p27 or S_FosJun and S_TCF and not S_FOXO and not S_GSK_3 and not S_p21 and not S_p27 or S_FosJun and S_TCF and not S_GSK_3 and not S_p15 and not S_p21 and not S_p27 or S_FosJun and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p21 and not S_p27 or S_Gli and S_Myc_Max and S_NF_kB and S_TCF and not S_FOXO and not S_GSK_3 or S_Gli and S_Myc_Max and S_NF_kB and S_TCF and not S_GSK_3 and not S_p15 or S_Gli and S_Myc_Max and S_NF_kB and S_TCF and not S_GSK_3 and not S_p21 or S_Gli and S_Myc_Max and S_NF_kB and S_TCF and not S_GSK_3 and not S_p27 or S_Gli and S_Myc_Max and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p15 or S_Gli and S_Myc_Max and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p21 or S_Gli and S_Myc_Max and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p27 or S_Gli and S_Myc_Max and S_NF_kB and not S_GSK_3 and not S_p15 and not S_p21 or S_Gli and S_Myc_Max and S_NF_kB and not S_GSK_3 and not S_p15 and not S_p27 or S_Gli and S_Myc_Max and S_NF_kB and not S_GSK_3 and not S_p21 and not S_p27 or S_Gli and S_Myc_Max and S_TCF and not S_FOXO and not S_GSK_3 and not S_p15 or S_Gli and S_Myc_Max and S_TCF and not S_FOXO and not S_GSK_3 and not S_p21 or S_Gli and S_Myc_Max and S_TCF and not S_FOXO and not S_GSK_3 and not S_p27 or S_Gli and S_Myc_Max and S_TCF and not S_GSK_3 and not S_p15 and not S_p21 or S_Gli and S_Myc_Max and S_TCF and not S_GSK_3 and not S_p15 and not S_p27 or S_Gli and S_Myc_Max and S_TCF and not S_GSK_3 and not S_p21 and not S_p27 or S_Gli and S_Myc_Max and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p21 or S_Gli and S_Myc_Max and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p27 or S_Gli and S_Myc_Max and not S_FOXO and not S_GSK_3 and not S_p21 and not S_p27 or S_Gli and S_Myc_Max and not S_GSK_3 and not S_p15 and not S_p21 and not S_p27 or S_Gli and S_NF_kB and S_TCF and not S_FOXO and not S_GSK_3 and not S_p15 or S_Gli and S_NF_kB and S_TCF and not S_FOXO and not S_GSK_3 and not S_p21 or S_Gli and S_NF_kB and S_TCF and not S_FOXO and not S_GSK_3 and not S_p27 or S_Gli and S_NF_kB and S_TCF and not S_GSK_3 and not S_p15 and not S_p21 or S_Gli and S_NF_kB and S_TCF and not S_GSK_3 and not S_p15 and not S_p27 or S_Gli and S_NF_kB and S_TCF and not S_GSK_3 and not S_p21 and not S_p27 or S_Gli and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p21 or S_Gli and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p27 or S_Gli and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p21 and not S_p27 or S_Gli and S_NF_kB and not S_GSK_3 and not S_p15 and not S_p21 and not S_p27 or S_Gli and S_TCF and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p21 or S_Gli and S_TCF and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p27 or S_Gli and S_TCF and not S_FOXO and not S_GSK_3 and not S_p21 and not S_p27 or S_Gli and S_TCF and not S_GSK_3 and not S_p15 and not S_p21 and not S_p27 or S_Gli and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p21 and not S_p27 or S_Myc_Max and S_NF_kB and S_TCF and not S_FOXO and not S_GSK_3 and not S_p15 or S_Myc_Max and S_NF_kB and S_TCF and not S_FOXO and not S_GSK_3 and not S_p21 or S_Myc_Max and S_NF_kB and S_TCF and not S_FOXO and not S_GSK_3 and not S_p27 or S_Myc_Max and S_NF_kB and S_TCF and not S_GSK_3 and not S_p15 and not S_p21 or S_Myc_Max and S_NF_kB and S_TCF and not S_GSK_3 and not S_p15 and not S_p27 or S_Myc_Max and S_NF_kB and S_TCF and not S_GSK_3 and not S_p21 and not S_p27 or S_Myc_Max and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p21 or S_Myc_Max and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p27 or S_Myc_Max and S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p21 and not S_p27 or S_Myc_Max and S_NF_kB and not S_GSK_3 and not S_p15 and not S_p21 and not S_p27 or S_Myc_Max and S_TCF and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p21 or S_Myc_Max and S_TCF and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p27 or S_Myc_Max and S_TCF and not S_FOXO and not S_GSK_3 and not S_p21 and not S_p27 or S_Myc_Max and S_TCF and not S_GSK_3 and not S_p15 and not S_p21 and not S_p27 or S_Myc_Max and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p21 and not S_p27 or S_NF_kB and S_TCF and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p21 or S_NF_kB and S_TCF and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p27 or S_NF_kB and S_TCF and not S_FOXO and not S_GSK_3 and not S_p21 and not S_p27 or S_NF_kB and S_TCF and not S_GSK_3 and not S_p15 and not S_p21 and not S_p27 or S_NF_kB and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p21 and not S_p27 or S_TCF and not S_FOXO and not S_GSK_3 and not S_p15 and not S_p21 and not S_p27 or S_FosJun and S_Gli and S_Myc_Max and S_NF_kB and S_TCF and not S_FOXO and not S_p15 or S_FosJun and S_Gli and S_Myc_Max and S_NF_kB and S_TCF and not S_FOXO and not S_p21 or S_FosJun and S_Gli and S_Myc_Max and S_NF_kB and S_TCF and not S_FOXO and not S_p27 or S_FosJun and S_Gli and S_Myc_Max and S_NF_kB and S_TCF and not S_p15 and not S_p21 or S_FosJun and S_Gli and S_Myc_Max and S_NF_kB and S_TCF and not S_p15 and not S_p27 or S_FosJun and S_Gli and S_Myc_Max and S_NF_kB and S_TCF and not S_p21 and not S_p27 or S_FosJun and S_Gli and S_Myc_Max and S_NF_kB and not S_FOXO and not S_p15 and not S_p21 or S_FosJun and S_Gli and S_Myc_Max and S_NF_kB and not S_FOXO and not S_p15 and not S_p27 or S_FosJun and S_Gli and S_Myc_Max and S_NF_kB and not S_FOXO and not S_p21 and not S_p27 or S_FosJun and S_Gli and S_Myc_Max and S_NF_kB and not S_p15 and not S_p21 and not S_p27 or S_FosJun and S_Gli and S_Myc_Max and S_TCF and not S_FOXO and not S_p15 and not S_p21 or S_FosJun and S_Gli and S_Myc_Max and S_TCF and not S_FOXO and not S_p15 and not S_p27 or S_FosJun and S_Gli and S_Myc_Max and S_TCF and not S_FOXO and not S_p21 and not S_p27 or S_FosJun and S_Gli and S_Myc_Max and S_TCF and not S_p15 and not S_p21 and not S_p27 or S_FosJun and S_Gli and S_Myc_Max and not S_FOXO and not S_p15 and not S_p21 and not S_p27 or S_FosJun and S_Gli and S_NF_kB and S_TCF and not S_FOXO and not S_p15 and not S_p21 or S_FosJun and S_Gli and S_NF_kB and S_TCF and not S_FOXO and not S_p15 and not S_p27 or S_FosJun and S_Gli and S_NF_kB and S_TCF and not S_FOXO and not S_p21 and not S_p27 or S_FosJun and S_Gli and S_NF_kB and S_TCF and not S_p15 and not S_p21 and not S_p27 or S_FosJun and S_Gli and S_NF_kB and not S_FOXO and not S_p15 and not S_p21 and not S_p27 or S_FosJun and S_Gli and S_TCF and not S_FOXO and not S_p15 and not S_p21 and not S_p27 or S_FosJun and S_Myc_Max and S_NF_kB and S_TCF and not S_FOXO and not S_p15 and not S_p21 or S_FosJun and S_Myc_Max and S_NF_kB and S_TCF and not S_FOXO and not S_p15 and not S_p27 or S_FosJun and S_Myc_Max and S_NF_kB and S_TCF and not S_FOXO and not S_p21 and not S_p27 or S_FosJun and S_Myc_Max and S_NF_kB and S_TCF and not S_p15 and not S_p21 and not S_p27 or S_FosJun and S_Myc_Max and S_NF_kB and not S_FOXO and not S_p15 and not S_p21 and not S_p27 or S_FosJun and S_Myc_Max and S_TCF and not S_FOXO and not S_p15 and not S_p21 and not S_p27 or S_FosJun and S_NF_kB and S_TCF and not S_FOXO and not S_p15 and not S_p21 and not S_p27 or S_Gli and S_Myc_Max and S_NF_kB and S_TCF and not S_FOXO and not S_p15 and not S_p21 or S_Gli and S_Myc_Max and S_NF_kB and S_TCF and not S_FOXO and not S_p15 and not S_p27 or S_Gli and S_Myc_Max and S_NF_kB and S_TCF and not S_FOXO and not S_p21 and not S_p27 or S_Gli and S_Myc_Max and S_NF_kB and S_TCF and not S_p15 and not S_p21 and not S_p27 or S_Gli and S_Myc_Max and S_NF_kB and not S_FOXO and not S_p15 and not S_p21 and not S_p27 or S_Gli and S_Myc_Max and S_TCF and not S_FOXO and not S_p15 and not S_p21 and not S_p27 or S_Gli and S_NF_kB and S_TCF and not S_FOXO and not S_p15 and not S_p21 and not S_p27 or S_Myc_Max and S_NF_kB and S_TCF and not S_FOXO and not S_p15 and not S_p21 and not S_p27
+
+source:  S_CycE *= sgn_th(-S_Rb+S_E2F-S_CycA-S_p27-S_p21)
+input: ['S_Rb', 'S_E2F', 'S_CycA', 'S_p27', 'S_p21']
+output: S_CycE
+table:
+(0, 0, 0, 0, 0) 0
+(0, 0, 0, 0, 1) 0
+(0, 0, 0, 1, 0) 0
+(0, 0, 0, 1, 1) 0
+(0, 0, 1, 0, 0) 0
+(0, 0, 1, 0, 1) 0
+(0, 0, 1, 1, 0) 0
+(0, 0, 1, 1, 1) 0
+(0, 1, 0, 0, 0) 1
+(0, 1, 0, 0, 1) 0
+(0, 1, 0, 1, 0) 0
+(0, 1, 0, 1, 1) 0
+(0, 1, 1, 0, 0) 0
+(0, 1, 1, 0, 1) 0
+(0, 1, 1, 1, 0) 0
+(0, 1, 1, 1, 1) 0
+(1, 0, 0, 0, 0) 0
+(1, 0, 0, 0, 1) 0
+(1, 0, 0, 1, 0) 0
+(1, 0, 0, 1, 1) 0
+(1, 0, 1, 0, 0) 0
+(1, 0, 1, 0, 1) 0
+(1, 0, 1, 1, 0) 0
+(1, 0, 1, 1, 1) 0
+(1, 1, 0, 0, 0) 0
+(1, 1, 0, 0, 1) 0
+(1, 1, 0, 1, 0) 0
+(1, 1, 0, 1, 1) 0
+(1, 1, 1, 0, 0) 0
+(1, 1, 1, 0, 1) 0
+(1, 1, 1, 1, 0) 0
+(1, 1, 1, 1, 1) 0
+target: S_CycE *= S_E2F and not S_CycA and not S_Rb and not S_p21 and not S_p27
+
+source:  S_cdh1 *= sgn_th(-S_CycA-S_CycB+S_cdc20+1)
+input: ['S_CycA', 'S_CycB', 'S_cdc20']
+output: S_cdh1
+table:
+(0, 0, 0) 1
+(0, 0, 1) 1
+(0, 1, 0) 0
+(0, 1, 1) 1
+(1, 0, 0) 0
+(1, 0, 1) 1
+(1, 1, 0) 0
+(1, 1, 1) 0
+target: S_cdh1 *= S_cdc20 and not S_CycA or S_cdc20 and not S_CycB or not S_CycA and not S_CycB
+
+source:  S_cdc20 *= sgn_th(S_CycB-S_cdh1)
+input: ['S_CycB', 'S_cdh1']
+output: S_cdc20
+table:
+(0, 0) 0
+(0, 1) 0
+(1, 0) 1
+(1, 1) 0
+target: S_cdc20 *= S_CycB and not S_cdh1
+
+source:  S_UbcH10 *= sgn_th(S_CycA+S_CycB-S_cdh1+S_cdc20+S_UbcH10)
+input: ['S_CycA', 'S_CycB', 'S_cdh1', 'S_cdc20', 'S_UbcH10']
+output: S_UbcH10
+table:
+(0, 0, 0, 0, 0) 0
+(0, 0, 0, 0, 1) 1
+(0, 0, 0, 1, 0) 1
+(0, 0, 0, 1, 1) 1
+(0, 0, 1, 0, 0) 0
+(0, 0, 1, 0, 1) 0
+(0, 0, 1, 1, 0) 0
+(0, 0, 1, 1, 1) 1
+(0, 1, 0, 0, 0) 1
+(0, 1, 0, 0, 1) 1
+(0, 1, 0, 1, 0) 1
+(0, 1, 0, 1, 1) 1
+(0, 1, 1, 0, 0) 0
+(0, 1, 1, 0, 1) 1
+(0, 1, 1, 1, 0) 1
+(0, 1, 1, 1, 1) 1
+(1, 0, 0, 0, 0) 1
+(1, 0, 0, 0, 1) 1
+(1, 0, 0, 1, 0) 1
+(1, 0, 0, 1, 1) 1
+(1, 0, 1, 0, 0) 0
+(1, 0, 1, 0, 1) 1
+(1, 0, 1, 1, 0) 1
+(1, 0, 1, 1, 1) 1
+(1, 1, 0, 0, 0) 1
+(1, 1, 0, 0, 1) 1
+(1, 1, 0, 1, 0) 1
+(1, 1, 0, 1, 1) 1
+(1, 1, 1, 0, 0) 1
+(1, 1, 1, 0, 1) 1
+(1, 1, 1, 1, 0) 1
+(1, 1, 1, 1, 1) 1
+target: S_UbcH10 *= S_CycA and S_CycB or S_CycA and S_UbcH10 or S_CycA and S_cdc20 or S_CycA and not S_cdh1 or S_CycB and S_UbcH10 or S_CycB and S_cdc20 or S_CycB and not S_cdh1 or S_UbcH10 and S_cdc20 or S_UbcH10 and not S_cdh1 or S_cdc20 and not S_cdh1
+
+source:  S_p27 *= sgn_th(-S_AKT+S_HIF1-S_Myc_Max-S_CycA-S_CycB-S_CycD+S_SmadMiz_1+1)
+input: ['S_AKT', 'S_HIF1', 'S_Myc_Max', 'S_CycA', 'S_CycB', 'S_CycD', 'S_SmadMiz_1']
+output: S_p27
+table:
+(0, 0, 0, 0, 0, 0, 0) 1
+(0, 0, 0, 0, 0, 0, 1) 1
+(0, 0, 0, 0, 0, 1, 0) 0
+(0, 0, 0, 0, 0, 1, 1) 1
+(0, 0, 0, 0, 1, 0, 0) 0
+(0, 0, 0, 0, 1, 0, 1) 1
+(0, 0, 0, 0, 1, 1, 0) 0
+(0, 0, 0, 0, 1, 1, 1) 0
+(0, 0, 0, 1, 0, 0, 0) 0
+(0, 0, 0, 1, 0, 0, 1) 1
+(0, 0, 0, 1, 0, 1, 0) 0
+(0, 0, 0, 1, 0, 1, 1) 0
+(0, 0, 0, 1, 1, 0, 0) 0
+(0, 0, 0, 1, 1, 0, 1) 0
+(0, 0, 0, 1, 1, 1, 0) 0
+(0, 0, 0, 1, 1, 1, 1) 0
+(0, 0, 1, 0, 0, 0, 0) 0
+(0, 0, 1, 0, 0, 0, 1) 1
+(0, 0, 1, 0, 0, 1, 0) 0
+(0, 0, 1, 0, 0, 1, 1) 0
+(0, 0, 1, 0, 1, 0, 0) 0
+(0, 0, 1, 0, 1, 0, 1) 0
+(0, 0, 1, 0, 1, 1, 0) 0
+(0, 0, 1, 0, 1, 1, 1) 0
+(0, 0, 1, 1, 0, 0, 0) 0
+(0, 0, 1, 1, 0, 0, 1) 0
+(0, 0, 1, 1, 0, 1, 0) 0
+(0, 0, 1, 1, 0, 1, 1) 0
+(0, 0, 1, 1, 1, 0, 0) 0
+(0, 0, 1, 1, 1, 0, 1) 0
+(0, 0, 1, 1, 1, 1, 0) 0
+(0, 0, 1, 1, 1, 1, 1) 0
+(0, 1, 0, 0, 0, 0, 0) 1
+(0, 1, 0, 0, 0, 0, 1) 1
+(0, 1, 0, 0, 0, 1, 0) 1
+(0, 1, 0, 0, 0, 1, 1) 1
+(0, 1, 0, 0, 1, 0, 0) 1
+(0, 1, 0, 0, 1, 0, 1) 1
+(0, 1, 0, 0, 1, 1, 0) 0
+(0, 1, 0, 0, 1, 1, 1) 1
+(0, 1, 0, 1, 0, 0, 0) 1
+(0, 1, 0, 1, 0, 0, 1) 1
+(0, 1, 0, 1, 0, 1, 0) 0
+(0, 1, 0, 1, 0, 1, 1) 1
+(0, 1, 0, 1, 1, 0, 0) 0
+(0, 1, 0, 1, 1, 0, 1) 1
+(0, 1, 0, 1, 1, 1, 0) 0
+(0, 1, 0, 1, 1, 1, 1) 0
+(0, 1, 1, 0, 0, 0, 0) 1
+(0, 1, 1, 0, 0, 0, 1) 1
+(0, 1, 1, 0, 0, 1, 0) 0
+(0, 1, 1, 0, 0, 1, 1) 1
+(0, 1, 1, 0, 1, 0, 0) 0
+(0, 1, 1, 0, 1, 0, 1) 1
+(0, 1, 1, 0, 1, 1, 0) 0
+(0, 1, 1, 0, 1, 1, 1) 0
+(0, 1, 1, 1, 0, 0, 0) 0
+(0, 1, 1, 1, 0, 0, 1) 1
+(0, 1, 1, 1, 0, 1, 0) 0
+(0, 1, 1, 1, 0, 1, 1) 0
+(0, 1, 1, 1, 1, 0, 0) 0
+(0, 1, 1, 1, 1, 0, 1) 0
+(0, 1, 1, 1, 1, 1, 0) 0
+(0, 1, 1, 1, 1, 1, 1) 0
+(1, 0, 0, 0, 0, 0, 0) 0
+(1, 0, 0, 0, 0, 0, 1) 1
+(1, 0, 0, 0, 0, 1, 0) 0
+(1, 0, 0, 0, 0, 1, 1) 0
+(1, 0, 0, 0, 1, 0, 0) 0
+(1, 0, 0, 0, 1, 0, 1) 0
+(1, 0, 0, 0, 1, 1, 0) 0
+(1, 0, 0, 0, 1, 1, 1) 0
+(1, 0, 0, 1, 0, 0, 0) 0
+(1, 0, 0, 1, 0, 0, 1) 0
+(1, 0, 0, 1, 0, 1, 0) 0
+(1, 0, 0, 1, 0, 1, 1) 0
+(1, 0, 0, 1, 1, 0, 0) 0
+(1, 0, 0, 1, 1, 0, 1) 0
+(1, 0, 0, 1, 1, 1, 0) 0
+(1, 0, 0, 1, 1, 1, 1) 0
+(1, 0, 1, 0, 0, 0, 0) 0
+(1, 0, 1, 0, 0, 0, 1) 0
+(1, 0, 1, 0, 0, 1, 0) 0
+(1, 0, 1, 0, 0, 1, 1) 0
+(1, 0, 1, 0, 1, 0, 0) 0
+(1, 0, 1, 0, 1, 0, 1) 0
+(1, 0, 1, 0, 1, 1, 0) 0
+(1, 0, 1, 0, 1, 1, 1) 0
+(1, 0, 1, 1, 0, 0, 0) 0
+(1, 0, 1, 1, 0, 0, 1) 0
+(1, 0, 1, 1, 0, 1, 0) 0
+(1, 0, 1, 1, 0, 1, 1) 0
+(1, 0, 1, 1, 1, 0, 0) 0
+(1, 0, 1, 1, 1, 0, 1) 0
+(1, 0, 1, 1, 1, 1, 0) 0
+(1, 0, 1, 1, 1, 1, 1) 0
+(1, 1, 0, 0, 0, 0, 0) 1
+(1, 1, 0, 0, 0, 0, 1) 1
+(1, 1, 0, 0, 0, 1, 0) 0
+(1, 1, 0, 0, 0, 1, 1) 1
+(1, 1, 0, 0, 1, 0, 0) 0
+(1, 1, 0, 0, 1, 0, 1) 1
+(1, 1, 0, 0, 1, 1, 0) 0
+(1, 1, 0, 0, 1, 1, 1) 0
+(1, 1, 0, 1, 0, 0, 0) 0
+(1, 1, 0, 1, 0, 0, 1) 1
+(1, 1, 0, 1, 0, 1, 0) 0
+(1, 1, 0, 1, 0, 1, 1) 0
+(1, 1, 0, 1, 1, 0, 0) 0
+(1, 1, 0, 1, 1, 0, 1) 0
+(1, 1, 0, 1, 1, 1, 0) 0
+(1, 1, 0, 1, 1, 1, 1) 0
+(1, 1, 1, 0, 0, 0, 0) 0
+(1, 1, 1, 0, 0, 0, 1) 1
+(1, 1, 1, 0, 0, 1, 0) 0
+(1, 1, 1, 0, 0, 1, 1) 0
+(1, 1, 1, 0, 1, 0, 0) 0
+(1, 1, 1, 0, 1, 0, 1) 0
+(1, 1, 1, 0, 1, 1, 0) 0
+(1, 1, 1, 0, 1, 1, 1) 0
+(1, 1, 1, 1, 0, 0, 0) 0
+(1, 1, 1, 1, 0, 0, 1) 0
+(1, 1, 1, 1, 0, 1, 0) 0
+(1, 1, 1, 1, 0, 1, 1) 0
+(1, 1, 1, 1, 1, 0, 0) 0
+(1, 1, 1, 1, 1, 0, 1) 0
+(1, 1, 1, 1, 1, 1, 0) 0
+(1, 1, 1, 1, 1, 1, 1) 0
+target: S_p27 *= S_HIF1 and S_SmadMiz_1 and not S_AKT and not S_CycA and not S_CycB or S_HIF1 and S_SmadMiz_1 and not S_AKT and not S_CycA and not S_CycD or S_HIF1 and S_SmadMiz_1 and not S_AKT and not S_CycA and not S_Myc_Max or S_HIF1 and S_SmadMiz_1 and not S_AKT and not S_CycB and not S_CycD or S_HIF1 and S_SmadMiz_1 and not S_AKT and not S_CycB and not S_Myc_Max or S_HIF1 and S_SmadMiz_1 and not S_AKT and not S_CycD and not S_Myc_Max or S_HIF1 and S_SmadMiz_1 and not S_CycA and not S_CycB and not S_CycD or S_HIF1 and S_SmadMiz_1 and not S_CycA and not S_CycB and not S_Myc_Max or S_HIF1 and S_SmadMiz_1 and not S_CycA and not S_CycD and not S_Myc_Max or S_HIF1 and S_SmadMiz_1 and not S_CycB and not S_CycD and not S_Myc_Max or S_HIF1 and not S_AKT and not S_CycA and not S_CycB and not S_CycD or S_HIF1 and not S_AKT and not S_CycA and not S_CycB and not S_Myc_Max or S_HIF1 and not S_AKT and not S_CycA and not S_CycD and not S_Myc_Max or S_HIF1 and not S_AKT and not S_CycB and not S_CycD and not S_Myc_Max or S_HIF1 and not S_CycA and not S_CycB and not S_CycD and not S_Myc_Max or S_SmadMiz_1 and not S_AKT and not S_CycA and not S_CycB and not S_CycD or S_SmadMiz_1 and not S_AKT and not S_CycA and not S_CycB and not S_Myc_Max or S_SmadMiz_1 and not S_AKT and not S_CycA and not S_CycD and not S_Myc_Max or S_SmadMiz_1 and not S_AKT and not S_CycB and not S_CycD and not S_Myc_Max or S_SmadMiz_1 and not S_CycA and not S_CycB and not S_CycD and not S_Myc_Max or not S_AKT and not S_CycA and not S_CycB and not S_CycD and not S_Myc_Max
+
+source:  S_p21 *= sgn_th(-S_AKT+S_HIF1-S_Myc_Max+S_p53+S_SmadMiz_1-S_hTERT+1)
+input: ['S_AKT', 'S_HIF1', 'S_Myc_Max', 'S_p53', 'S_SmadMiz_1', 'S_hTERT']
+output: S_p21
+table:
+(0, 0, 0, 0, 0, 0) 1
+(0, 0, 0, 0, 0, 1) 0
+(0, 0, 0, 0, 1, 0) 1
+(0, 0, 0, 0, 1, 1) 1
+(0, 0, 0, 1, 0, 0) 1
+(0, 0, 0, 1, 0, 1) 1
+(0, 0, 0, 1, 1, 0) 1
+(0, 0, 0, 1, 1, 1) 1
+(0, 0, 1, 0, 0, 0) 0
+(0, 0, 1, 0, 0, 1) 0
+(0, 0, 1, 0, 1, 0) 1
+(0, 0, 1, 0, 1, 1) 0
+(0, 0, 1, 1, 0, 0) 1
+(0, 0, 1, 1, 0, 1) 0
+(0, 0, 1, 1, 1, 0) 1
+(0, 0, 1, 1, 1, 1) 1
+(0, 1, 0, 0, 0, 0) 1
+(0, 1, 0, 0, 0, 1) 1
+(0, 1, 0, 0, 1, 0) 1
+(0, 1, 0, 0, 1, 1) 1
+(0, 1, 0, 1, 0, 0) 1
+(0, 1, 0, 1, 0, 1) 1
+(0, 1, 0, 1, 1, 0) 1
+(0, 1, 0, 1, 1, 1) 1
+(0, 1, 1, 0, 0, 0) 1
+(0, 1, 1, 0, 0, 1) 0
+(0, 1, 1, 0, 1, 0) 1
+(0, 1, 1, 0, 1, 1) 1
+(0, 1, 1, 1, 0, 0) 1
+(0, 1, 1, 1, 0, 1) 1
+(0, 1, 1, 1, 1, 0) 1
+(0, 1, 1, 1, 1, 1) 1
+(1, 0, 0, 0, 0, 0) 0
+(1, 0, 0, 0, 0, 1) 0
+(1, 0, 0, 0, 1, 0) 1
+(1, 0, 0, 0, 1, 1) 0
+(1, 0, 0, 1, 0, 0) 1
+(1, 0, 0, 1, 0, 1) 0
+(1, 0, 0, 1, 1, 0) 1
+(1, 0, 0, 1, 1, 1) 1
+(1, 0, 1, 0, 0, 0) 0
+(1, 0, 1, 0, 0, 1) 0
+(1, 0, 1, 0, 1, 0) 0
+(1, 0, 1, 0, 1, 1) 0
+(1, 0, 1, 1, 0, 0) 0
+(1, 0, 1, 1, 0, 1) 0
+(1, 0, 1, 1, 1, 0) 1
+(1, 0, 1, 1, 1, 1) 0
+(1, 1, 0, 0, 0, 0) 1
+(1, 1, 0, 0, 0, 1) 0
+(1, 1, 0, 0, 1, 0) 1
+(1, 1, 0, 0, 1, 1) 1
+(1, 1, 0, 1, 0, 0) 1
+(1, 1, 0, 1, 0, 1) 1
+(1, 1, 0, 1, 1, 0) 1
+(1, 1, 0, 1, 1, 1) 1
+(1, 1, 1, 0, 0, 0) 0
+(1, 1, 1, 0, 0, 1) 0
+(1, 1, 1, 0, 1, 0) 1
+(1, 1, 1, 0, 1, 1) 0
+(1, 1, 1, 1, 0, 0) 1
+(1, 1, 1, 1, 0, 1) 0
+(1, 1, 1, 1, 1, 0) 1
+(1, 1, 1, 1, 1, 1) 1
+target: S_p21 *= S_HIF1 and S_SmadMiz_1 and S_p53 or S_HIF1 and S_SmadMiz_1 and not S_AKT or S_HIF1 and S_SmadMiz_1 and not S_Myc_Max or S_HIF1 and S_SmadMiz_1 and not S_hTERT or S_HIF1 and S_p53 and not S_AKT or S_HIF1 and S_p53 and not S_Myc_Max or S_HIF1 and S_p53 and not S_hTERT or S_HIF1 and not S_AKT and not S_Myc_Max or S_HIF1 and not S_AKT and not S_hTERT or S_HIF1 and not S_Myc_Max and not S_hTERT or S_SmadMiz_1 and S_p53 and not S_AKT or S_SmadMiz_1 and S_p53 and not S_Myc_Max or S_SmadMiz_1 and S_p53 and not S_hTERT or S_SmadMiz_1 and not S_AKT and not S_Myc_Max or S_SmadMiz_1 and not S_AKT and not S_hTERT or S_SmadMiz_1 and not S_Myc_Max and not S_hTERT or S_p53 and not S_AKT and not S_Myc_Max or S_p53 and not S_AKT and not S_hTERT or S_p53 and not S_Myc_Max and not S_hTERT or not S_AKT and not S_Myc_Max and not S_hTERT
+
+source:  S_Mdm2 *= sgn_th(S_AKT+S_p53-S_p14-S_ATM_ATR+1)
+input: ['S_AKT', 'S_p53', 'S_p14', 'S_ATM_ATR']
+output: S_Mdm2
+table:
+(0, 0, 0, 0) 1
+(0, 0, 0, 1) 0
+(0, 0, 1, 0) 0
+(0, 0, 1, 1) 0
+(0, 1, 0, 0) 1
+(0, 1, 0, 1) 1
+(0, 1, 1, 0) 1
+(0, 1, 1, 1) 0
+(1, 0, 0, 0) 1
+(1, 0, 0, 1) 1
+(1, 0, 1, 0) 1
+(1, 0, 1, 1) 0
+(1, 1, 0, 0) 1
+(1, 1, 0, 1) 1
+(1, 1, 1, 0) 1
+(1, 1, 1, 1) 1
+target: S_Mdm2 *= S_AKT and S_p53 or S_AKT and not S_ATM_ATR or S_AKT and not S_p14 or S_p53 and not S_ATM_ATR or S_p53 and not S_p14 or not S_ATM_ATR and not S_p14
+
+source:  S_Smad *= sgn_th(S_TNFalpha+S_TGFbeta)
+input: ['S_TNFalpha', 'S_TGFbeta']
+output: S_Smad
+table:
+(0, 0) 0
+(0, 1) 1
+(1, 0) 1
+(1, 1) 1
+target: S_Smad *= S_TGFbeta or S_TNFalpha
+
+source:  S_SmadMiz_1 *= sgn_th(S_Smad+S_Miz_1-1)
+input: ['S_Smad', 'S_Miz_1']
+output: S_SmadMiz_1
+table:
+(0, 0) 0
+(0, 1) 0
+(1, 0) 0
+(1, 1) 1
+target: S_SmadMiz_1 *= S_Miz_1 and S_Smad
+
+source:  S_SmadE2F *= sgn_th(S_Smad)
+input: ['S_Smad']
+output: S_SmadE2F
+table:
+(0,) 0
+(1,) 1
+target: S_SmadE2F *= S_Smad
+
+source:  S_p15 *= sgn_th(S_SmadMiz_1+S_Miz_1)
+input: ['S_SmadMiz_1', 'S_Miz_1']
+output: S_p15
+table:
+(0, 0) 0
+(0, 1) 1
+(1, 0) 1
+(1, 1) 1
+target: S_p15 *= S_Miz_1 or S_SmadMiz_1
+
+source:  S_FADD *= sgn_th(S_TNFalpha)
+input: ['S_TNFalpha']
+output: S_FADD
+table:
+(0,) 0
+(1,) 1
+target: S_FADD *= S_TNFalpha
+
+source:  S_Caspase8 *= sgn_th(S_FADD)
+input: ['S_FADD']
+output: S_Caspase8
+table:
+(0,) 0
+(1,) 1
+target: S_Caspase8 *= S_FADD
+
+source:  S_Bak *= sgn_th(S_Caspase8)
+input: ['S_Caspase8']
+output: S_Bak
+table:
+(0,) 0
+(1,) 1
+target: S_Bak *= S_Caspase8
+
+source:  S_JNK *= sgn_th(S_TGFbeta)
+input: ['S_TGFbeta']
+output: S_JNK
+table:
+(0,) 0
+(1,) 1
+target: S_JNK *= S_TGFbeta
+
+source:  S_FOXO *= sgn_th(-S_AKT+2)
+input: ['S_AKT']
+output: S_FOXO
+table:
+(0,) 1
+(1,) 1
+target: S_FOXO *= 1
+
+source:  S_FosJun *= sgn_th(S_ERK+S_JNK)
+input: ['S_ERK', 'S_JNK']
+output: S_FosJun
+table:
+(0, 0) 0
+(0, 1) 1
+(1, 0) 1
+(1, 1) 1
+target: S_FosJun *= S_ERK or S_JNK
+
+source:  S_ROS *= sgn_th(-S_COX412-S_GSH)
+input: ['S_COX412', 'S_GSH']
+output: S_ROS
+table:
+(0, 0) 0
+(0, 1) 0
+(1, 0) 0
+(1, 1) 0
+target: S_ROS *= 0
+
+source:  S_AMPK *= sgn_th(-S_GFs+S_AMP_ATP+S_HIF1+S_ATM_ATR+1)
+input: ['S_GFs', 'S_AMP_ATP', 'S_HIF1', 'S_ATM_ATR']
+output: S_AMPK
+table:
+(0, 0, 0, 0) 1
+(0, 0, 0, 1) 1
+(0, 0, 1, 0) 1
+(0, 0, 1, 1) 1
+(0, 1, 0, 0) 1
+(0, 1, 0, 1) 1
+(0, 1, 1, 0) 1
+(0, 1, 1, 1) 1
+(1, 0, 0, 0) 0
+(1, 0, 0, 1) 1
+(1, 0, 1, 0) 1
+(1, 0, 1, 1) 1
+(1, 1, 0, 0) 1
+(1, 1, 0, 1) 1
+(1, 1, 1, 0) 1
+(1, 1, 1, 1) 1
+target: S_AMPK *= S_AMP_ATP or S_ATM_ATR or S_HIF1 or not S_GFs
+
+source:  S_Cytoc_APAF1 *= sgn_th(-S_AKT+S_p53-S_Bcl_2+S_BAX-S_Bcl_XL+S_Caspase8+S_Bak)
+input: ['S_AKT', 'S_p53', 'S_Bcl_2', 'S_BAX', 'S_Bcl_XL', 'S_Caspase8', 'S_Bak']
+output: S_Cytoc_APAF1
+table:
+(0, 0, 0, 0, 0, 0, 0) 0
+(0, 0, 0, 0, 0, 0, 1) 1
+(0, 0, 0, 0, 0, 1, 0) 1
+(0, 0, 0, 0, 0, 1, 1) 1
+(0, 0, 0, 0, 1, 0, 0) 0
+(0, 0, 0, 0, 1, 0, 1) 0
+(0, 0, 0, 0, 1, 1, 0) 0
+(0, 0, 0, 0, 1, 1, 1) 1
+(0, 0, 0, 1, 0, 0, 0) 1
+(0, 0, 0, 1, 0, 0, 1) 1
+(0, 0, 0, 1, 0, 1, 0) 1
+(0, 0, 0, 1, 0, 1, 1) 1
+(0, 0, 0, 1, 1, 0, 0) 0
+(0, 0, 0, 1, 1, 0, 1) 1
+(0, 0, 0, 1, 1, 1, 0) 1
+(0, 0, 0, 1, 1, 1, 1) 1
+(0, 0, 1, 0, 0, 0, 0) 0
+(0, 0, 1, 0, 0, 0, 1) 0
+(0, 0, 1, 0, 0, 1, 0) 0
+(0, 0, 1, 0, 0, 1, 1) 1
+(0, 0, 1, 0, 1, 0, 0) 0
+(0, 0, 1, 0, 1, 0, 1) 0
+(0, 0, 1, 0, 1, 1, 0) 0
+(0, 0, 1, 0, 1, 1, 1) 0
+(0, 0, 1, 1, 0, 0, 0) 0
+(0, 0, 1, 1, 0, 0, 1) 1
+(0, 0, 1, 1, 0, 1, 0) 1
+(0, 0, 1, 1, 0, 1, 1) 1
+(0, 0, 1, 1, 1, 0, 0) 0
+(0, 0, 1, 1, 1, 0, 1) 0
+(0, 0, 1, 1, 1, 1, 0) 0
+(0, 0, 1, 1, 1, 1, 1) 1
+(0, 1, 0, 0, 0, 0, 0) 1
+(0, 1, 0, 0, 0, 0, 1) 1
+(0, 1, 0, 0, 0, 1, 0) 1
+(0, 1, 0, 0, 0, 1, 1) 1
+(0, 1, 0, 0, 1, 0, 0) 0
+(0, 1, 0, 0, 1, 0, 1) 1
+(0, 1, 0, 0, 1, 1, 0) 1
+(0, 1, 0, 0, 1, 1, 1) 1
+(0, 1, 0, 1, 0, 0, 0) 1
+(0, 1, 0, 1, 0, 0, 1) 1
+(0, 1, 0, 1, 0, 1, 0) 1
+(0, 1, 0, 1, 0, 1, 1) 1
+(0, 1, 0, 1, 1, 0, 0) 1
+(0, 1, 0, 1, 1, 0, 1) 1
+(0, 1, 0, 1, 1, 1, 0) 1
+(0, 1, 0, 1, 1, 1, 1) 1
+(0, 1, 1, 0, 0, 0, 0) 0
+(0, 1, 1, 0, 0, 0, 1) 1
+(0, 1, 1, 0, 0, 1, 0) 1
+(0, 1, 1, 0, 0, 1, 1) 1
+(0, 1, 1, 0, 1, 0, 0) 0
+(0, 1, 1, 0, 1, 0, 1) 0
+(0, 1, 1, 0, 1, 1, 0) 0
+(0, 1, 1, 0, 1, 1, 1) 1
+(0, 1, 1, 1, 0, 0, 0) 1
+(0, 1, 1, 1, 0, 0, 1) 1
+(0, 1, 1, 1, 0, 1, 0) 1
+(0, 1, 1, 1, 0, 1, 1) 1
+(0, 1, 1, 1, 1, 0, 0) 0
+(0, 1, 1, 1, 1, 0, 1) 1
+(0, 1, 1, 1, 1, 1, 0) 1
+(0, 1, 1, 1, 1, 1, 1) 1
+(1, 0, 0, 0, 0, 0, 0) 0
+(1, 0, 0, 0, 0, 0, 1) 0
+(1, 0, 0, 0, 0, 1, 0) 0
+(1, 0, 0, 0, 0, 1, 1) 1
+(1, 0, 0, 0, 1, 0, 0) 0
+(1, 0, 0, 0, 1, 0, 1) 0
+(1, 0, 0, 0, 1, 1, 0) 0
+(1, 0, 0, 0, 1, 1, 1) 0
+(1, 0, 0, 1, 0, 0, 0) 0
+(1, 0, 0, 1, 0, 0, 1) 1
+(1, 0, 0, 1, 0, 1, 0) 1
+(1, 0, 0, 1, 0, 1, 1) 1
+(1, 0, 0, 1, 1, 0, 0) 0
+(1, 0, 0, 1, 1, 0, 1) 0
+(1, 0, 0, 1, 1, 1, 0) 0
+(1, 0, 0, 1, 1, 1, 1) 1
+(1, 0, 1, 0, 0, 0, 0) 0
+(1, 0, 1, 0, 0, 0, 1) 0
+(1, 0, 1, 0, 0, 1, 0) 0
+(1, 0, 1, 0, 0, 1, 1) 0
+(1, 0, 1, 0, 1, 0, 0) 0
+(1, 0, 1, 0, 1, 0, 1) 0
+(1, 0, 1, 0, 1, 1, 0) 0
+(1, 0, 1, 0, 1, 1, 1) 0
+(1, 0, 1, 1, 0, 0, 0) 0
+(1, 0, 1, 1, 0, 0, 1) 0
+(1, 0, 1, 1, 0, 1, 0) 0
+(1, 0, 1, 1, 0, 1, 1) 1
+(1, 0, 1, 1, 1, 0, 0) 0
+(1, 0, 1, 1, 1, 0, 1) 0
+(1, 0, 1, 1, 1, 1, 0) 0
+(1, 0, 1, 1, 1, 1, 1) 0
+(1, 1, 0, 0, 0, 0, 0) 0
+(1, 1, 0, 0, 0, 0, 1) 1
+(1, 1, 0, 0, 0, 1, 0) 1
+(1, 1, 0, 0, 0, 1, 1) 1
+(1, 1, 0, 0, 1, 0, 0) 0
+(1, 1, 0, 0, 1, 0, 1) 0
+(1, 1, 0, 0, 1, 1, 0) 0
+(1, 1, 0, 0, 1, 1, 1) 1
+(1, 1, 0, 1, 0, 0, 0) 1
+(1, 1, 0, 1, 0, 0, 1) 1
+(1, 1, 0, 1, 0, 1, 0) 1
+(1, 1, 0, 1, 0, 1, 1) 1
+(1, 1, 0, 1, 1, 0, 0) 0
+(1, 1, 0, 1, 1, 0, 1) 1
+(1, 1, 0, 1, 1, 1, 0) 1
+(1, 1, 0, 1, 1, 1, 1) 1
+(1, 1, 1, 0, 0, 0, 0) 0
+(1, 1, 1, 0, 0, 0, 1) 0
+(1, 1, 1, 0, 0, 1, 0) 0
+(1, 1, 1, 0, 0, 1, 1) 1
+(1, 1, 1, 0, 1, 0, 0) 0
+(1, 1, 1, 0, 1, 0, 1) 0
+(1, 1, 1, 0, 1, 1, 0) 0
+(1, 1, 1, 0, 1, 1, 1) 0
+(1, 1, 1, 1, 0, 0, 0) 0
+(1, 1, 1, 1, 0, 0, 1) 1
+(1, 1, 1, 1, 0, 1, 0) 1
+(1, 1, 1, 1, 0, 1, 1) 1
+(1, 1, 1, 1, 1, 0, 0) 0
+(1, 1, 1, 1, 1, 0, 1) 0
+(1, 1, 1, 1, 1, 1, 0) 0
+(1, 1, 1, 1, 1, 1, 1) 1
+target: S_Cytoc_APAF1 *= S_BAX and S_Bak and S_Caspase8 and S_p53 or S_BAX and S_Bak and S_Caspase8 and not S_AKT or S_BAX and S_Bak and S_Caspase8 and not S_Bcl_2 or S_BAX and S_Bak and S_Caspase8 and not S_Bcl_XL or S_BAX and S_Bak and S_p53 and not S_AKT or S_BAX and S_Bak and S_p53 and not S_Bcl_2 or S_BAX and S_Bak and S_p53 and not S_Bcl_XL or S_BAX and S_Bak and not S_AKT and not S_Bcl_2 or S_BAX and S_Bak and not S_AKT and not S_Bcl_XL or S_BAX and S_Bak and not S_Bcl_2 and not S_Bcl_XL or S_BAX and S_Caspase8 and S_p53 and not S_AKT or S_BAX and S_Caspase8 and S_p53 and not S_Bcl_2 or S_BAX and S_Caspase8 and S_p53 and not S_Bcl_XL or S_BAX and S_Caspase8 and not S_AKT and not S_Bcl_2 or S_BAX and S_Caspase8 and not S_AKT and not S_Bcl_XL or S_BAX and S_Caspase8 and not S_Bcl_2 and not S_Bcl_XL or S_BAX and S_p53 and not S_AKT and not S_Bcl_2 or S_BAX and S_p53 and not S_AKT and not S_Bcl_XL or S_BAX and S_p53 and not S_Bcl_2 and not S_Bcl_XL or S_BAX and not S_AKT and not S_Bcl_2 and not S_Bcl_XL or S_Bak and S_Caspase8 and S_p53 and not S_AKT or S_Bak and S_Caspase8 and S_p53 and not S_Bcl_2 or S_Bak and S_Caspase8 and S_p53 and not S_Bcl_XL or S_Bak and S_Caspase8 and not S_AKT and not S_Bcl_2 or S_Bak and S_Caspase8 and not S_AKT and not S_Bcl_XL or S_Bak and S_Caspase8 and not S_Bcl_2 and not S_Bcl_XL or S_Bak and S_p53 and not S_AKT and not S_Bcl_2 or S_Bak and S_p53 and not S_AKT and not S_Bcl_XL or S_Bak and S_p53 and not S_Bcl_2 and not S_Bcl_XL or S_Bak and not S_AKT and not S_Bcl_2 and not S_Bcl_XL or S_Caspase8 and S_p53 and not S_AKT and not S_Bcl_2 or S_Caspase8 and S_p53 and not S_AKT and not S_Bcl_XL or S_Caspase8 and S_p53 and not S_Bcl_2 and not S_Bcl_XL or S_Caspase8 and not S_AKT and not S_Bcl_2 and not S_Bcl_XL or S_p53 and not S_AKT and not S_Bcl_2 and not S_Bcl_XL
+
+source:  S_Caspase9 *= sgn_th(S_Cytoc_APAF1)
+input: ['S_Cytoc_APAF1']
+output: S_Caspase9
+table:
+(0,) 0
+(1,) 1
+target: S_Caspase9 *= S_Cytoc_APAF1
+
+source:  S_Apoptosis *= sgn_th(S_Caspase8+S_Caspase9)
+input: ['S_Caspase8', 'S_Caspase9']
+output: S_Apoptosis
+table:
+(0, 0) 0
+(0, 1) 1
+(1, 0) 1
+(1, 1) 1
+target: S_Apoptosis *= S_Caspase8 or S_Caspase9
+
+source:  S_E_cadh *= sgn_th(-S_NF_kB-S_Slug-S_Snail+3)
+input: ['S_NF_kB', 'S_Slug', 'S_Snail']
+output: S_E_cadh
+table:
+(0, 0, 0) 1
+(0, 0, 1) 1
+(0, 1, 0) 1
+(0, 1, 1) 1
+(1, 0, 0) 1
+(1, 0, 1) 1
+(1, 1, 0) 1
+(1, 1, 1) 0
+target: S_E_cadh *= not S_NF_kB or not S_Slug or not S_Snail
+
+source:  S_Glut_1 *= sgn_th(S_AKT+S_HIF1+S_Myc_Max-1)
+input: ['S_AKT', 'S_HIF1', 'S_Myc_Max']
+output: S_Glut_1
+table:
+(0, 0, 0) 0
+(0, 0, 1) 0
+(0, 1, 0) 0
+(0, 1, 1) 1
+(1, 0, 0) 0
+(1, 0, 1) 1
+(1, 1, 0) 1
+(1, 1, 1) 1
+target: S_Glut_1 *= S_AKT and S_HIF1 or S_AKT and S_Myc_Max or S_HIF1 and S_Myc_Max
+
+source:  S_hTERT *= sgn_th(S_NF1+S_NF_kB+S_AKT+S_HIF1+S_Myc_Max-S_p53-S_SmadMiz_1-S_eEF2-4)
+input: ['S_NF1', 'S_NF_kB', 'S_AKT', 'S_HIF1', 'S_Myc_Max', 'S_p53', 'S_SmadMiz_1', 'S_eEF2']
+output: S_hTERT
+table:
+(0, 0, 0, 0, 0, 0, 0, 0) 0
+(0, 0, 0, 0, 0, 0, 0, 1) 0
+(0, 0, 0, 0, 0, 0, 1, 0) 0
+(0, 0, 0, 0, 0, 0, 1, 1) 0
+(0, 0, 0, 0, 0, 1, 0, 0) 0
+(0, 0, 0, 0, 0, 1, 0, 1) 0
+(0, 0, 0, 0, 0, 1, 1, 0) 0
+(0, 0, 0, 0, 0, 1, 1, 1) 0
+(0, 0, 0, 0, 1, 0, 0, 0) 0
+(0, 0, 0, 0, 1, 0, 0, 1) 0
+(0, 0, 0, 0, 1, 0, 1, 0) 0
+(0, 0, 0, 0, 1, 0, 1, 1) 0
+(0, 0, 0, 0, 1, 1, 0, 0) 0
+(0, 0, 0, 0, 1, 1, 0, 1) 0
+(0, 0, 0, 0, 1, 1, 1, 0) 0
+(0, 0, 0, 0, 1, 1, 1, 1) 0
+(0, 0, 0, 1, 0, 0, 0, 0) 0
+(0, 0, 0, 1, 0, 0, 0, 1) 0
+(0, 0, 0, 1, 0, 0, 1, 0) 0
+(0, 0, 0, 1, 0, 0, 1, 1) 0
+(0, 0, 0, 1, 0, 1, 0, 0) 0
+(0, 0, 0, 1, 0, 1, 0, 1) 0
+(0, 0, 0, 1, 0, 1, 1, 0) 0
+(0, 0, 0, 1, 0, 1, 1, 1) 0
+(0, 0, 0, 1, 1, 0, 0, 0) 0
+(0, 0, 0, 1, 1, 0, 0, 1) 0
+(0, 0, 0, 1, 1, 0, 1, 0) 0
+(0, 0, 0, 1, 1, 0, 1, 1) 0
+(0, 0, 0, 1, 1, 1, 0, 0) 0
+(0, 0, 0, 1, 1, 1, 0, 1) 0
+(0, 0, 0, 1, 1, 1, 1, 0) 0
+(0, 0, 0, 1, 1, 1, 1, 1) 0
+(0, 0, 1, 0, 0, 0, 0, 0) 0
+(0, 0, 1, 0, 0, 0, 0, 1) 0
+(0, 0, 1, 0, 0, 0, 1, 0) 0
+(0, 0, 1, 0, 0, 0, 1, 1) 0
+(0, 0, 1, 0, 0, 1, 0, 0) 0
+(0, 0, 1, 0, 0, 1, 0, 1) 0
+(0, 0, 1, 0, 0, 1, 1, 0) 0
+(0, 0, 1, 0, 0, 1, 1, 1) 0
+(0, 0, 1, 0, 1, 0, 0, 0) 0
+(0, 0, 1, 0, 1, 0, 0, 1) 0
+(0, 0, 1, 0, 1, 0, 1, 0) 0
+(0, 0, 1, 0, 1, 0, 1, 1) 0
+(0, 0, 1, 0, 1, 1, 0, 0) 0
+(0, 0, 1, 0, 1, 1, 0, 1) 0
+(0, 0, 1, 0, 1, 1, 1, 0) 0
+(0, 0, 1, 0, 1, 1, 1, 1) 0
+(0, 0, 1, 1, 0, 0, 0, 0) 0
+(0, 0, 1, 1, 0, 0, 0, 1) 0
+(0, 0, 1, 1, 0, 0, 1, 0) 0
+(0, 0, 1, 1, 0, 0, 1, 1) 0
+(0, 0, 1, 1, 0, 1, 0, 0) 0
+(0, 0, 1, 1, 0, 1, 0, 1) 0
+(0, 0, 1, 1, 0, 1, 1, 0) 0
+(0, 0, 1, 1, 0, 1, 1, 1) 0
+(0, 0, 1, 1, 1, 0, 0, 0) 0
+(0, 0, 1, 1, 1, 0, 0, 1) 0
+(0, 0, 1, 1, 1, 0, 1, 0) 0
+(0, 0, 1, 1, 1, 0, 1, 1) 0
+(0, 0, 1, 1, 1, 1, 0, 0) 0
+(0, 0, 1, 1, 1, 1, 0, 1) 0
+(0, 0, 1, 1, 1, 1, 1, 0) 0
+(0, 0, 1, 1, 1, 1, 1, 1) 0
+(0, 1, 0, 0, 0, 0, 0, 0) 0
+(0, 1, 0, 0, 0, 0, 0, 1) 0
+(0, 1, 0, 0, 0, 0, 1, 0) 0
+(0, 1, 0, 0, 0, 0, 1, 1) 0
+(0, 1, 0, 0, 0, 1, 0, 0) 0
+(0, 1, 0, 0, 0, 1, 0, 1) 0
+(0, 1, 0, 0, 0, 1, 1, 0) 0
+(0, 1, 0, 0, 0, 1, 1, 1) 0
+(0, 1, 0, 0, 1, 0, 0, 0) 0
+(0, 1, 0, 0, 1, 0, 0, 1) 0
+(0, 1, 0, 0, 1, 0, 1, 0) 0
+(0, 1, 0, 0, 1, 0, 1, 1) 0
+(0, 1, 0, 0, 1, 1, 0, 0) 0
+(0, 1, 0, 0, 1, 1, 0, 1) 0
+(0, 1, 0, 0, 1, 1, 1, 0) 0
+(0, 1, 0, 0, 1, 1, 1, 1) 0
+(0, 1, 0, 1, 0, 0, 0, 0) 0
+(0, 1, 0, 1, 0, 0, 0, 1) 0
+(0, 1, 0, 1, 0, 0, 1, 0) 0
+(0, 1, 0, 1, 0, 0, 1, 1) 0
+(0, 1, 0, 1, 0, 1, 0, 0) 0
+(0, 1, 0, 1, 0, 1, 0, 1) 0
+(0, 1, 0, 1, 0, 1, 1, 0) 0
+(0, 1, 0, 1, 0, 1, 1, 1) 0
+(0, 1, 0, 1, 1, 0, 0, 0) 0
+(0, 1, 0, 1, 1, 0, 0, 1) 0
+(0, 1, 0, 1, 1, 0, 1, 0) 0
+(0, 1, 0, 1, 1, 0, 1, 1) 0
+(0, 1, 0, 1, 1, 1, 0, 0) 0
+(0, 1, 0, 1, 1, 1, 0, 1) 0
+(0, 1, 0, 1, 1, 1, 1, 0) 0
+(0, 1, 0, 1, 1, 1, 1, 1) 0
+(0, 1, 1, 0, 0, 0, 0, 0) 0
+(0, 1, 1, 0, 0, 0, 0, 1) 0
+(0, 1, 1, 0, 0, 0, 1, 0) 0
+(0, 1, 1, 0, 0, 0, 1, 1) 0
+(0, 1, 1, 0, 0, 1, 0, 0) 0
+(0, 1, 1, 0, 0, 1, 0, 1) 0
+(0, 1, 1, 0, 0, 1, 1, 0) 0
+(0, 1, 1, 0, 0, 1, 1, 1) 0
+(0, 1, 1, 0, 1, 0, 0, 0) 0
+(0, 1, 1, 0, 1, 0, 0, 1) 0
+(0, 1, 1, 0, 1, 0, 1, 0) 0
+(0, 1, 1, 0, 1, 0, 1, 1) 0
+(0, 1, 1, 0, 1, 1, 0, 0) 0
+(0, 1, 1, 0, 1, 1, 0, 1) 0
+(0, 1, 1, 0, 1, 1, 1, 0) 0
+(0, 1, 1, 0, 1, 1, 1, 1) 0
+(0, 1, 1, 1, 0, 0, 0, 0) 0
+(0, 1, 1, 1, 0, 0, 0, 1) 0
+(0, 1, 1, 1, 0, 0, 1, 0) 0
+(0, 1, 1, 1, 0, 0, 1, 1) 0
+(0, 1, 1, 1, 0, 1, 0, 0) 0
+(0, 1, 1, 1, 0, 1, 0, 1) 0
+(0, 1, 1, 1, 0, 1, 1, 0) 0
+(0, 1, 1, 1, 0, 1, 1, 1) 0
+(0, 1, 1, 1, 1, 0, 0, 0) 0
+(0, 1, 1, 1, 1, 0, 0, 1) 0
+(0, 1, 1, 1, 1, 0, 1, 0) 0
+(0, 1, 1, 1, 1, 0, 1, 1) 0
+(0, 1, 1, 1, 1, 1, 0, 0) 0
+(0, 1, 1, 1, 1, 1, 0, 1) 0
+(0, 1, 1, 1, 1, 1, 1, 0) 0
+(0, 1, 1, 1, 1, 1, 1, 1) 0
+(1, 0, 0, 0, 0, 0, 0, 0) 0
+(1, 0, 0, 0, 0, 0, 0, 1) 0
+(1, 0, 0, 0, 0, 0, 1, 0) 0
+(1, 0, 0, 0, 0, 0, 1, 1) 0
+(1, 0, 0, 0, 0, 1, 0, 0) 0
+(1, 0, 0, 0, 0, 1, 0, 1) 0
+(1, 0, 0, 0, 0, 1, 1, 0) 0
+(1, 0, 0, 0, 0, 1, 1, 1) 0
+(1, 0, 0, 0, 1, 0, 0, 0) 0
+(1, 0, 0, 0, 1, 0, 0, 1) 0
+(1, 0, 0, 0, 1, 0, 1, 0) 0
+(1, 0, 0, 0, 1, 0, 1, 1) 0
+(1, 0, 0, 0, 1, 1, 0, 0) 0
+(1, 0, 0, 0, 1, 1, 0, 1) 0
+(1, 0, 0, 0, 1, 1, 1, 0) 0
+(1, 0, 0, 0, 1, 1, 1, 1) 0
+(1, 0, 0, 1, 0, 0, 0, 0) 0
+(1, 0, 0, 1, 0, 0, 0, 1) 0
+(1, 0, 0, 1, 0, 0, 1, 0) 0
+(1, 0, 0, 1, 0, 0, 1, 1) 0
+(1, 0, 0, 1, 0, 1, 0, 0) 0
+(1, 0, 0, 1, 0, 1, 0, 1) 0
+(1, 0, 0, 1, 0, 1, 1, 0) 0
+(1, 0, 0, 1, 0, 1, 1, 1) 0
+(1, 0, 0, 1, 1, 0, 0, 0) 0
+(1, 0, 0, 1, 1, 0, 0, 1) 0
+(1, 0, 0, 1, 1, 0, 1, 0) 0
+(1, 0, 0, 1, 1, 0, 1, 1) 0
+(1, 0, 0, 1, 1, 1, 0, 0) 0
+(1, 0, 0, 1, 1, 1, 0, 1) 0
+(1, 0, 0, 1, 1, 1, 1, 0) 0
+(1, 0, 0, 1, 1, 1, 1, 1) 0
+(1, 0, 1, 0, 0, 0, 0, 0) 0
+(1, 0, 1, 0, 0, 0, 0, 1) 0
+(1, 0, 1, 0, 0, 0, 1, 0) 0
+(1, 0, 1, 0, 0, 0, 1, 1) 0
+(1, 0, 1, 0, 0, 1, 0, 0) 0
+(1, 0, 1, 0, 0, 1, 0, 1) 0
+(1, 0, 1, 0, 0, 1, 1, 0) 0
+(1, 0, 1, 0, 0, 1, 1, 1) 0
+(1, 0, 1, 0, 1, 0, 0, 0) 0
+(1, 0, 1, 0, 1, 0, 0, 1) 0
+(1, 0, 1, 0, 1, 0, 1, 0) 0
+(1, 0, 1, 0, 1, 0, 1, 1) 0
+(1, 0, 1, 0, 1, 1, 0, 0) 0
+(1, 0, 1, 0, 1, 1, 0, 1) 0
+(1, 0, 1, 0, 1, 1, 1, 0) 0
+(1, 0, 1, 0, 1, 1, 1, 1) 0
+(1, 0, 1, 1, 0, 0, 0, 0) 0
+(1, 0, 1, 1, 0, 0, 0, 1) 0
+(1, 0, 1, 1, 0, 0, 1, 0) 0
+(1, 0, 1, 1, 0, 0, 1, 1) 0
+(1, 0, 1, 1, 0, 1, 0, 0) 0
+(1, 0, 1, 1, 0, 1, 0, 1) 0
+(1, 0, 1, 1, 0, 1, 1, 0) 0
+(1, 0, 1, 1, 0, 1, 1, 1) 0
+(1, 0, 1, 1, 1, 0, 0, 0) 0
+(1, 0, 1, 1, 1, 0, 0, 1) 0
+(1, 0, 1, 1, 1, 0, 1, 0) 0
+(1, 0, 1, 1, 1, 0, 1, 1) 0
+(1, 0, 1, 1, 1, 1, 0, 0) 0
+(1, 0, 1, 1, 1, 1, 0, 1) 0
+(1, 0, 1, 1, 1, 1, 1, 0) 0
+(1, 0, 1, 1, 1, 1, 1, 1) 0
+(1, 1, 0, 0, 0, 0, 0, 0) 0
+(1, 1, 0, 0, 0, 0, 0, 1) 0
+(1, 1, 0, 0, 0, 0, 1, 0) 0
+(1, 1, 0, 0, 0, 0, 1, 1) 0
+(1, 1, 0, 0, 0, 1, 0, 0) 0
+(1, 1, 0, 0, 0, 1, 0, 1) 0
+(1, 1, 0, 0, 0, 1, 1, 0) 0
+(1, 1, 0, 0, 0, 1, 1, 1) 0
+(1, 1, 0, 0, 1, 0, 0, 0) 0
+(1, 1, 0, 0, 1, 0, 0, 1) 0
+(1, 1, 0, 0, 1, 0, 1, 0) 0
+(1, 1, 0, 0, 1, 0, 1, 1) 0
+(1, 1, 0, 0, 1, 1, 0, 0) 0
+(1, 1, 0, 0, 1, 1, 0, 1) 0
+(1, 1, 0, 0, 1, 1, 1, 0) 0
+(1, 1, 0, 0, 1, 1, 1, 1) 0
+(1, 1, 0, 1, 0, 0, 0, 0) 0
+(1, 1, 0, 1, 0, 0, 0, 1) 0
+(1, 1, 0, 1, 0, 0, 1, 0) 0
+(1, 1, 0, 1, 0, 0, 1, 1) 0
+(1, 1, 0, 1, 0, 1, 0, 0) 0
+(1, 1, 0, 1, 0, 1, 0, 1) 0
+(1, 1, 0, 1, 0, 1, 1, 0) 0
+(1, 1, 0, 1, 0, 1, 1, 1) 0
+(1, 1, 0, 1, 1, 0, 0, 0) 0
+(1, 1, 0, 1, 1, 0, 0, 1) 0
+(1, 1, 0, 1, 1, 0, 1, 0) 0
+(1, 1, 0, 1, 1, 0, 1, 1) 0
+(1, 1, 0, 1, 1, 1, 0, 0) 0
+(1, 1, 0, 1, 1, 1, 0, 1) 0
+(1, 1, 0, 1, 1, 1, 1, 0) 0
+(1, 1, 0, 1, 1, 1, 1, 1) 0
+(1, 1, 1, 0, 0, 0, 0, 0) 0
+(1, 1, 1, 0, 0, 0, 0, 1) 0
+(1, 1, 1, 0, 0, 0, 1, 0) 0
+(1, 1, 1, 0, 0, 0, 1, 1) 0
+(1, 1, 1, 0, 0, 1, 0, 0) 0
+(1, 1, 1, 0, 0, 1, 0, 1) 0
+(1, 1, 1, 0, 0, 1, 1, 0) 0
+(1, 1, 1, 0, 0, 1, 1, 1) 0
+(1, 1, 1, 0, 1, 0, 0, 0) 0
+(1, 1, 1, 0, 1, 0, 0, 1) 0
+(1, 1, 1, 0, 1, 0, 1, 0) 0
+(1, 1, 1, 0, 1, 0, 1, 1) 0
+(1, 1, 1, 0, 1, 1, 0, 0) 0
+(1, 1, 1, 0, 1, 1, 0, 1) 0
+(1, 1, 1, 0, 1, 1, 1, 0) 0
+(1, 1, 1, 0, 1, 1, 1, 1) 0
+(1, 1, 1, 1, 0, 0, 0, 0) 0
+(1, 1, 1, 1, 0, 0, 0, 1) 0
+(1, 1, 1, 1, 0, 0, 1, 0) 0
+(1, 1, 1, 1, 0, 0, 1, 1) 0
+(1, 1, 1, 1, 0, 1, 0, 0) 0
+(1, 1, 1, 1, 0, 1, 0, 1) 0
+(1, 1, 1, 1, 0, 1, 1, 0) 0
+(1, 1, 1, 1, 0, 1, 1, 1) 0
+(1, 1, 1, 1, 1, 0, 0, 0) 1
+(1, 1, 1, 1, 1, 0, 0, 1) 0
+(1, 1, 1, 1, 1, 0, 1, 0) 0
+(1, 1, 1, 1, 1, 0, 1, 1) 0
+(1, 1, 1, 1, 1, 1, 0, 0) 0
+(1, 1, 1, 1, 1, 1, 0, 1) 0
+(1, 1, 1, 1, 1, 1, 1, 0) 0
+(1, 1, 1, 1, 1, 1, 1, 1) 0
+target: S_hTERT *= S_AKT and S_HIF1 and S_Myc_Max and S_NF1 and S_NF_kB and not S_SmadMiz_1 and not S_eEF2 and not S_p53
+
+source:  S_VEGF *= sgn_th(S_HIF1+S_Myc_Max)
+input: ['S_HIF1', 'S_Myc_Max']
+output: S_VEGF
+table:
+(0, 0) 0
+(0, 1) 1
+(1, 0) 1
+(1, 1) 1
+target: S_VEGF *= S_HIF1 or S_Myc_Max
+
+source:  S_E2F_CyclinE *= sgn_th(S_E2F+S_CycE-1)
+input: ['S_E2F', 'S_CycE']
+output: S_E2F_CyclinE
+table:
+(0, 0) 0
+(0, 1) 0
+(1, 0) 0
+(1, 1) 1
+target: S_E2F_CyclinE *= S_CycE and S_E2F
+
+source:  S_cdh1_UbcH10 *= sgn_th(S_cdh1+S_UbcH10-1)
+input: ['S_cdh1', 'S_UbcH10']
+output: S_cdh1_UbcH10
+table:
+(0, 0) 0
+(0, 1) 0
+(1, 0) 0
+(1, 1) 1
+target: S_cdh1_UbcH10 *= S_UbcH10 and S_cdh1
+
+source:  S_TAK1 *= sgn_th(S_TNFalpha)
+input: ['S_TNFalpha']
+output: S_TAK1
+table:
+(0,) 0
+(1,) 1
+target: S_TAK1 *= S_TNFalpha
+
+source:  S_GSH *= sgn_th(S_NF_kB+S_Myc_Max+S_p21)
+input: ['S_NF_kB', 'S_Myc_Max', 'S_p21']
+output: S_GSH
+table:
+(0, 0, 0) 0
+(0, 0, 1) 1
+(0, 1, 0) 1
+(0, 1, 1) 1
+(1, 0, 0) 1
+(1, 0, 1) 1
+(1, 1, 0) 1
+(1, 1, 1) 1
+target: S_GSH *= S_Myc_Max or S_NF_kB or S_p21
+
+source:  S_TCF *= sgn_th(S_beta_cat-S_TAK1)
+input: ['S_beta_cat', 'S_TAK1']
+output: S_TCF
+table:
+(0, 0) 0
+(0, 1) 0
+(1, 0) 1
+(1, 1) 0
+target: S_TCF *= S_beta_cat and not S_TAK1
+
+source:  S_Miz_1 *= sgn_th(-S_Myc_Max+1)
+input: ['S_Myc_Max']
+output: S_Miz_1
+table:
+(0,) 1
+(1,) 0
+target: S_Miz_1 *= not S_Myc_Max
+
+source:  S_p70 *= sgn_th(S_PDK1+S_mTOR)
+input: ['S_PDK1', 'S_mTOR']
+output: S_p70
+table:
+(0, 0) 0
+(0, 1) 1
+(1, 0) 1
+(1, 1) 1
+target: S_p70 *= S_PDK1 or S_mTOR
+
+source:  S_ATM_ATR *= sgn_th(S_DnaDamage)
+input: ['S_DnaDamage']
+output: S_ATM_ATR
+table:
+(0,) 0
+(1,) 1
+target: S_ATM_ATR *= S_DnaDamage
+
+source:  S_CHK1_2 *= sgn_th(S_ATM_ATR)
+input: ['S_ATM_ATR']
+output: S_CHK1_2
+table:
+(0,) 0
+(1,) 1
+target: S_CHK1_2 *= S_ATM_ATR
+
+source:  S_DNARepair *= sgn_th(S_ATM_ATR)
+input: ['S_ATM_ATR']
+output: S_DNARepair
+table:
+(0,) 0
+(1,) 1
+target: S_DNARepair *= S_ATM_ATR
+
+source:  S_eEF2K *= sgn_th(S_p90+S_p70)
+input: ['S_p90', 'S_p70']
+output: S_eEF2K
+table:
+(0, 0) 0
+(0, 1) 1
+(1, 0) 1
+(1, 1) 1
+target: S_eEF2K *= S_p70 or S_p90
+
+source:  S_eEF2 *= sgn_th(-S_eEF2K+1)
+input: ['S_eEF2K']
+output: S_eEF2
+table:
+(0,) 1
+(1,) 0
+target: S_eEF2 *= not S_eEF2K
+
+source:  S_p53_PTEN *= sgn_th(S_PTEN+S_p53-1)
+input: ['S_PTEN', 'S_p53']
+output: S_p53_PTEN
+table:
+(0, 0) 0
+(0, 1) 0
+(1, 0) 0
+(1, 1) 1
+target: S_p53_PTEN *= S_PTEN and S_p53
+
+source:  S_LDHA *= sgn_th(S_HIF1+S_Myc_Max-1)
+input: ['S_HIF1', 'S_Myc_Max']
+output: S_LDHA
+table:
+(0, 0) 0
+(0, 1) 0
+(1, 0) 0
+(1, 1) 1
+target: S_LDHA *= S_HIF1 and S_Myc_Max
+
+source:  S_AcidLactic *= sgn_th(S_LDHA)
+input: ['S_LDHA']
+output: S_AcidLactic
+table:
+(0,) 0
+(1,) 1
+target: S_AcidLactic *= S_LDHA
+
+source:  S_Snail *= sgn_th(S_NF_kB-S_GSK_3-S_p53+S_Smad-1)
+input: ['S_NF_kB', 'S_GSK_3', 'S_p53', 'S_Smad']
+output: S_Snail
+table:
+(0, 0, 0, 0) 0
+(0, 0, 0, 1) 0
+(0, 0, 1, 0) 0
+(0, 0, 1, 1) 0
+(0, 1, 0, 0) 0
+(0, 1, 0, 1) 0
+(0, 1, 1, 0) 0
+(0, 1, 1, 1) 0
+(1, 0, 0, 0) 0
+(1, 0, 0, 1) 1
+(1, 0, 1, 0) 0
+(1, 0, 1, 1) 0
+(1, 1, 0, 0) 0
+(1, 1, 0, 1) 0
+(1, 1, 1, 0) 0
+(1, 1, 1, 1) 0
+target: S_Snail *= S_NF_kB and S_Smad and not S_GSK_3 and not S_p53
+
+.
+1 passed in 0.81 seconds
