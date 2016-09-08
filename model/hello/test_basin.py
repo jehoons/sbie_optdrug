@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python
 #*************************************************************************
 # Author: {Je-Hoon Song, <song.je-hoon@kaist.ac.kr>
 #
@@ -10,7 +9,7 @@ import json
 from ipdb import set_trace
 from sbie_optdrug.boolean2 import Model
 from sbie_optdrug.analysis import boolnet
-
+from os.path import exists
 
 def test_compute_basin():
 
@@ -27,12 +26,12 @@ def test_compute_basin():
     """
 
     model = Model( text=text, mode='sync')
-    res = boolnet.find_attractors(model=model, sample_size=10000)
+    res = boolnet.find_attractors(model=model, sample_size=1000)
     
-    print (res)
-
-    outputfile = 'output.json'
+    outputfile = 'test_basin_result.json'
 
     json.dump(res, open(outputfile, 'w'), indent=1)
+
+    assert exists(outputfile)
 
     # set_trace()
