@@ -6,30 +6,33 @@
 # This file is part of {sbie_optdrug}.
 #*************************************************************************
 
+import json
 from ipdb import set_trace
 from sbie_optdrug.boolean2 import Model
+from sbie_optdrug.analysis import boolnet
 
 
-def test_hello():
+def test_compute_basin():
 
     text = """
-    # initial values
     A = Random
     B = Random
     C = Random
+    D = Random
 
-    # updating rules
-    A* = A and C
-    B* = A and B
-    C* = not A
+    A *= D or C
+    B *= A
+    C *= B or D
+    D *= B
     """
 
     model = Model( text=text, mode='sync')
+    res = boolnet.find_attractors(model=model, sample_size=10000)
+    
+    print (res)
 
-    model.initialize()
+    outputfile = 'output.json'
 
-    model.iterate( steps=5, repeat=1)
+    json.dump(res, open(outputfile, 'w'), indent=1)
 
-    for state in model.states:
-        print state.A, state.B, state.C
-
+    # set_trace()
