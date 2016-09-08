@@ -1,9 +1,9 @@
-## Table S1
+### Table S1
 
-###Table S1(a)
+* (a)
 
-###Table S1(b)
+* (b)
 
-###Table S1(c)
+* (c)
 
-###Table S1(a)
+* (d)
