@@ -6,12 +6,17 @@
 # This file is part of {sbie_optdrug}.
 #*************************************************************************
 
-from os.path import join, split, abspath, dirname
+from os.path import join, split, abspath, dirname, exists
 import sbie_optdrug
 
 # directory for source and processed datasets. 
 
 dir_material = abspath(dirname(sbie_optdrug.__file__)+'/material')
+
+if not exists(dir_material):
+    print('missing directory:', dir_material)
+    print('material should be provided to program.')
+    assert False
 
 # ccle source data: 
 ccle_gex = join(dir_material, 
