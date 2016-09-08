@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python
 #*************************************************************************
 # Author: {Je-Hoon Song, <song.je-hoon@kaist.ac.kr>
 #
 # This file is part of {sbie_optdrug}.
 #*************************************************************************
 
+import json
 from pdb import set_trace
 from sbie_optdrug.boolean2 import Model
 from sbie_optdrug.analysis import boolnet
@@ -53,7 +53,7 @@ def test_find_attractors():
     """
 
     model = Model( text=text, mode='sync')
-    res = boolnet.find_attractors(model=model, steps=100, sample_size=100000)
+    res = boolnet.find_attractors(model=model, steps=100, sample_size=1000)
 
     outputfile = 'output.json'
     json.dump(res, open(outputfile, 'w'), indent=1)
