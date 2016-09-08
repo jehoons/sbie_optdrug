@@ -1,3 +1,16 @@
+# -*- coding: utf-8 -*-
+#!/usr/bin/python
+#*************************************************************************
+# Author: {Je-Hoon Song, <song.je-hoon@kaist.ac.kr>
+#
+# This file is part of {sbie_optdrug}.
+#*************************************************************************
+
+import re 
+from sbie_optdrug.preproc import rule2logic
+
+""" The original fumia_network curated version """
+
 fumia_network_data = """
 S_TGFbeta(t+1)=sgn_th(S_HIF1(t));
 % S_TGFbeta(t+1)=0;   % tumor suppressor gene
@@ -116,6 +129,18 @@ S_AcidLactic(t+1)=sgn_th(S_LDHA(t));
 S_Snail(t+1)=sgn_th(S_NF_kB(t)-S_GSK_3(t)-S_p53(t)+S_Smad(t)-1);
 """
 
+
 def get_txtdata():
-    return fumia_network_data 
     
+    return fumia_network_data
+
+
+def get_logic():
+
+    txtdata = re.sub('%.*\n', '\n', get_txtdata())
+    txtdata = re.sub('[ ;]', '', txtdata)
+    txtdata = txtdata.replace('(t)', '')
+    txtdata = txtdata.replace('(t+1)', '')
+
+    return rule2logic.run(txtdata)
+
