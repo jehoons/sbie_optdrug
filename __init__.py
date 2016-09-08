@@ -6,5 +6,5 @@
 # This file is part of {sbie_optdrug}.
 #*************************************************************************
 
-__all__ = ['analysis', 'dataset', 'model', 'preproc', 'filelist', 'util','boolean2', 'scratch']
+__all__ = ['analysis', 'dataset', 'model', 'preproc', 'util','boolean2', 'scratch', 'result']
 
