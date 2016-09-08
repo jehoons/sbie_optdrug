@@ -5,26 +5,32 @@
 # 
 # This file is part of {pyhet}.
 #*************************************************************************
+
 import pickle 
-from pyhet import filelist 
+from sbie_optdrug import filelist 
 from pdb import set_trace
 import json
 import pandas as pd 
+# from sbie_optdrug import dataset
 
 
 def gex():
+
 	return pickle.load(open(filelist.processed_ccle_gex, 'rb'))
 
 
 def mutcna():
+
 	return pickle.load(open(filelist.processed_ccle_mutcna, 'rb'))
 
 
 def mutcna_dense():
+
 	return json.load(open(filelist.processed_ccle_mutcna_dense, 'rb'))
 
 
 def mutcna_seperately():
+
     # mutcna_mut - get only mutation
     # mutcna_amp - get only CNV with amplification
     # mutcna_del - get only CNV with deletion
@@ -34,17 +40,19 @@ def mutcna_seperately():
 
 
 def sampleinfo():
+
 	return pickle.load(open(filelist.processed_ccle_sampleinfo, "rb" ))
 
 
 def therapy():
+
 	return pickle.load(open(filelist.processed_ccle_therapy, "rb" ))
 
 
 def check_intestine_cells():    
-    from pyhet import dataset
-    sample_data = dataset.ccle.sampleinfo()
-    therapy_data = dataset.ccle.therapy()
+    
+    sample_data = sampleinfo()
+    therapy_data = therapy()
     
     idx = (sample_data['Site Primary']=='large_intestine') | \
         (sample_data['Site Primary']=='small_intestine')
@@ -66,10 +74,3 @@ def check_intestine_cells():
     print '# drugs:', len(drug_list)
 
 
-def test_this():    
-    check_intestine_cells()
-    # 실행결과 - experiments: 535, cell: 63, drugs: 24
-    
-    data = mutcna()
-
-    set_trace()
