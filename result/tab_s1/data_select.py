@@ -1,10 +1,10 @@
-import pickle 
-from pyhet import filelist 
-from ipdb import set_trace
 import json
+import pickle
+from sbie_optdrug import filelist 
 import pandas as pd 
-from pyhet.dataset import ccle
-from pyhet import util
+from ipdb import set_trace
+from sbie_optdrug.dataset import ccle
+from sbie_optdrug import util
 
 # Bring data from filelist
 mutcna = ccle.mutcna()
@@ -39,6 +39,7 @@ for i in gene.index:
         total_mut = pd.concat([total_mut, data_mut])
         total_therapy = pd.concat([total_therapy, data_therapy])
     i += 1
+
 total_mut.to_csv('MUTCNA_CRC_NET.csv')
 total_therapy.to_csv('therapy_CRC_NET.csv', index=False)
 
@@ -113,6 +114,7 @@ for i in range(len(mutcna_col.columns)):
     elif data_MUTCNA.loc[i, 'CCLE CNV DEL'] == 0:
         data_MUTCNA.loc[i, 'Ratio of CNV DEL'] = 0
     i += 1
+
 # calculate the average of each ratio
 data_MUTCNA.loc[i, 'Ratio of Mut'] = sum(data_MUTCNA['Ratio of Mut'][0:i])/len(mutcna_col.columns)
 data_MUTCNA.loc[i, 'Ratio of CNV AMP'] = sum(data_MUTCNA['Ratio of CNV AMP'][0:i])/len(mutcna_col.columns)
@@ -170,6 +172,7 @@ for i in range(len(therapy['Compound'])):
             data_Drug.loc[loc, 'Number of Large intestine'] = num_LI
             loc += 1
     i += 1
+    
 data_Drug.loc[loc-1, 'Total Cell line number'] = i - num.loc[loc-2, 'Number of data in each drug']
 data_Drug.to_csv('data_Num_Drug.csv', index=False)
 
