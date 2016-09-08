@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
-# This module should be executed from python 3.5
-# This module changes 'z = sign(x+y-1)' to logical equation.
+#!/usr/bin/python
+#*************************************************************************
+# Author: {Je-Hoon Song, <song.je-hoon@kaist.ac.kr>
+#
+# This file is part of {sbie_optdrug}.
+#*************************************************************************
+
+""" This module should be executed from python 3.5 
+This module changes 'z = sign(x+y-1)' to logical equation. """
 
 import re
 import itertools
@@ -8,6 +15,7 @@ from pyeda.inter import *
 from pdb import set_trace
 from sympy import And, Or, Not, symbols
 from pyhet.model.published import fumia_network
+
 
 def get_variables(rule): 
     found = re.findall('[A-Za-z_][_A-Za-z0-9]+', rule)
@@ -39,7 +47,7 @@ def compute_truth_table(rule, tt, variables):
     return output_list
 
 
-def rule2logic(rule):
+def engine_rule2logic(rule):
     variables = get_variables(rule)
     tt = [i for i in itertools.product([0,1], repeat=len(variables))]
 
@@ -85,7 +93,7 @@ def run(txtdata):
             continue
 
         words = eq.split('=')
-        res0, res1, varlist, tt, y = rule2logic(words[1])
+        res0, res1, varlist, tt, y = engine_rule2logic(words[1])
         print ('source: ', words[0], '*=', res0)
         print ('input:', varlist)
         print ('output:', words[0])
@@ -98,15 +106,4 @@ def run(txtdata):
 
         print ('target:', words[0], '*=', res1)
         print ('')
-
-
-def test_this():
-
-    txtdata = re.sub('%.*\n', '\n', fumia_network.get_txtdata())
-    txtdata = re.sub('[ ;]', '', txtdata)
-    txtdata = txtdata.replace('(t)', '')
-    txtdata = txtdata.replace('(t+1)', '')
-
-    run(txtdata)
-
 
