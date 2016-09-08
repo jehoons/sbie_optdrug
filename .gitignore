@@ -1,0 +1,13 @@
+*.log
+*.tar
+*.gz
+*.pyc
+*.jpg
+*.png
+*.mat
+*.json
+untracked*.*
+untracked/
+tmp/
+.cache/
+__pycache__/
