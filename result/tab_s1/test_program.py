@@ -14,6 +14,4 @@ def test(with_small, force):
     if not numpy.product(exist_list) or force:
         program.run(config)
 
-    assert numpy.product(exist_list)
-
 
