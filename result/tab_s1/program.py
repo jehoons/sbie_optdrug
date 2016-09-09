@@ -9,7 +9,7 @@ from sbie_optdrug.util import progressbar
 
 
 """ requirements """
-inputfile = join(dirname(__file__), '../tab_s2/TABLE.S2.NODE-NAME.CSV')
+inputfile = join(dirname(__file__), '..','tab_s2','TABLE.S2.NODE-NAME.CSV')
 
 """ results """
 outputfile_a = join(dirname(__file__), 'TABLE.S1A.MUTCNA_CRC_NET.CSV')

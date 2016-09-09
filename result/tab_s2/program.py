@@ -9,7 +9,7 @@ from os.path import dirname,join,exists
 
 
 """ requirements """
-inputfile = join(dirname(__file__), '../tab_s3/TABLE.S3.LOGICAL-EQUATIONS.TXT')
+inputfile = join(dirname(__file__), '..', 'tab_s3', 'TABLE.S3.LOGICAL-EQUATIONS.TXT')
 
 """ results """
 outputfile = join(dirname(__file__), 'TABLE.S2.NODE-NAME.CSV')
