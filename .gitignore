@@ -11,6 +11,7 @@
 *.json
 *.CSV
 *.JSON
+*.TXT
 material
 untracked*.*
 untracked/
