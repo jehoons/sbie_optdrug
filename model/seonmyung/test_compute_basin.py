@@ -1,6 +1,6 @@
 import json
-from boolean2 import Model
-from pyhet.analysis import find_attractors
+from sbie_optdrug.boolean2 import Model
+from sbie_optdrug.analysis.boolnet import find_attractors
 from ipdb import set_trace
 
 def test_compute_basin():
