@@ -69,8 +69,8 @@ def check_intestine_cells():
 
     drug_list = set(therapy_data['Compound'].loc[index_list])
 
-    print '# experiments:', count 
-    print '# cells:', len(intestine)
-    print '# drugs:', len(drug_list)
+    print ('# experiments:', count)
+    print ('# cells:', len(intestine))
+    print ('# drugs:', len(drug_list))
 
 
