@@ -1,9 +1,9 @@
 import sys, os
 from itertools import *
 
-from pyhet import boolean2
-from pyhet.boolean2.boolmodel import BoolModel
-from pyhet.boolean2 import util, odict, tokenizer
+# import sbie_optdrug.boolean2
+from sbie_optdrug.boolean2.boolmodel import BoolModel
+from sbie_optdrug.boolean2 import util, odict, tokenizer
 import helper
 from pdb import set_trace
 
