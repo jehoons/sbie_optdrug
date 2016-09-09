@@ -87,6 +87,7 @@ def engine_rule2logic(rule):
 
 def run(txtdata, short=False):
     eq_lines = txtdata.split('\n')
+    output_str = '' 
     for k, eq in enumerate(eq_lines): 
         eq = eq.strip()
         if eq == '':
@@ -96,20 +97,32 @@ def run(txtdata, short=False):
         res0, res1, varlist, tt, y = engine_rule2logic(words[1])
         
         if short == False: 
-            print ('source: ', words[0], '*=', res0)
-            print ('input:', varlist)
-            print ('output:', words[0])
-            print ('table:')
+            output_str += 'source: ' + words[0] + ' *= ' + res0 + '\n'
+            # print ('source: ', words[0], '*=', res0)
+            output_str += 'input: ' + ",".join(varlist) + '\n'
+            # print ('input:', varlist)
+            output_str += 'output: ' + words[0] + '\n'
+            # print ('output:', words[0])
+            output_str += 'table: ' + '\n'
+            # print ('table:')
+
             if tt != None: 
                 for j, row in enumerate(tt):
-                    print(row, y[j])
-            else:  
-                print ('N/A')
+                    #set_trace()
+                    lhs_ = ",".join( ['%d' % r for r in row] )
+                    output_str += lhs_ + ' | ' + str(y[j]) + '\n'
+                    # print(row, y[j])
 
-            print ('target:', words[0], '*=', res1)
-            print ('')
+            else:  
+                output_str += 'N/A' + '\n'
+                # print ('N/A')
+
+            output_str += 'target: ' + words[0] + ' *= ' + res1 + '\n\n'
+            # print ('target:', words[0], '*=', res1)
+            # print ('')
 
         else: 
-            print (words[0], '*=', res1)
+            output_str += words[0] + ' *= ' + res1 + '\n'
+            # print (words[0], '*=', res1)
 
-            
+    return output_str

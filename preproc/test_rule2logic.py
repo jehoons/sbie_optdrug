@@ -18,6 +18,8 @@ def test_this():
     txtdata = txtdata.replace('(t)', '')
     txtdata = txtdata.replace('(t+1)', '')
 
-    rule2logic.run(txtdata)
+    res = rule2logic.run(txtdata)
 
+    print(res)
 
+    assert True
