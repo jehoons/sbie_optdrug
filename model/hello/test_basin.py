@@ -6,8 +6,13 @@
 #*************************************************************************
 
 import json
-from ipdb import set_trace
+from pdb import set_trace
+import sbie_optdrug
+
+import sys 
+from os.path import join
 from sbie_optdrug.boolean2 import Model
+
 from sbie_optdrug.analysis import boolnet
 from os.path import exists
 

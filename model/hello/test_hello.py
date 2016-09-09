@@ -5,7 +5,7 @@
 # This file is part of {sbie_optdrug}.
 #*************************************************************************
 
-from ipdb import set_trace
+from pdb import set_trace
 from sbie_optdrug.boolean2 import Model
 import pickle 
 
