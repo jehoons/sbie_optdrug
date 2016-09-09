@@ -4,14 +4,14 @@ from pdb import set_trace
 import numpy 
 
 
-def test():
+def test(with_small, force):
     
     config = program.getconfig()
 
     exist_list = [exists(config[output]) for output in \
         ['output_a','output_b','output_c','output_d']]
 
-    if not numpy.product(exist_list):
+    if not numpy.product(exist_list) or force:
         program.run(config)
 
     assert numpy.product(exist_list)
