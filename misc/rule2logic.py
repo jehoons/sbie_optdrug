@@ -10,6 +10,7 @@
 This module changes 'z = sign(x+y-1)' to logical equation. """
 
 import re
+import sys
 import itertools
 from pyeda.inter import *
 from pdb import set_trace
@@ -129,13 +130,17 @@ def run(txtdata, short=False):
     
 if __name__ == '__main__': 
 
-    txtdata = re.sub('%.*\n', '\n', fumia_network.get_txtdata())
-    txtdata = re.sub('[ ;]', '', txtdata)
-    txtdata = txtdata.replace('(t)', '')
-    txtdata = txtdata.replace('(t+1)', '')
+    argv = sys.argv[1:]
 
-    res = run(txtdata)
+    infile_txt = argv[0]
 
-    print(res)
+    with open(infile_txt, 'r') as fin: 
+        txtdata = "\n".join(fin.readlines())
+
+    res = run(txtdata, short=True)
+
+    print (res)
+
+    assert True
 
 
