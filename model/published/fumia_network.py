@@ -135,12 +135,12 @@ def get_txtdata():
     return fumia_network_data
 
 
-def get_logic():
+def to_logic(short=False):
 
     txtdata = re.sub('%.*\n', '\n', get_txtdata())
     txtdata = re.sub('[ ;]', '', txtdata)
     txtdata = txtdata.replace('(t)', '')
     txtdata = txtdata.replace('(t+1)', '')
 
-    return rule2logic.run(txtdata)
+    return rule2logic.run(txtdata, short=short)
 
