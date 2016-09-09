@@ -1,9 +1,25 @@
-# This is a simulation platform to find optimal combination of cancer drug
+# Finding optimal combination of cancer drugs
+
+
+## Goals
+
+* Map patient (or cell line) profile into network 
+
+* Simulate personalized network 
+
+* Calculate attractor's landscape 
+
 
 ## Requirements 
-* python 2.x
-* pandas 
-* numpy 
+
+* Python 2.x
+
+* Pandas 
+
+* Numpy
 
 
 ## Licence 
+
+
+
