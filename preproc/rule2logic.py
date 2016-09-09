@@ -14,7 +14,7 @@ import itertools
 from pyeda.inter import *
 from pdb import set_trace
 from sympy import And, Or, Not, symbols
-from pyhet.model.published import fumia_network
+from sbie_optdrug.model.published import fumia_network
 
 
 def get_variables(rule): 
@@ -85,7 +85,7 @@ def engine_rule2logic(rule):
     return rule, cstr, variables, tt, output_list
 
 
-def run(txtdata):
+def run(txtdata, short=False):
     eq_lines = txtdata.split('\n')
     for k, eq in enumerate(eq_lines): 
         eq = eq.strip()
@@ -94,16 +94,22 @@ def run(txtdata):
 
         words = eq.split('=')
         res0, res1, varlist, tt, y = engine_rule2logic(words[1])
-        print ('source: ', words[0], '*=', res0)
-        print ('input:', varlist)
-        print ('output:', words[0])
-        print ('table:')
-        if tt != None: 
-            for j, row in enumerate(tt):
-                print(row, y[j])
-        else:  
-            print ('N/A')
+        
+        if short == False: 
+            print ('source: ', words[0], '*=', res0)
+            print ('input:', varlist)
+            print ('output:', words[0])
+            print ('table:')
+            if tt != None: 
+                for j, row in enumerate(tt):
+                    print(row, y[j])
+            else:  
+                print ('N/A')
 
-        print ('target:', words[0], '*=', res1)
-        print ('')
+            print ('target:', words[0], '*=', res1)
+            print ('')
 
+        else: 
+            print (words[0], '*=', res1)
+
+            
