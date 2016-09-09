@@ -6,7 +6,8 @@ import pandas as pd
 from sbie_optdrug.dataset import ccle
 from sbie_optdrug.util import progressbar
 from os.path import dirname,join,exists
-from sbie_optdrug.model.published import fumia_network 
+
+# from sbie_optdrug.model.published import fumia_network 
 
 
 """ requirements """
@@ -31,8 +32,9 @@ def getconfig():
 
 def run(config=None):
     
-    res = fumia_network.to_logic(short=True)
+    # do nothing 
+    # this is done by misc/rule2logic.py
 
-    with open(config['output']['a'], 'w') as f: 
-        f.write(res)
+    pass 
+
 
