@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+#*************************************************************************
+# Author: {Je-Hoon Song, <song.je-hoon@kaist.ac.kr>
+#
+# This file is part of {sbie_optdrug}.
+#*************************************************************************
+
 # The collector helper function
 #
 # Asynchronous updating rules are non deterministic and
@@ -11,6 +18,7 @@
 # 0 and 1 representing the fraction of simulation (multiply by 100 to get percent) 
 # that had the node in state True. 
 #
+
 from pdb import set_trace
 
 import matplotlib
@@ -23,6 +31,63 @@ from sbie_optdrug.util import progressbar
 import random
 
 
+# mutations can be defined as follows: 
+mutations = [
+    {
+        'name': 'APC', 
+        # LOF, GOF, UNKNOWN
+        'function': 'UNKNOWN',  
+        # function is UNKNOWN, simulator should assume what the function is.
+        'default_function': 'LOF', 
+        # range 0 - 1. 
+        'intensity': 0.0 
+    }
+]
+
+# or 
+
+mutations = {} 
+mutations['APC'] = {
+    'function': None, 
+    'default_function': None, 
+    'intensity': 0
+    }
+
+# CNVs can be deinfed with similar manner. 
+
+drugs = [
+    {
+        'name': 'MEKi', 
+        'type': 'inhibitor',
+        # initial intensity  
+        'intensity': 0.0,
+        # mutations can be assumed as permanent change but drugs can not. 
+        # intensity of drug becomes 50% after its time_constant (unit is given as steps). 
+        'time_constant': 10 
+    }
+]
+
+# TODO
+# build algorithm to simulate drugs and mutations. how? 
+def new_set_value( state, name, value, p ): 
+
+    if name in mutations: 
+        if mutations[name]['function'] == 'LOF':
+            if value == True: 
+                if random.random() < mutations[name]['intensity']
+                    value = False
+        elif mutations[name]['function'] == 'GOF': 
+             if value == False: 
+                if random.random() < mutations[name]['intensity']
+                    value = True
+        elif mutations[name]['function'] == 'UNKNOWN': 
+            pass 
+
+    setattr( state, name, value )
+    return value 
+
+    
+# hello set_value 
 # create a custom value setter
 def set_value( state, name, value, p ):
     "Custom value setter"
