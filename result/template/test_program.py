@@ -21,10 +21,10 @@ def check_outputs(config):
 
 def test(with_small, force):
     
-    config = program.getconfig()
+    default_config = program.getconfig()
 
     if not check_outputs(config) or force:
-        program.run(config)
+        program.run(default_config)
 
-    assert check_outputs(config)
+    assert check_outputs(default_config)
 
