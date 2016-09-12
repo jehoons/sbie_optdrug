@@ -5,19 +5,6 @@
 # This file is part of {sbie_optdrug}.
 #*************************************************************************
 
-# The collector helper function
-#
-# Asynchronous updating rules are non deterministic and
-# need to be averaged over many runs
-#
-# The collector class makes this averaging very easy. It takes
-# a list of states and nodes to build a data structure that 
-# can compute the average the state of each node over all simulation and each timestep.
-#
-# The output of averaging (in the normalized mode) is a value between
-# 0 and 1 representing the fraction of simulation (multiply by 100 to get percent) 
-# that had the node in state True. 
-#
 
 from pdb import set_trace
 
@@ -96,9 +83,17 @@ def rule_mutation( state, name, value, p ):
                 if random.random() < intensity
                     value = True
 
-    setattr( state, name, value )
+    # setattr( state, name, value )
+    # setattr should be used only once and only in set_value(). 
     
     return value
+
+
+def rule_drug(state, name, value, p):
+
+    "rule_drug"
+
+    pass 
 
 
 # hello set_value 
@@ -107,18 +102,38 @@ def set_value2( state, name, value, p ):
 
     "Custom value setter"
     
-    value = rule_mutation(state, name, value, p)
+    dst_value1 = rule_mutation(state, name, src_value, p)
 
-    # this sets the attribute
-    setattr( state, name, value )
+    dst_value2 = rule_drug(state, name, src_value, p)    
+
+    # Here, problem occurs if rule_mutation() and rule_drug() does not give 
+    # same changes (src_value->dst_value1, src_value->dst_value2). 
+
+    # This problem can be ignored if we ignore the case that src_value = 
+    # dst_value. We consider src == dst as no effect. 
+
+    if dst_value1 == dst_value2: 
+        dst_value = dst_value1
+
+    else: 
+        if src_value == dst_value1: 
+            dst_value = dst_value2
+
+        elif src_value == dst_value2: 
+            dst_value = dst_value1
+
+    # finally, we decided dst_value and then we set the attribute.
+    setattr( state, name, dst_value )
+
     return value
 
 
 # hello set_value 
 # create a custom value setter
 def set_value( state, name, value, p ):
+
     "Custom value setter"
-    
+
     inhibitor_strength = 0.16
     # detect the node of interest
     if name == 'D':
@@ -129,10 +144,24 @@ def set_value( state, name, value, p ):
 
     # this sets the attribute
     setattr( state, name, value )
+
     return value
 
+# The collector helper function
+#
+# Asynchronous updating rules are non deterministic and
+# need to be averaged over many runs
+#
+# The collector class makes this averaging very easy. It takes
+# a list of states and nodes to build a data structure that 
+# can compute the average the state of each node over all simulation and each timestep.
+#
+# The output of averaging (in the normalized mode) is a value between
+# 0 and 1 representing the fraction of simulation (multiply by 100 to get percent) 
+# that had the node in state True. 
 
 def test_main():
+    
     text = """
     A = True
     B = Random
@@ -145,17 +174,18 @@ def test_main():
     """
 
     repeat = 1000
-
-    coll  = util.Collector()
+    coll  = util.Collector()    
     for i in range(repeat):
         progressbar.update(i, repeat)
         model = boolean2.Model( text, mode='async')
         model.parser.RULE_SETVALUE = set_value
         model.initialize()
         model.iterate( steps=30 )
+        
         # in this case we take all nodes
-        # one could just list a few nodes such as [ 'A', 'B', 'C' ]
+        # one could just list a few nodes such as [ 'A', 'B', 'C' ]        
         nodes = model.nodes
+        
         # this collects states for each run
         coll.collect(states=model.states, nodes=nodes)
 
@@ -175,5 +205,4 @@ def test_main():
     plt.legend( [p1,p2,p3], ["B","C","D"])
     plt.show()
     plt.savefig('test_mutation_output.png')
-
 
