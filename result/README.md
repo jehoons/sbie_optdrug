@@ -28,10 +28,22 @@ mutations = {
 	"default_function": "LOF"
 }
 
+copynumbers = {
+	"list": {
+		"APC": {
+			"function": "AMP", "copy_number": 10
+	    }, 
+	    "CTNNB1": {
+	    	"function": "DEL", "intensity": 2
+	    }
+	}, 
+	"default_function": "LOF"
+}
+
 drugs = {
 	"list": {
 		"MEKi": {
-			"type": "inhibitor", "dose": 1.0, "time_constant": 10
+			"type": "inhibitor", "dose": 1.0, "tau": 10, "target": 'MEK'
 	    }, 
 	},
 }
@@ -39,6 +51,5 @@ drugs = {
 
 ### Ref. 
 * TEX writing - http://www.hostmath.com/
-
 
 
