@@ -12,6 +12,12 @@
 ### Table S4
 Among the list of gene oncogene and tumor suppressor gene are identified. 
 
+Gene | Type
+--- | --- 
+APC | TSG
+CTNNB1 | ONCOGENE
+... | ... 
+
 ### Table S5
 Patient-specific profiles (such as mutation and CNV) and drug effect information are converted as JSON format as following: 
 
