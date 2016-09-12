@@ -1,18 +1,57 @@
-import pickle 
-from pyhet import filelist 
-from ipdb import set_trace
 import json
-import pandas as pd 
-from pyhet.dataset import ccle
-from pyhet import util
+import pickle
+from os.path import dirname,join,exists
+from sbie_optdrug import filelist
+import pandas as pd
+from ipdb import set_trace
+from sbie_optdrug.dataset import ccle
+from sbie_optdrug.util import progressbar
+from sbie_optdrug.result import tab_s1
+from sbie_optdrug.result import tab_s2
+
+inputfile = join(dirname(tab_s2.__file__), 'TABLE.S2.NODE-NAME.CSV')
+outputfile = join(dirname(tab_s1.__file__), 'TABLE.S1A.MUTCNA_CRC_NET.CSV')
+outputfile1 = join(dirname(tab_s1.__file__), 'TABLE.S1B.THERAPY_CRC_NET.CSV')
+outputfile2 = join(dirname(tab_s1.__file__), 'TABLE.S1C.NUM_MUTCNA.CSV')
+outputfile3 = join(dirname(tab_s1.__file__), 'TABLE.S1D.NUM_DRUG.CSV')
+
+config = {
+    'input': inputfile,
+    'output': outputfile,
+    'output1': outputfile1,
+    'output2': outputfile2,
+    'output3': outputfile3,
+    }
 
 mutcna = ccle.mutcna()
 therapy = ccle.therapy()
 mutcna_col = mutcna.filter(regex='LARGE_INTESTINE')
 therapy_col = therapy[therapy['CCLE Cell Line Name'].str.contains("LARGE_INTESTINE")]
-gene = pd.read_csv('node_name.csv')
-# model = open('logical_rule.txt',"r+")
-# model.close()
+gene = pd.read_csv(config['input'])
+data_mutcna = pd.read_csv(config['output'])
+data_therapy = pd.read_csv(config['output1'])
+data_num_mutcna = pd.read_csv(config['output2'])
+data_num_therapy = pd.read_csv(config['output3'])
+
+# attr_data = json.load(open('output.json','rb'))
+# attrs = attr_data['basin_of_attraction']
+# fmap = attr_data['fingerprint_map']
+# mapkeys = attr_data['fingerprint_map_keys']
+# attr_info = attr_data['attractor_info']
+# outputfile = 'output1.json'
+# json.dump(res, open(outputfile, 'w'), indent=1)
+# data_MUTCNA = pd.DataFrame([], columns=['Cell Line'] + ['CCLE Mut'] + ['CCLE CNV AMP'] + ['CCLE CNV DEL']+ ['Network Mut'] + ['Network CNV AMP'] + ['Network CNV DEL'])
+# data_MUTCNA.loc[i, 'CCLE Mut'] = len(data_sub_MUT)
+# data_net = data_sub.filter(regex=gene_index)
+# gene_index = gene.loc[j, 'node_name']
+# therapy_data = therapy[therapy['Compound'].str.contains(drug)]
+# util.update_progress(i, len(therapy['Compound']))
+
+
+
+
+
+
 
 
 # data_MUTCNA = pd.DataFrame([], columns=['Cell Line'] + ['CCLE Mut'] + ['CCLE CNV AMP'] + ['CCLE CNV DEL']+ ['Network Mut'] + ['Network CNV AMP'] + ['Network CNV DEL'])
@@ -60,111 +99,7 @@ gene = pd.read_csv('node_name.csv')
 #         j += 1
 #     i += 1
 # data_MUTCNA.to_csv('data_MUTCNA_temp1.csv', index=False)
-#
-# data_Drug = pd.DataFrame([], columns=['Drug']+['Target']+['Number of Cell line']+['Number of Large intestine']+['Target in network'])
-# num = pd.DataFrame([],columns=['Number of data in each drug'])
-# i = 0
-# loc = 0
-# for i in range(len(therapy['Compound'])):
-#     util.update_progress(i, len(therapy['Compound']))
-#     drug = therapy.loc[i,'Compound']
-#     target = therapy.loc[i, 'Target']
-#     j = 0
-#     k = 0
-#     num_LI = 0
-#     if i == 0:
-#         therapy_data = therapy[therapy['Compound'].str.contains(drug)]
-#         data_CL = therapy_data['CCLE Cell Line Name']
-#         data_Drug.loc[loc, 'Drug'] = drug
-#         data_Drug.loc[loc, 'Target'] = target
-#         for j in range(len(data_CL)):
-#             if data_CL.iloc[j].find('LARGE_INTESTINE') > -1:
-#                 num_LI += 1
-#             j += 1
-#         for k in gene.index:
-#             gene_index = gene.loc[k, 'node_name']
-#             if target.find(gene_index) > -1:
-#                 data_Drug.loc[loc, 'target in network'] = gene_index
-#         data_Drug.loc[loc, 'Number of Large intestine'] = num_LI
-#         loc += 1
-#     else:
-#         if drug != therapy.loc[i-1, 'Compound']:
-#             num.loc[loc-1, 'Number of data in each drug'] = i
-#             therapy_data = therapy[therapy['Compound'].str.contains(drug)]
-#             data_CL = therapy_data['CCLE Cell Line Name']
-#             data_Drug.loc[loc, 'Drug'] = drug
-#             data_Drug.loc[loc, 'Target'] = target
-#             if loc == 1:
-#                 data_Drug.loc[loc-1, 'Total Cell line number'] = i
-#             else:
-#                 data_Drug.loc[loc-1, 'Total Cell line number'] = i - num.loc[loc-2, 'Number of data in each drug']
-#             for j in range(len(data_CL)):
-#                 if data_CL.iloc[j].find('LARGE_INTESTINE') > -1:
-#                     num_LI += 1
-#                 j += 1
-#             for k in gene.index:
-#                 gene_index = gene.loc[k, 'node_name']
-#                 if target.find(gene_index) > -1:
-#                     data_Drug.loc[loc, 'target in network'] = gene_index
-#             data_Drug.loc[loc, 'Number of Large intestine'] = num_LI
-#             loc += 1
-#     i += 1
-# data_Drug.loc[loc-1, 'Total Cell line number'] = i - num.loc[loc-2, 'Number of data in each drug']
-# data_Drug.to_csv('data_Drug.csv', index=False)
-#
-#
-# # Count the number of drug and the data that have cell line name
-# # with 'LARGE_INTESTINE' and same gene name with network
-# data_Drug = pd.DataFrame([], columns=['Drug']+['Target']+['Total Cell line number']+['Number of Large intestine']+['Target in network'])
-# num = pd.DataFrame([],columns=['Number of data in each drug'])
-# i = 0
-# loc = 0
-# for i in range(len(therapy['Compound'])):
-#     util.update_progress(i, len(therapy['Compound']))
-#     drug = therapy.loc[i,'Compound']
-#     target = therapy.loc[i, 'Target']
-#     j = 0
-#     k = 0
-#     num_LI = 0
-#     if i == 0:
-#         therapy_data = therapy[therapy['Compound'].str.contains(drug)]
-#         data_CL = therapy_data['CCLE Cell Line Name']
-#         data_Drug.loc[loc, 'Drug'] = drug
-#         data_Drug.loc[loc, 'Target'] = target
-#         for j in range(len(data_CL)):
-#             if data_CL.iloc[j].find('LARGE_INTESTINE') > -1:
-#                 num_LI += 1
-#             j += 1
-#         for k in gene.index:
-#             gene_index = gene.loc[k, 'node_name']
-#             if target.find(gene_index) > -1:
-#                 data_Drug.loc[loc, 'target in network'] = gene_index
-#         data_Drug.loc[loc, 'Number of Large intestine'] = num_LI
-#         loc += 1
-#     else:
-#         if drug != therapy.loc[i-1, 'Compound']:
-#             num.loc[loc-1, 'Number of data in each drug'] = i
-#             therapy_data = therapy[therapy['Compound'].str.contains(drug)]
-#             data_CL = therapy_data['CCLE Cell Line Name']
-#             data_Drug.loc[loc, 'Drug'] = drug
-#             data_Drug.loc[loc, 'Target'] = target
-#             if loc == 1:
-#                 data_Drug.loc[loc-1, 'Total Cell line number'] = i
-#             else:
-#                 data_Drug.loc[loc-1, 'Total Cell line number'] = i - num.loc[loc-2, 'Number of data in each drug']
-#             for j in range(len(data_CL)):
-#                 if data_CL.iloc[j].find('LARGE_INTESTINE') > -1:
-#                     num_LI += 1
-#                 j += 1
-#             for k in gene.index:
-#                 gene_index = gene.loc[k, 'node_name']
-#                 if target.find(gene_index) > -1:
-#                     data_Drug.loc[loc, 'target in network'] = gene_index
-#             data_Drug.loc[loc, 'Number of Large intestine'] = num_LI
-#             loc += 1
-#     i += 1
-# data_Drug.loc[loc-1, 'Total Cell line number'] = i - num.loc[loc-2, 'Number of data in each drug']
-# data_Drug.to_csv('data_Num_Drug.csv', index=False)
+
 
 #sampleinfo = ccle.sampleinfo()
 #total_data.to_csv('total_data.csv')
