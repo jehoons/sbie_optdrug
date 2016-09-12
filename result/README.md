@@ -43,7 +43,7 @@ copynumbers = {
 drugs = {
 	"list": {
 		"MEKi": {
-			"type": "inhibitor", "dose": 1.0, "tau": 10, "target": 'MEK'
+			"type": "inhibitor", "dose": 1.0, "tau": 10, "target": "MEK"
 	    }, 
 	},
 }
