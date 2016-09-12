@@ -17,8 +17,8 @@ Patient-specific profiles (such as mutation and CNV) and drug effect information
 ```json
 mutations = {
 	'list': {
-		'APC': {
-			'function': 'LOF', 
+		"APC": {
+			"function": "LOF", 
 	    	'intensity': 0.5
 	    }, 
 	    'CTNNB1': {
