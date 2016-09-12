@@ -34,7 +34,7 @@ copynumbers = {
 			"function": "AMP", "copy_number": 10
 	    }, 
 	    "CTNNB1": {
-	    	"function": "DEL", "intensity": 2
+	    	"function": "DEL", "copy_number": 2
 	    }
 	}, 
 	"default_function": "LOF"
