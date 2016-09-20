@@ -1,3 +1,7 @@
+
+# how to run: 
+# python2 -m pytest -qs test_binfo.py
+
 from pdb import set_trace
 from sbie_optdrug.dataset import ccle 
 import re 
