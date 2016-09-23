@@ -5,144 +5,53 @@ from sbie_optdrug import filelist
 import pandas as pd
 from ipdb import set_trace
 from sbie_optdrug.dataset import ccle
-from sbie_optdrug.util import progressbar
 from sbie_optdrug.result import tab_s1
 from sbie_optdrug.result import tab_s2
+from sbie_optdrug.result import tab_s5
+
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from sbie_optdrug import boolean2
+from sbie_optdrug.boolean2 import util
+from sbie_optdrug.util import progressbar
+import random
 
 inputfile = join(dirname(tab_s2.__file__), 'TABLE.S2.NODE-NAME.CSV')
 outputfile = join(dirname(tab_s1.__file__), 'TABLE.S1A.MUTCNA_CRC_NET.CSV')
 outputfile1 = join(dirname(tab_s1.__file__), 'TABLE.S1B.THERAPY_CRC_NET.CSV')
 outputfile2 = join(dirname(tab_s1.__file__), 'TABLE.S1C.NUM_MUTCNA.CSV')
 outputfile3 = join(dirname(tab_s1.__file__), 'TABLE.S1D.NUM_DRUG.CSV')
+outputfile4 = join(dirname(tab_s5.__file__), 'TABLE.S5A.COPYNUMVAR_data.json')
+outputfile5 = join(dirname(tab_s5.__file__), 'TABLE.S5B.MUTATION_data.json')
+outputfile6 = join(dirname(tab_s5.__file__), 'TABLE.S5C.DRUG_data.json')
 
 config = {
     'input': inputfile,
     'output': outputfile,
     'output1': outputfile1,
+    'output2': outputfile2,
+    'output3': outputfile3,
+    'output4': outputfile4,
+    'output5': outputfile5,
+    'output6': outputfile6,
     }
 
-mutcna = ccle.mutcna()
-therapy = ccle.therapy()
-mutcna_col = mutcna.filter(regex='LARGE_INTESTINE')
-therapy_col = therapy[therapy['CCLE Cell Line Name'].str.contains("LARGE_INTESTINE")]
+ccle_mutcna = ccle.mutcna()
+ccle_therapy = ccle.therapy()
+mutcna_col = ccle_mutcna.filter(regex='LARGE_INTESTINE')
+ccle_therapy_col = ccle_therapy[ccle_therapy['CCLE Cell Line Name'].str.contains("LARGE_INTESTINE")]
+
 gene = pd.read_csv(config['input'])
 data_mutcna = pd.read_csv(config['output'])
 data_therapy = pd.read_csv(config['output1'])
-
-copy_number_data = open('copy_number_data.json', 'w')
-mutation_data = open('mutation_data.json', 'w')
-mutcna_index = data_mutcna['Description']
-mutcna = data_mutcna[data_mutcna.columns[2:]]
-mutcna.index = mutcna_index
-mutcna_MUT = mutcna[mutcna.index.str.contains('_MUT')]
-mutcna_AMP = mutcna[mutcna.index.str.contains('_AMP')]
-mutcna_DEL = mutcna[mutcna.index.str.contains('_DEL')]
-i = 0
-cnd = {}
-mut = {}
-for i in range(len(mutcna.columns)):
-    progressbar.update(i, len(mutcna.columns))
-    cln = mutcna.columns[i]
-    if (len(cln) != 0) & (cln != 'Description'):
-        cnd_add = {cln: {}}
-        mut_add = {cln: {}}
-        mutcna_MUT_cln = mutcna_MUT[cln]
-        mutcna_AMP_cln = mutcna_AMP[cln]
-        mutcna_DEL_cln = mutcna_DEL[cln]
-        mutcna_MUT_cln_data = mutcna_MUT_cln[mutcna_MUT_cln==1]
-        mutcna_AMP_cln_data = mutcna_AMP_cln[mutcna_AMP_cln==1]
-        mutcna_DEL_cln_data = mutcna_DEL_cln[mutcna_DEL_cln==1]
-        if len(cnd) == 0:
-            cnd = cnd_add
-            mut = mut_add
-        else:
-            cnd = dict(cnd.items() + cnd_add.items())
-            mut = dict(mut.items() + mut_add.items())
-        j = 0
-        node_data_cnv = {}
-        node_data_mut = {}
-        for j in gene.index:
-            name = gene.loc[j,'node_name']
-            node_data_cnv_add = {name: {'function': ''}}
-            node_data_mut_add = {name: {'function': ''}}
-            if len(mutcna_MUT_cln_data) != 0:
-                mutcna_MUT_cln_data_node = mutcna_MUT_cln_data[mutcna_MUT_cln_data.index.str.contains(name)]
-                if len(mutcna_MUT_cln_data_node) != 0:
-                    if len(node_data_mut) == 0:
-                        node_data_mut_add[name]['function'] = 'MUT'
-                        node_data_mut = node_data_mut_add
-                    else:
-                        node_data_mut_add[name]['function'] = 'MUT'
-                        node_data_mut = dict(node_data_mut.items() + node_data_mut_add.items())
-            if len(mutcna_AMP_cln_data) != 0:
-                mutcna_AMP_cln_data_node = mutcna_AMP_cln_data[mutcna_AMP_cln_data.index.str.contains(name)]
-                if len(mutcna_AMP_cln_data_node) != 0:
-                    if len(node_data_cnv) == 0:
-                        node_data_cnv_add[name]['function'] = 'AMP'
-                        node_data_cnv = node_data_cnv_add
-                    else:
-                        node_data_cnv_add[name]['function'] = 'AMP'
-                        node_data_cnv = dict(node_data_cnv.items() + node_data_cnv_add.items())
-            if len(mutcna_DEL_cln_data) != 0:
-                mutcna_DEL_cln_data_node = mutcna_DEL_cln_data[mutcna_DEL_cln_data.index.str.contains(name)]
-                if len(mutcna_DEL_cln_data_node) != 0:
-                    if len(node_data_cnv) == 0:
-                        node_data_cnv_add[name]['function'] = 'DEL'
-                        node_data_cnv = node_data_cnv_add
-                    else:
-                        node_data_cnv_add[name]['function'] = 'DEL'
-                        node_data_cnv = dict(node_data_cnv.items() + node_data_cnv_add.items())
-            j += 1
-        cnd[cln] = node_data_cnv
-        mut[cln] = node_data_mut
-    i += 1
-json.dump(cnd, copy_number_data, indent = 3, sort_keys = True)
-json.dump(mut, mutation_data, indent = 3, sort_keys = True)
-copy_number_data.close()
-mutation_data.close()
-
-#"type": "inhibitor", "dose": 1.0, "tau": 10, "target": "MEK"
-drug_data = open('drug_data.json', 'w')
-i = 0
-drug = {}
-for i in data_therapy['CCLE Cell Line Name'].index:
-    progressbar.update(i, len(data_therapy['CCLE Cell Line Name']))
-    cln = data_therapy['CCLE Cell Line Name'][i]
-    d_name = data_therapy['Compound'][i]
-    target = data_therapy['Target'][i]
-    #dose = data_therapy['Doses'][i]
-    drug_add = {cln: {d_name: {'type': 'inhibitor', 'target': target}}}
-    if cln in drug:
-        new_drug = {d_name: {'type': 'inhibitor', 'target': target}}
-        old_drug = drug[cln]
-        drug[cln] = dict(old_drug.items() + new_drug.items())
-    else:
-        if i == 0:
-            drug = drug_add
-        else:
-            drug = dict(drug.items() + drug_add.items())
-    i += 1
-json.dump(drug, drug_data, indent = 3, sort_keys = True)
-drug_data.close()
+data_num_mutcna = pd.read_csv(config['output2'])
+data_num_drug = pd.read_csv(config['output3'])
+cnv_data = json.loads(config['output4'])
+mutation_data = json.loads(config['output5'])
+drug_data = json.loads(config['output6'])
 
 
-#cnvdata = {cl1: {}, cl2: {}}
-#name = gene.loc[0,'node_name']
-#name1 = gene.loc[1,'node_name']
-#cnvdata[cl1] = {name: {'function': "AMP", 'copy_number': 10}, name1: {'function': "DEL", 'copy_number': 2}}
-#cnvdata[cl2] = {name: {'function': "AMP", 'copy_number': 10}, name1: {'function': "DEL", 'copy_number': 2}}
-#mutcna_MUT = mutcna.filter(regex='_MUT')
-#mutcna_AMP = mutcna.filter(regex='_AMP')
-#mutcna_DEL = mutcna.filter(regex='_DEL')
-#name = {'function': "AMP", 'copy_number': 10}
-#name1 = {'function': "DEL", 'copy_number': 2}
-
-#c = json.dumps('gene.iloc[1]:{"function": "LOF", "intensity": 1.0}')
-
-
-# outputfile = 'output1.json'
-# json.dump(res, open(outputfile, 'w'), indent=1)
-# attr_data = json.load(open('output.json','rb'))
 # attrs = attr_data['basin_of_attraction']
 # fmap = attr_data['fingerprint_map']
 # mapkeys = attr_data['fingerprint_map_keys']
@@ -153,10 +62,14 @@ drug_data.close()
 # gene_index = gene.loc[j, 'node_name']
 # therapy_data = therapy[therapy['Compound'].str.contains(drug)]
 # util.update_progress(i, len(therapy['Compound']))
-
-
-
-
+#sampleinfo = ccle.sampleinfo()
+#total_data.to_csv('total_data.csv')
+# mutcna.to_csv('output_cnvcol.csv')
+# iloc : number loc : string index mutcna.index(gene names)
+# res = sampleinfo['Site Primary']=='large_intestine'
+# res = sampleinfo[ sampleinfo['Site Primary']=='large_intestine' ]
+# mutcna.columns
+# pd.DataFrame(data) : list to dataframe
 
 # data_MUTCNA = pd.DataFrame([], columns=['Cell Line'] + ['CCLE Mut'] + ['CCLE CNV AMP'] + ['CCLE CNV DEL']+ ['Network Mut'] + ['Network CNV AMP'] + ['Network CNV DEL'])
 # i = 0
@@ -204,15 +117,77 @@ drug_data.close()
 #     i += 1
 # data_MUTCNA.to_csv('data_MUTCNA_temp1.csv', index=False)
 
-
-#sampleinfo = ccle.sampleinfo()
-#total_data.to_csv('total_data.csv')
-# mutcna.to_csv('output_cnvcol.csv')
-# iloc : number loc : string index mutcna.index(gene names)
-# res = sampleinfo['Site Primary']=='large_intestine'
-# res = sampleinfo[ sampleinfo['Site Primary']=='large_intestine' ]
-# mutcna.columns
-# pd.DataFrame(data) : list to dataframe
+# copy_number_data = open('copy_number_data.json', 'w')
+# mutation_data = open('mutation_data.json', 'w')
+# mutcna_index = data_mutcna['Description']
+# mutcna = data_mutcna[data_mutcna.columns[2:]]
+# mutcna.index = mutcna_index
+# mutcna_MUT = mutcna[mutcna.index.str.contains('_MUT')]
+# mutcna_AMP = mutcna[mutcna.index.str.contains('_AMP')]
+# mutcna_DEL = mutcna[mutcna.index.str.contains('_DEL')]
+# i = 0
+# cnd = {}
+# mut = {}
+# for i in range(len(mutcna.columns)):
+#     progressbar.update(i, len(mutcna.columns))
+#     cln = mutcna.columns[i]
+#     if (len(cln) != 0) & (cln != 'Description'):
+#         cnd_add = {cln: {}}
+#         mut_add = {cln: {}}
+#         mutcna_MUT_cln = mutcna_MUT[cln]
+#         mutcna_AMP_cln = mutcna_AMP[cln]
+#         mutcna_DEL_cln = mutcna_DEL[cln]
+#         mutcna_MUT_cln_data = mutcna_MUT_cln[mutcna_MUT_cln==1]
+#         mutcna_AMP_cln_data = mutcna_AMP_cln[mutcna_AMP_cln==1]
+#         mutcna_DEL_cln_data = mutcna_DEL_cln[mutcna_DEL_cln==1]
+#         if len(cnd) == 0:
+#             cnd = cnd_add
+#             mut = mut_add
+#         else:
+#             cnd = dict(cnd.items() + cnd_add.items())
+#             mut = dict(mut.items() + mut_add.items())
+#         j = 0
+#         node_data_cnv = {}
+#         node_data_mut = {}
+#         for j in gene.index:
+#             name = gene.loc[j,'node_name']
+#             node_data_cnv_add = {name: {'function': ''}}
+#             node_data_mut_add = {name: {'function': ''}}
+#             if len(mutcna_MUT_cln_data) != 0:
+#                 mutcna_MUT_cln_data_node = mutcna_MUT_cln_data[mutcna_MUT_cln_data.index.str.contains(name)]
+#                 if len(mutcna_MUT_cln_data_node) != 0:
+#                     if len(node_data_mut) == 0:
+#                         node_data_mut_add[name]['function'] = 'MUT'
+#                         node_data_mut = node_data_mut_add
+#                     else:
+#                         node_data_mut_add[name]['function'] = 'MUT'
+#                         node_data_mut = dict(node_data_mut.items() + node_data_mut_add.items())
+#             if len(mutcna_AMP_cln_data) != 0:
+#                 mutcna_AMP_cln_data_node = mutcna_AMP_cln_data[mutcna_AMP_cln_data.index.str.contains(name)]
+#                 if len(mutcna_AMP_cln_data_node) != 0:
+#                     if len(node_data_cnv) == 0:
+#                         node_data_cnv_add[name]['function'] = 'AMP'
+#                         node_data_cnv = node_data_cnv_add
+#                     else:
+#                         node_data_cnv_add[name]['function'] = 'AMP'
+#                         node_data_cnv = dict(node_data_cnv.items() + node_data_cnv_add.items())
+#             if len(mutcna_DEL_cln_data) != 0:
+#                 mutcna_DEL_cln_data_node = mutcna_DEL_cln_data[mutcna_DEL_cln_data.index.str.contains(name)]
+#                 if len(mutcna_DEL_cln_data_node) != 0:
+#                     if len(node_data_cnv) == 0:
+#                         node_data_cnv_add[name]['function'] = 'DEL'
+#                         node_data_cnv = node_data_cnv_add
+#                     else:
+#                         node_data_cnv_add[name]['function'] = 'DEL'
+#                         node_data_cnv = dict(node_data_cnv.items() + node_data_cnv_add.items())
+#             j += 1
+#         cnd[cln] = node_data_cnv
+#         mut[cln] = node_data_mut
+#     i += 1
+# json.dump(cnd, copy_number_data, indent = 3, sort_keys = True)
+# json.dump(mut, mutation_data, indent = 3, sort_keys = True)
+# copy_number_data.close()
+# mutation_data.close()
 
 set_trace()
 
