@@ -63,9 +63,9 @@ def getconfig():
     return config
 
 def run(config=None):
-    gene = pd.read_csv(config['input_a'])
-    data_mutcna = pd.read_csv(config['input_b'])
-    data_therapy = pd.read_csv(config['input_c'])
+    gene = pd.read_csv(config['input']['input_a'])
+    data_mutcna = pd.read_csv(config['input']['input_b'])
+    data_therapy = pd.read_csv(config['input']['input_c'])
 
     copy_number_data = open(config['output']['output_a'], 'w')
     mutation_data = open(config['output']['output_b'], 'w')
