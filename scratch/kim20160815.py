@@ -19,8 +19,6 @@ config = {
     'input': inputfile,
     'output': outputfile,
     'output1': outputfile1,
-    'output2': outputfile2,
-    'output3': outputfile3,
     }
 
 mutcna = ccle.mutcna()
@@ -30,8 +28,6 @@ therapy_col = therapy[therapy['CCLE Cell Line Name'].str.contains("LARGE_INTESTI
 gene = pd.read_csv(config['input'])
 data_mutcna = pd.read_csv(config['output'])
 data_therapy = pd.read_csv(config['output1'])
-data_num_mutcna = pd.read_csv(config['output2'])
-data_num_therapy = pd.read_csv(config['output3'])
 
 copy_number_data = open('copy_number_data.json', 'w')
 mutation_data = open('mutation_data.json', 'w')
@@ -41,10 +37,6 @@ mutcna.index = mutcna_index
 mutcna_MUT = mutcna[mutcna.index.str.contains('_MUT')]
 mutcna_AMP = mutcna[mutcna.index.str.contains('_AMP')]
 mutcna_DEL = mutcna[mutcna.index.str.contains('_DEL')]
-
-#mutcna_MUT = mutcna.filter(regex='_MUT')
-#mutcna_AMP = mutcna.filter(regex='_AMP')
-#mutcna_DEL = mutcna.filter(regex='_DEL')
 i = 0
 cnd = {}
 mut = {}
@@ -82,7 +74,6 @@ for i in range(len(mutcna.columns)):
                     else:
                         node_data_mut_add[name]['function'] = 'MUT'
                         node_data_mut = dict(node_data_mut.items() + node_data_mut_add.items())
-
             if len(mutcna_AMP_cln_data) != 0:
                 mutcna_AMP_cln_data_node = mutcna_AMP_cln_data[mutcna_AMP_cln_data.index.str.contains(name)]
                 if len(mutcna_AMP_cln_data_node) != 0:
@@ -92,7 +83,6 @@ for i in range(len(mutcna.columns)):
                     else:
                         node_data_cnv_add[name]['function'] = 'AMP'
                         node_data_cnv = dict(node_data_cnv.items() + node_data_cnv_add.items())
-
             if len(mutcna_DEL_cln_data) != 0:
                 mutcna_DEL_cln_data_node = mutcna_DEL_cln_data[mutcna_DEL_cln_data.index.str.contains(name)]
                 if len(mutcna_DEL_cln_data_node) != 0:
@@ -106,18 +96,44 @@ for i in range(len(mutcna.columns)):
         cnd[cln] = node_data_cnv
         mut[cln] = node_data_mut
     i += 1
-
 json.dump(cnd, copy_number_data, indent = 3, sort_keys = True)
 json.dump(mut, mutation_data, indent = 3, sort_keys = True)
 copy_number_data.close()
 mutation_data.close()
+
+#"type": "inhibitor", "dose": 1.0, "tau": 10, "target": "MEK"
+drug_data = open('drug_data.json', 'w')
+i = 0
+drug = {}
+for i in data_therapy['CCLE Cell Line Name'].index:
+    progressbar.update(i, len(data_therapy['CCLE Cell Line Name']))
+    cln = data_therapy['CCLE Cell Line Name'][i]
+    d_name = data_therapy['Compound'][i]
+    target = data_therapy['Target'][i]
+    #dose = data_therapy['Doses'][i]
+    drug_add = {cln: {d_name: {'type': 'inhibitor', 'target': target}}}
+    if cln in drug:
+        new_drug = {d_name: {'type': 'inhibitor', 'target': target}}
+        old_drug = drug[cln]
+        drug[cln] = dict(old_drug.items() + new_drug.items())
+    else:
+        if i == 0:
+            drug = drug_add
+        else:
+            drug = dict(drug.items() + drug_add.items())
+    i += 1
+json.dump(drug, drug_data, indent = 3, sort_keys = True)
+drug_data.close()
+
 
 #cnvdata = {cl1: {}, cl2: {}}
 #name = gene.loc[0,'node_name']
 #name1 = gene.loc[1,'node_name']
 #cnvdata[cl1] = {name: {'function': "AMP", 'copy_number': 10}, name1: {'function': "DEL", 'copy_number': 2}}
 #cnvdata[cl2] = {name: {'function': "AMP", 'copy_number': 10}, name1: {'function': "DEL", 'copy_number': 2}}
-
+#mutcna_MUT = mutcna.filter(regex='_MUT')
+#mutcna_AMP = mutcna.filter(regex='_AMP')
+#mutcna_DEL = mutcna.filter(regex='_DEL')
 #name = {'function': "AMP", 'copy_number': 10}
 #name1 = {'function': "DEL", 'copy_number': 2}
 
