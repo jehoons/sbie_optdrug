@@ -27,4 +27,3 @@ def test(with_small, force):
         program.run(default_config)
 
     assert check_outputs(default_config)
-
