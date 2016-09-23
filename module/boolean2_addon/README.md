@@ -1,6 +1,6 @@
-# boolean2_addon 
+### boolean2_addon 
 
-## example of `attractor` module 
+example of `attractor` module is shown as follows: 
 
 ```python 
 import sbie_optdrug
