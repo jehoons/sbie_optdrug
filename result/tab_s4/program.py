@@ -40,24 +40,6 @@ config = {
         }
     }
 
-# config = {
-#     'program': 'template',
-#     'parameters': {
-#         'k1': 1,
-#         'k2': 2
-#         },
-#     'input': {
-#         'input_a': inputfile_a,
-#         'input_b': inputfile_b,
-#         'input_c': inputfile_c
-#         },
-#     'output': {
-#         'output_a': outputfile_a,
-#         'output_b': outputfile_b,
-#         'output_c': outputfile_c
-#         }
-#     }
-
 def getconfig():
 
     return config
