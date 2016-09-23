@@ -4,7 +4,7 @@
 
 test_hello.py 의 코드는 아래에와 같다: 
 
-```
+```python
 # -*- coding: utf-8 -*-
 #*************************************************************************
 # Author: {Je-Hoon Song, <song.je-hoon@kaist.ac.kr>
