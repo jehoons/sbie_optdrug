@@ -1,4 +1,4 @@
- ### hello 
+### hello
 
 여기서는 `boolean2` 패키지를 이용해서 boolean network를 어떻게 시뮬레이션 할수 있는지를 소개한다. 
 
