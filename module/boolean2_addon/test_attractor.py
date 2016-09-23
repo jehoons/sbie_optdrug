@@ -54,7 +54,7 @@ def test_find_attractors():
     """
 
     model = Model( text=text, mode='sync')
-    res = attractor.find_attractors(model=model, steps=100, sample_size=10)
+    res = attractor.find_attractors(model=model, steps=25, sample_size=10)
 
     outputfile = 'output.json'
     json.dump(res, open(outputfile, 'w'), indent=1)
