@@ -5,9 +5,9 @@
 # This file is part of {sbie_optdrug}.
 #*************************************************************************
 
-from pdb import set_trace
-from sbie_optdrug.boolean2 import Model
 import pickle 
+from pdb import set_trace
+from boolean2 import Model
 
 
 def test_hello():
@@ -36,4 +36,4 @@ def test_hello():
     with open('test_hello_result.pkl','w') as fobj: 
         pickle.dump(model.states, fobj)
 
-    # set_trace()
+
