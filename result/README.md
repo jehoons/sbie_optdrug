@@ -18,10 +18,16 @@ APC | T
 CTNNB1 | O
 ... | ... 
 
-where T and O are tumor suppressor gene and oncogene, respectively. 
+where T and O are tumor suppressor gene and oncogene, respectively.
+
+[Giordano, 2006](http://www.nature.com/onc/journal/v25/n38/full/1209721a.html)
+에 따르면, tumor suppressors들은 loss-of-function 뮤테이션에 의해서 비활성화가 되고 proto-oncogenes들은 
+gain-of-function 뮤테이션에 의해서 활성화가 된다. 그러므로 우리는 oncogene 뮤테이션은 GOF로 tumor 
+suppressors 뮤테이션은 LOF로 가정한다.
 
 ### Table S5
-Patient-specific profiles (such as mutation and CNV) and drug effect information are converted as JSON format as following: 
+Patient-specific profiles (such as mutation and CNV) and drug effect information 
+are converted as JSON format as following: 
 
 ```json
 mutations = {
