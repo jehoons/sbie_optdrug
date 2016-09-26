@@ -1,11 +1,12 @@
 import pickle 
-from sbie_optdrug import filelist 
+from os.path import dirname,join,exists
 from ipdb import set_trace
 import json
 import pandas as pd 
+import sbie_optdrug
+from sbie_optdrug import filelist 
 from sbie_optdrug.dataset import ccle
-from sbie_optdrug.util import progressbar
-from os.path import dirname,join,exists
+from util import progressbar
 
 
 """ requirements """

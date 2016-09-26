@@ -1,13 +1,13 @@
 ## Results
 
 ### Table S1
-* ... 
+* Data is extracted from therapy data and mutation-copy number variation data
 
 ### Table S2
-* ... 
+* Node names are extracted from logical network data
 
 ### Table S3
-* ... 
+* change the weighted sum function to logical function
 
 ### Table S4
 Among the list of gene oncogene and tumor suppressor gene are identified. 

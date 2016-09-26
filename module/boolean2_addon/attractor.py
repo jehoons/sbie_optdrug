@@ -6,10 +6,11 @@
 # This file is part of {sbie_optdrug}.
 #*************************************************************************
 
+import sbie_optdrug
 import hashlib
 from pdb import set_trace
-from sbie_optdrug import boolean2
-from sbie_optdrug.boolean2 import Model
+# import boolean2
+from boolean2 import Model
 import pandas as pd
 from sbie_optdrug.util import progressbar 
 import json
