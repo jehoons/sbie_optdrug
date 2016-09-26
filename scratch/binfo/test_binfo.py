@@ -11,7 +11,7 @@ import pickle
 
 output = 'mut_list.p'
 
-if not os.path.exists(output):
+if not os.path.exists(output): 
     mutcna = ccle.mutcna()
     mutcna_names = mutcna.index.values.tolist()
     mut_list = []
@@ -21,10 +21,10 @@ if not os.path.exists(output):
 
     mut_set = set(mut_list)
     mut_list = [m for m in mut_set]
-    pickle.dump(mut_list, open(output,'w'))
+    pickle.dump(mut_list, open(output,'wb'))
 
 else: 
-    mut_list = pickle.load(open(output, 'r'))
+    mut_list = pickle.load(open(output, 'rb'))
 
 for mut in mut_list[0:5]:
     os.system('phantomjs binfo.js %s' % mut)
