@@ -2,13 +2,13 @@
 
 (Example rows)
 
-ID
-----
-FHIT
-HSPA4
-REM1
-HIST1H4I
-LIFR
+ID |
+---- | 
+FHIT |
+HSPA4 |
+REM1 |
+HIST1H4I |
+LIFR | 
 
 ### Table S4B. List of Oncogenes and Tumor Suppressors
 
