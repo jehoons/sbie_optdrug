@@ -2,7 +2,7 @@
 
 * (C) 
 
-Example data of Table S4C is as follows:
+Example rows of **Table S4C** is as follows:
 
 ID | Category | gene_found | content_found
 ---- | ---- | ---- | ----
