@@ -2,7 +2,7 @@
 
 (Example rows)
 
-ID | Category | gene_found | content_found
+ID | CATEGORY | GENE_FOUND | CONTENT_FOUND
 ---- | ---- | ---- | ----
 FHIT | Tumor suppressor gene | True | True
 HSPA4 | UNKNOWN | False | False
