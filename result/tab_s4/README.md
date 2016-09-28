@@ -26,4 +26,11 @@ REM1 | UNKNOWN | False | False
 HIST1H4I | UNKNOWN | False | False
 LIFR | UNKNOWN | False | False
 
+### Table S4D. Statistics of Table S4C
 
+CATEGORY | CATEGORY
+---- | ----
+Oncogene | 140
+Other | 51
+Tumor suppressor gene | 67
+UNKNOWN | 1380
