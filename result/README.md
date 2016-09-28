@@ -24,6 +24,9 @@ where T and O are tumor suppressor gene and oncogene, respectively.
 
 oncogene, tumor suppressors에 관한 정보는 LOF, GOF에 비해서 상대적으로 정보의 량은 매우 풍부한 편이다. 우리는 [binfo](binfo.ncku.edu.tw)로부터 oncogene, Tumor suppressors에 대한 정보를 추출하였다[code](https://github.com/jehoons/sbie_optdrug/blob/master/scratch/binfo/test_binfo.py).
 
+`binfo` 데이터베이스를 이용하는 방법
+http://www.binfo.ncku.edu.tw/cgi-bin/gf.pl?genename=APC
+
 ### Table S5. Collecting Patient-specific data and chemical treatment data
 
 Patient-specific profiles (such as mutation and CNV) and drug effect information 
