@@ -144,6 +144,7 @@ def run_step3(config=None):
                 content = tdlist[5].get_text()
 
         content = content.replace('-- & ', '')
+        content = content.replace(' & --', '')
 
         data.loc[i, 'ID'] = genename
         data.loc[i, 'CATEGORY'] = content
