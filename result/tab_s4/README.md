@@ -34,3 +34,5 @@ Oncogene | 140
 Other | 51
 Tumor suppressor gene | 67
 UNKNOWN | 1380
+
+![BarChart](https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s4/TABLE_S4D_STATISTICS.JPG)
