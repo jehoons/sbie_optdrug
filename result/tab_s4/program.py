@@ -34,7 +34,7 @@ outputfile_c = join(dirname(__file__), 'TABLE_S4C_TUMORSUPPRESSORS_AND_ONCOGENES
 
 config = {
     'program': 'Oncogene/TumorSuppressors Downloader',
-    'scratch_dir': dirname(__file__)+'/scratch', 
+    'scratch_dir': dirname(__file__)+'/untracked', 
     'input': {
         # 'a': inputfile_a,
         # 'b': inputfile_b,
@@ -142,7 +142,7 @@ def run_step3(config=None):
                 gene_found = True 
                 content_found = True 
                 content = tdlist[5].get_text()
-                
+
         content = content.replace('-- & ', '')
 
         data.loc[i, 'ID'] = genename
