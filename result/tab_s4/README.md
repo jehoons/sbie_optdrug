@@ -44,7 +44,3 @@ UNKNOWN | 1380
 ### Table S4D. Char for Table S4D 
 
 ![BarChart](https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s4/TABLE_S4D_STATISTICS.JPG)
-
-![aaaa](https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s4/TABLE_S4D_STATISTICS.JPG)
-
-
