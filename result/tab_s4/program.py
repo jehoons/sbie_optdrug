@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #*************************************************************************
-# Author: {Name, <email>
+# Author: {Je-Hoon Song, <song.jehoon@gmail.com>
 #
 # This file is part of {sbie_optdrug}.
 #*************************************************************************
@@ -31,6 +31,7 @@ from bs4 import BeautifulSoup
 outputfile_a = join(dirname(__file__), 'TABLE_S4A_MUTGENES.CSV')
 outputfile_b = join(dirname(__file__), 'TABLE_S4B_HTMLFILE_LIST.CSV')
 outputfile_c = join(dirname(__file__), 'TABLE_S4C_TUMORSUPPRESSORS_AND_ONCOGENES.CSV')
+outputfile_d = join(dirname(__file__), 'TABLE_S4D_STATISTICS.CSV')
 
 config = {
     'program': 'Oncogene/TumorSuppressors Downloader',
@@ -44,6 +45,7 @@ config = {
         'a': outputfile_a,
         'b': outputfile_b,
         'c': outputfile_c,
+        'd': outputfile_d,
         }
     }
 
@@ -147,6 +149,11 @@ def run_step3(config=None):
         content = content.replace('-- & ', '')
         content = content.replace(' & --', '')
 
+        if content == 'oncogene': 
+            content = 'Oncogene'
+        elif content == '--': 
+            content = 'UNKNOWN'
+
         data.loc[i, 'ID'] = genename
         data.loc[i, 'CATEGORY'] = content
         data.loc[i, 'GENE_FOUND'] = gene_found
@@ -159,4 +166,13 @@ def run_step3(config=None):
     outdata_df.head().to_csv(addtag(outputfile, 'SMALL_', prefix=True), \
         index=False)
 
+
+def run_step4(config=None):
+
+    inputfile = config['output']['c']
+    outputfile = config['output']['d']
+    df = pd.read_csv(inputfile)
+    groupped = df.groupby('CATEGORY')
+    stat_df = groupped['CATEGORY'].count().to_frame()
+    stat_df.to_csv(outputfile)
 
