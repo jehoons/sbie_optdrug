@@ -29,8 +29,6 @@ import matplotlib.pyplot as plt
 
 """ requirements """
 # inputfile_a = join(dirname(__file__), '..','tab_s2','TABLE.S2.NODE-NAME.CSV')
-# inputfile_b = join(dirname(__file__), '..','tab_s1','TABLE.S1A.MUTCNA_CRC_NET.CSV')
-# inputfile_c = join(dirname(__file__), '..','tab_s1','TABLE.S1B.THERAPY_CRC_NET.CSV')
 
 """ results """
 outputfile_a = join(dirname(__file__), 'TABLE_S4A_MUTGENES.CSV')
@@ -44,8 +42,6 @@ config = {
     'scratch_dir': dirname(__file__)+'/untracked', 
     'input': {
         # 'a': inputfile_a,
-        # 'b': inputfile_b,
-        # 'c': inputfile_c
         },
     'output': {
         'a': outputfile_a,
