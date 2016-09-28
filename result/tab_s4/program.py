@@ -12,20 +12,17 @@ from os import system,mkdir
 from os.path import dirname,join,exists,basename
 import pandas as pd
 from ipdb import set_trace
-import sbie_optdrug
-from sbie_optdrug import filelist
-from sbie_optdrug.dataset import ccle
-from util import progressbar
-import re 
-import sbie_optdrug 
-from sbie_optdrug.dataset import ccle 
-from util import progressbar
 from bs4 import BeautifulSoup
+import re 
 
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+
+import sbie_optdrug
+from sbie_optdrug.dataset import ccle,filelist
+from util import progressbar
 
 """ requirements """
 # inputfile_a = join(dirname(__file__), '..','tab_s2','TABLE.S2.NODE-NAME.CSV')

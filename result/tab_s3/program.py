@@ -1,11 +1,10 @@
 import pickle 
-from sbie_optdrug import filelist 
 from ipdb import set_trace
 import json
 import pandas as pd 
 from os.path import dirname,join,exists
 import sbie_optdrug
-from sbie_optdrug.dataset import ccle
+from sbie_optdrug.dataset import ccle,filelist
 from util import progressbar
 
 # from sbie_optdrug.model.published import fumia_network 

@@ -6,7 +6,7 @@
 #*************************************************************************
 
 from os.path import dirname,join
-from sbie_optdrug.util import progressbar
+from util import progressbar
 from pdb import set_trace
 
 """ requirements """

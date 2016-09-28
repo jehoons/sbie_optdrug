@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from os.path import exists
 from sbie_optdrug.result.tab_s2 import program
 

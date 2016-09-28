@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 import pickle 
 from os.path import dirname,join,exists
 from ipdb import set_trace
 import json
 import pandas as pd 
 import sbie_optdrug
-from sbie_optdrug import filelist 
+from sbie_optdrug.dataset import filelist 
 from sbie_optdrug.dataset import ccle
 from util import progressbar
 
