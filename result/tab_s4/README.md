@@ -1,5 +1,7 @@
 ### Table S4C. List of Oncogenes and Tumor Suppressors
+
 (Example rows)
+
 ID | Category | gene_found | content_found
 ---- | ---- | ---- | ----
 FHIT | Tumor suppressor gene | True | True
