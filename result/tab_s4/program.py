@@ -132,6 +132,8 @@ def run_step3(config=None):
         content = 'UNKNOWN'
 
         if exists(genefile):
+            gene_found = True 
+
             with open(genefile, 'rb') as f:
                 lines = f.readlines()
 
@@ -139,7 +141,6 @@ def run_step3(config=None):
             tdlist = soup.find_all('td')
 
             if len(tdlist) >= 6 :
-                gene_found = True 
                 content_found = True 
                 content = tdlist[5].get_text()
 
@@ -158,4 +159,4 @@ def run_step3(config=None):
     outdata_df.head().to_csv(addtag(outputfile, 'SMALL_', prefix=True), \
         index=False)
 
-    # print df_to_markdown(outdata_df)
+
