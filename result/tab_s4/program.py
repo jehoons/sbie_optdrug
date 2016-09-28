@@ -22,6 +22,11 @@ from sbie_optdrug.dataset import ccle
 from util import progressbar
 from bs4 import BeautifulSoup
 
+import numpy as np
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
 """ requirements """
 # inputfile_a = join(dirname(__file__), '..','tab_s2','TABLE.S2.NODE-NAME.CSV')
 # inputfile_b = join(dirname(__file__), '..','tab_s1','TABLE.S1A.MUTCNA_CRC_NET.CSV')
@@ -32,6 +37,7 @@ outputfile_a = join(dirname(__file__), 'TABLE_S4A_MUTGENES.CSV')
 outputfile_b = join(dirname(__file__), 'TABLE_S4B_HTMLFILE_LIST.CSV')
 outputfile_c = join(dirname(__file__), 'TABLE_S4C_TUMORSUPPRESSORS_AND_ONCOGENES.CSV')
 outputfile_d = join(dirname(__file__), 'TABLE_S4D_STATISTICS.CSV')
+outputfile_d_plot = join(dirname(__file__), 'TABLE_S4D_STATISTICS.JPG')
 
 config = {
     'program': 'Oncogene/TumorSuppressors Downloader',
@@ -46,6 +52,7 @@ config = {
         'b': outputfile_b,
         'c': outputfile_c,
         'd': outputfile_d,
+        'd.plot': outputfile_d_plot,
         }
     }
 
@@ -171,8 +178,30 @@ def run_step4(config=None):
 
     inputfile = config['output']['c']
     outputfile = config['output']['d']
+    outputfile_plt = config['output']['d.plot']
+
     df = pd.read_csv(inputfile)
+
     groupped = df.groupby('CATEGORY')
     stat_df = groupped['CATEGORY'].count().to_frame()
     stat_df.to_csv(outputfile)
+
+    ## figure 
+    fig, ax = plt.subplots()
+    ind = np.array( range(stat_df.shape[0]) )
+    width = 0.35
+    rects1 = ax.bar(ind, stat_df['CATEGORY'], width)
+
+    font = {'family': 'sans-serif',
+            # 'color':  'darkred',
+            'weight': 'normal',
+            'size': 16,
+            }
+
+    ax.set_ylabel('Frequency', fontdict=font)
+    ax.set_title('Stats of categorized mutations', fontdict=font)
+    ax.set_xticks(ind + width/2)
+    ax.set_xticklabels(stat_df.index, fontdict=font)
+
+    plt.savefig(outputfile_plt)
 
