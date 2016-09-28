@@ -63,4 +63,13 @@ drugs = {
 }
 ```
 
+## Materials and Methods
+
+[BooleanNet Simulator](https://scfbm.biomedcentral.com/articles/10.1186/1751-0473-3-16) is used as simulation engine used in this research. 
+
+Fumia Network is used as backbone network for this research. 
+
+We used drug-dose response from CCLE and GDSC database. 
+
+
 
