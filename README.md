@@ -8,10 +8,10 @@
 
 ## Update history
 
-### 2016-09-28
+### 2016. 9. 28
 * binfo로 부터 Oncogene, Tumor Suppressors 추출(**Table S4**)
 
-### 2016-09-03 
+### 2016. 9. 3
 * OncoKB에서 LOF, GOF에 관한 자료를 추출가능함. 특히, 다음과 같이 웹에서 뮤테이션기능에 관한 데이터를 얻어올수 있다는 것을 확인하였음 
 ```
 http://oncokb.org/#/gene/PTEN
@@ -19,11 +19,11 @@ http://oncokb.org/#/gene/PTEN
 
 * python bs4 를 활용하여 데이터를 추출할 계획 
 
-### 2016-08-29
+### 2016. 8. 29
 * LOF, GOF를 대량으로 처리하는 방법을 찾지 못함 
 * CCLE MUTCNA 테이블을 분석 후 이를 정리한 테이블 생성 (컬럼 - cell-line, gene, mutation type, function, 등)
 
-### 2016-08-25
+### 2016. 8. 26
 * intersection ratio of network nodes to CCLE 
 * intersection ratio of network nodes to drug 
 * intersection ratio - 뮤테이션의 경우는 평균 20% 수준, CNV는 5%수준 임 - 너무 낮음
