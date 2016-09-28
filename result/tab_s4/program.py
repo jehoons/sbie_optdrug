@@ -30,7 +30,7 @@ from bs4 import BeautifulSoup
 """ results """
 outputfile_a = join(dirname(__file__), 'TABLE_S4A_MUTGENES.CSV')
 outputfile_b = join(dirname(__file__), 'TABLE_S4B_HTMLFILE_LIST.CSV')
-outputfile_c = join(dirname(__file__), 'TABLE_S4C_MUTGENES_WITH_CATEGORY.CSV')
+outputfile_c = join(dirname(__file__), 'TABLE_S4C_TUMORSUPPRESSORS_AND_ONCOGENES.CSV')
 
 config = {
     'program': 'Oncogene/TumorSuppressors Downloader',
@@ -47,7 +47,7 @@ config = {
         }
     }
 
-
+    
 def getconfig():
 
     return config
@@ -73,9 +73,8 @@ def run_step1(config=None):
     # gene_name, html_name, class
     # APC, APC.html, TSG or Oncogene
     """
-
     output = config['output']['a']
-
+    
     if not exists(output) or True :
         mutcna = ccle.mutcna()
         mutcna_names = mutcna.index.values.tolist()
@@ -109,7 +108,8 @@ def run_step2(config=None):
     for i,gene in enumerate(gene_list):
         progressbar.update(i, len(gene_list))
         outputfile = join(output_dir, gene+'.html')
-        system('phantomjs %s %s %s' % (binfo_exec, gene, outputfile))
+        if not exists(outputfile):
+            system('phantomjs %s %s %s' % (binfo_exec, gene, outputfile))
         df_output.loc[i, 'HTML_FILE'] = outputfile 
 
     df_output.to_csv(output, index=False)
@@ -122,17 +122,16 @@ def run_step3(config=None):
 
     data = pd.read_csv(inputfile)
 
-    gene_found = False 
-    content_found = False
-    content = 'UNKNOWN'
-
     for i in data.index: 
-
         progressbar.update(i, data.shape[0])
         genefile = data.loc[i, 'HTML_FILE']
+        genename = basename(genefile).split('.')[0]
+
+        gene_found = False 
+        content_found = False
+        content = 'UNKNOWN'
 
         if exists(genefile):
-            # print 'working... ' + genefile
             with open(genefile, 'rb') as f:
                 lines = f.readlines()
 
@@ -140,19 +139,22 @@ def run_step3(config=None):
             tdlist = soup.find_all('td')
 
             if len(tdlist) >= 6 :
+                gene_found = True 
                 content_found = True 
                 content = tdlist[5].get_text()
+                
+        content = content.replace('-- & ', '')
 
-            else: 
-                content = None 
+        data.loc[i, 'ID'] = genename
+        data.loc[i, 'CATEGORY'] = content
+        data.loc[i, 'GENE_FOUND'] = gene_found
+        data.loc[i, 'CONTENT_FOUND'] = content_found
 
-        else:
-            content = None
+    outdata_df = data[['ID','CATEGORY','GENE_FOUND','CONTENT_FOUND']]
+    
+    outdata_df.to_csv(outputfile, index=False) 
+    
+    outdata_df.head().to_csv(addtag(outputfile, 'SMALL_', prefix=True), \
+        index=False)
 
-        data.loc[i, 'Category'] = content
-        data.loc[i, 'gene_found'] = gene_found
-        data.loc[i, 'content_found'] = content_found
-
-    data.to_csv(outputfile, index=False) 
-    data.head().to_csv(addtag(outputfile, 'SMALL_', prefix=True))
-
+    # print df_to_markdown(outdata_df)

@@ -24,13 +24,13 @@ def test(with_small, force):
 
     # if not check_outputs(default_config) or force:
 
-    if not exists(default_config['output']['a']):
+    if not exists(default_config['output']['a']) or force:
         program.run_step1(default_config)
 
-    if not exists(default_config['output']['b']):
+    if not exists(default_config['output']['b']) or force:
         program.run_step2(default_config)
 
-    if not exists(default_config['output']['c']):
+    if not exists(default_config['output']['c']) or force:
         program.run_step3(default_config)
 
     # assert check_outputs(default_config)
