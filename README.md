@@ -9,17 +9,14 @@
 ## Update history
 
 ### 2016. 9. 28
-* binfo로 부터 Oncogene, Tumor Suppressors 추출(**Table S4**)
+* LOF/GOF 추출 성공 - binfo로 부터 Oncogene, Tumor Suppressors 추출(**Table S4**) 
 
 ### 2016. 9. 3
 * OncoKB에서 LOF, GOF에 관한 자료를 추출할수 있는 가능성 확인
-```
-http://oncokb.org/#/gene/PTEN
-```
 
 ### 2016. 8. 29
-* LOF, GOF를 대량으로 처리하는 방법을 찾지 못함 
 * CCLE MUTCNA 테이블을 분석 후 이를 정리한 테이블 생성
+* LOF/GOF 추출 1차시도 - 실패 
 
 ### 2016. 8. 26
 * intersection ratio of network nodes to CCLE 
