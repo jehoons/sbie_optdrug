@@ -17,16 +17,26 @@ from boolean2_addon import attractor
 
 def test_compute_basin():
 
+    # text = """
+    # A = Random
+    # B = Random
+    # C = Random
+    # D = Random
+
+    # A *= D or C
+    # B *= A
+    # C *= B or D
+    # D *= B
+    # """
+
     text = """
     A = Random
     B = Random
     C = Random
-    D = Random
-
-    A *= D or C
-    B *= A
-    C *= B or D
-    D *= B
+    
+    B*= A
+    C*= B 
+    A*= not C
     """
 
     model = Model( text=text, mode='sync')
@@ -39,3 +49,4 @@ def test_compute_basin():
     assert exists(outputfile)
 
     # set_trace()
+

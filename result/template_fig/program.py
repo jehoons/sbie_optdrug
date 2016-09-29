@@ -9,6 +9,10 @@ from os.path import dirname,join
 from util import progressbar
 from pdb import set_trace
 
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
 """ requirements """
 inputfile_a = join(dirname(__file__), 'TABLE.SXX.INPUTDATA.CSV')
 

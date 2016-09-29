@@ -14,21 +14,32 @@ def test_hello():
 
     text = """
     # initial values
-    A = Random
+    A = True
     B = Random
     C = Random
 
     # updating rules
-    A* = A and C
-    B* = A and B
-    C* = not A
+    B* = A
+    C* = B
     """
+
+
+    text = """
+    A = False
+    B = False
+    C = False
+    
+    B*= A
+    C*= B 
+    A*= not C
+    """
+
 
     model = Model( text=text, mode='sync')
 
     model.initialize()
 
-    model.iterate( steps=5, repeat=1)
+    model.iterate( steps=10, repeat=1)
 
     for state in model.states:
         print (state.A, state.B, state.C)
