@@ -4,8 +4,7 @@ from os.path import dirname,join
 import pandas as pd 
 from ipdb import set_trace
 import sbie_optdrug
-from sbie_optdrug import filelist 
-from sbie_optdrug.dataset import ccle
+from sbie_optdrug.dataset import ccle,filelist
 from util import progressbar
 
 
