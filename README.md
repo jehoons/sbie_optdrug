@@ -6,6 +6,10 @@
 * Simulate personalized network 
 * Calculate attractor's landscape 
 
+## Requirement
+
+* [material](http://gofile.me/3gpVt/hE0oPs0Hv)을 다운로드후, `project root` 폴더에 복사 및 압축해제한다.
+
 ## Update history
 
 ### 2016. 9. 28
