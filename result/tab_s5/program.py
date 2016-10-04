@@ -72,6 +72,7 @@ def run(config=None):
             mutcna_MUT_cln_data = mutcna_MUT_cln[mutcna_MUT_cln == 1]
             mutcna_AMP_cln_data = mutcna_AMP_cln[mutcna_AMP_cln == 1]
             mutcna_DEL_cln_data = mutcna_DEL_cln[mutcna_DEL_cln == 1]
+            set_trace()
             if len(cnd) == 0:
                 cnd = cnd_add
                 mut = mut_add
@@ -96,6 +97,7 @@ def run(config=None):
                             node_data_mut = dict(node_data_mut.items() + node_data_mut_add.items())
                 if len(mutcna_AMP_cln_data) != 0:
                     mutcna_AMP_cln_data_node = mutcna_AMP_cln_data[mutcna_AMP_cln_data.index.str.contains(name)]
+                    set_trace()
                     if len(mutcna_AMP_cln_data_node) != 0:
                         if len(node_data_cnv) == 0:
                             node_data_cnv_add[name]['function'] = 'AMP'
@@ -105,6 +107,7 @@ def run(config=None):
                             node_data_cnv = dict(node_data_cnv.items() + node_data_cnv_add.items())
                 if len(mutcna_DEL_cln_data) != 0:
                     mutcna_DEL_cln_data_node = mutcna_DEL_cln_data[mutcna_DEL_cln_data.index.str.contains(name)]
+                    set_trace()
                     if len(mutcna_DEL_cln_data_node) != 0:
                         if len(node_data_cnv) == 0:
                             node_data_cnv_add[name]['function'] = 'DEL'
