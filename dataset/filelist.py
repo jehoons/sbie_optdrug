@@ -11,7 +11,7 @@ import sbie_optdrug
 
 # directory for source and processed datasets.
 
-dir_material = abspath(dirname(sbie_optdrug.__file__)+'/material')
+dir_material = abspath(dirname(sbie_optdrug.__file__)+'/dataset/material')
 
 if not exists(dir_material):
     print('missing directory:', dir_material)
