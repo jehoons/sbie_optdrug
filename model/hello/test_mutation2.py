@@ -62,30 +62,29 @@ def rule_mutation( state, name, value, p ):
 	
 	""" rule_mutation defines how mutation is appied into simulation. """
 	
-	global mutations 
+    global mutations, value
 
-    if name in mutations['list']:
+    if 'name' in mutations['list']:
 
-	    given_function = mutations['list'][name]['function'] 
+	    given_function = mutations['list']['name']['function']
 
-	    intensity = mutations[name]['intensity']
+	    intensity = mutations['name']['intensity']
 
-	    if given_function == 'UNKNOWN': 
-	    	given_function = mutations['default_function']
+	    if given_function == 'UNKNOWN':
+	        given_function = mutations['default_function']
 
         if given_function == 'LOF':
-            if value == True: 
-                if random.random() < intensity
+            if value == True:
+                if random.random() < intensity:
                     value = False
         
-        elif given_function == 'GOF': 
-             if value == False: 
-                if random.random() < intensity
+        elif given_function == 'GOF':
+            if value == False:
+                if random.random() < intensity:
                     value = True
 
     # setattr( state, name, value )
-    # setattr should be used only once and only in set_value(). 
-    
+    # setattr should be used only once and only in set_value().
     return value
 
 
