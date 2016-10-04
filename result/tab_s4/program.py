@@ -1,146 +1,200 @@
 # -*- coding: utf-8 -*-
 #*************************************************************************
-# Author: {Name, <email>
+# Author: {Je-Hoon Song, <song.jehoon@gmail.com>
 #
 # This file is part of {sbie_optdrug}.
 #*************************************************************************
 
 import json
 import pickle
-from os.path import dirname,join
-from sbie_optdrug import filelist
+import os 
+from os import system,mkdir
+from os.path import dirname,join,exists,basename
 import pandas as pd
 from ipdb import set_trace
-from sbie_optdrug.dataset import ccle
-from sbie_optdrug.util import progressbar
+from bs4 import BeautifulSoup
+import re 
+
+import numpy as np
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
+import sbie_optdrug
+from sbie_optdrug.dataset import ccle,filelist
+from util import progressbar
 
 """ requirements """
-inputfile_a = join(dirname(__file__), '..','tab_s2','TABLE.S2.NODE-NAME.CSV')
-inputfile_b = join(dirname(__file__), '..','tab_s1','TABLE.S1A.MUTCNA_CRC_NET.CSV')
-inputfile_c = join(dirname(__file__), '..','tab_s1','TABLE.S1B.THERAPY_CRC_NET.CSV')
-
+# inputfile_a = join(dirname(__file__), '..','tab_s2','TABLE.S2.NODE-NAME.CSV')
 
 """ results """
-outputfile_a = join(dirname(__file__), 'TABLE.S3A.COPYNUMVAR_data.json')
-outputfile_b = join(dirname(__file__), 'TABLE.S3B.MUTATION_data.json')
-outputfile_c = join(dirname(__file__), 'TABLE.S3C.DRUG_data.json')
-
+outputfile_a = join(dirname(__file__), 'TABLE_S4A_MUTGENES.CSV')
+outputfile_b = join(dirname(__file__), 'TABLE_S4B_HTMLFILE_LIST.CSV')
+outputfile_c = join(dirname(__file__), 'TABLE_S4C_TUMORSUPPRESSORS_AND_ONCOGENES.CSV')
+outputfile_d = join(dirname(__file__), 'TABLE_S4D_STATISTICS.CSV')
+outputfile_d_plot = join(dirname(__file__), 'TABLE_S4D_STATISTICS.JPG')
 
 config = {
-    'program': 'template',
+    'program': 'Oncogene/TumorSuppressors Downloader',
+    'scratch_dir': dirname(__file__)+'/untracked', 
     'input': {
-        'input_a': inputfile_a,
-        'input_b': inputfile_b,
-        'input_c': inputfile_c
+        # 'a': inputfile_a,
         },
     'output': {
-        'output_a': outputfile_a,
-        'output_b': outputfile_b,
-        'output_c': outputfile_c
+        'a': outputfile_a,
+        'b': outputfile_b,
+        'c': outputfile_c,
+        'd': outputfile_d,
+        'd.plot': outputfile_d_plot,
         }
     }
 
+    
 def getconfig():
 
     return config
 
-def run(config=None):
-    gene = pd.read_csv(config['input']['input_a'])
-    data_mutcna = pd.read_csv(config['input']['input_b'])
-    data_therapy = pd.read_csv(config['input']['input_c'])
 
-    copy_number_data = open(config['output']['output_a'], 'w')
-    mutation_data = open(config['output']['output_b'], 'w')
-    mutcna_index = data_mutcna['Description']
-    mutcna = data_mutcna[data_mutcna.columns[2:]]
-    mutcna.index = mutcna_index
-    mutcna_MUT = mutcna[mutcna.index.str.contains('_MUT')]
-    mutcna_AMP = mutcna[mutcna.index.str.contains('_AMP')]
-    mutcna_DEL = mutcna[mutcna.index.str.contains('_DEL')]
-    i = 0
-    cnd = {}
-    mut = {}
-    for i in range(len(mutcna.columns)):
-        progressbar.update(i, len(mutcna.columns))
-        cln = mutcna.columns[i]
-        if (len(cln) != 0) & (cln != 'Description'):
-            cnd_add = {cln: {}}
-            mut_add = {cln: {}}
-            mutcna_MUT_cln = mutcna_MUT[cln]
-            mutcna_AMP_cln = mutcna_AMP[cln]
-            mutcna_DEL_cln = mutcna_DEL[cln]
-            mutcna_MUT_cln_data = mutcna_MUT_cln[mutcna_MUT_cln == 1]
-            mutcna_AMP_cln_data = mutcna_AMP_cln[mutcna_AMP_cln == 1]
-            mutcna_DEL_cln_data = mutcna_DEL_cln[mutcna_DEL_cln == 1]
-            if len(cnd) == 0:
-                cnd = cnd_add
-                mut = mut_add
-            else:
-                cnd = dict(cnd.items() + cnd_add.items())
-                mut = dict(mut.items() + mut_add.items())
-            j = 0
-            node_data_cnv = {}
-            node_data_mut = {}
-            for j in gene.index:
-                name = gene.loc[j, 'node_name']
-                node_data_cnv_add = {name: {'function': ''}}
-                node_data_mut_add = {name: {'function': ''}}
-                if len(mutcna_MUT_cln_data) != 0:
-                    mutcna_MUT_cln_data_node = mutcna_MUT_cln_data[mutcna_MUT_cln_data.index.str.contains(name)]
-                    if len(mutcna_MUT_cln_data_node) != 0:
-                        if len(node_data_mut) == 0:
-                            node_data_mut_add[name]['function'] = 'MUT'
-                            node_data_mut = node_data_mut_add
-                        else:
-                            node_data_mut_add[name]['function'] = 'MUT'
-                            node_data_mut = dict(node_data_mut.items() + node_data_mut_add.items())
-                if len(mutcna_AMP_cln_data) != 0:
-                    mutcna_AMP_cln_data_node = mutcna_AMP_cln_data[mutcna_AMP_cln_data.index.str.contains(name)]
-                    if len(mutcna_AMP_cln_data_node) != 0:
-                        if len(node_data_cnv) == 0:
-                            node_data_cnv_add[name]['function'] = 'AMP'
-                            node_data_cnv = node_data_cnv_add
-                        else:
-                            node_data_cnv_add[name]['function'] = 'AMP'
-                            node_data_cnv = dict(node_data_cnv.items() + node_data_cnv_add.items())
-                if len(mutcna_DEL_cln_data) != 0:
-                    mutcna_DEL_cln_data_node = mutcna_DEL_cln_data[mutcna_DEL_cln_data.index.str.contains(name)]
-                    if len(mutcna_DEL_cln_data_node) != 0:
-                        if len(node_data_cnv) == 0:
-                            node_data_cnv_add[name]['function'] = 'DEL'
-                            node_data_cnv = node_data_cnv_add
-                        else:
-                            node_data_cnv_add[name]['function'] = 'DEL'
-                            node_data_cnv = dict(node_data_cnv.items() + node_data_cnv_add.items())
-                j += 1
-            cnd[cln] = node_data_cnv
-            mut[cln] = node_data_mut
-        i += 1
-    json.dump(cnd, copy_number_data, indent=3, sort_keys=True)
-    json.dump(mut, mutation_data, indent=3, sort_keys=True)
-    copy_number_data.close()
-    mutation_data.close()
+def addtag(pathname, addstr, prefix=True):
 
-    drug_data = open(config['output']['output_c'], 'w')
-    i = 0
-    drug = {}
-    for i in data_therapy['CCLE Cell Line Name'].index:
-        progressbar.update(i, len(data_therapy['CCLE Cell Line Name']))
-        cln = data_therapy['CCLE Cell Line Name'][i]
-        d_name = data_therapy['Compound'][i]
-        target = data_therapy['Target'][i]
-        # dose = data_therapy['Doses'][i]
-        drug_add = {cln: {d_name: {'type': 'inhibitor', 'target': target}}}
-        if cln in drug:
-            new_drug = {d_name: {'type': 'inhibitor', 'target': target}}
-            old_drug = drug[cln]
-            drug[cln] = dict(old_drug.items() + new_drug.items())
-        else:
-            if i == 0:
-                drug = drug_add
-            else:
-                drug = dict(drug.items() + drug_add.items())
-        i += 1
-    json.dump(drug, drug_data, indent=3, sort_keys=True)
-    drug_data.close()
+    pathdir = dirname(pathname)
+    name, ext = basename(pathname).split('.')
+    
+    if prefix:
+        return join(pathdir, '%s%s.%s' % (addstr,name,ext))
+
+    else: 
+        return join(pathdir, '%s%s.%s' % (name,addstr,ext))
+
+
+def run_step1(config=None):
+
+    """ 
+    Here, phantomjs can be downloaded as following commands:
+    wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
+    # gene_name, html_name, class
+    # APC, APC.html, TSG or Oncogene
+    """
+    output = config['output']['a']
+    
+    if not exists(output) or True :
+        mutcna = ccle.mutcna()
+        mutcna_names = mutcna.index.values.tolist()
+        mut_list = []
+        for name in mutcna_names:
+            if re.search('.+_MUT$', name):
+                mut_list.append( name.replace('_MUT', '') ) 
+
+        mut_set = set(mut_list)        
+        mut_list = [m for m in mut_set]
+        df_mut = pd.DataFrame(mut_list, columns=['ID'])
+        df_mut.to_csv(output, index=False)
+
+
+def run_step2(config=None):
+
+    inputfile = config['output']['a']
+    output_dir = config['scratch_dir']
+    output = config['output']['b']
+
+    binfo_exec = dirname(__file__)+'/binfo.js'
+
+    if not exists(output_dir):
+        os.mkdir(output_dir)
+
+    data = pd.read_csv(inputfile)
+    gene_list = data['ID']
+
+    df_output = pd.DataFrame([], columns=['HTML_FILE'])
+
+    for i,gene in enumerate(gene_list):
+        progressbar.update(i, len(gene_list))
+        outputfile = join(output_dir, gene+'.html')
+        if not exists(outputfile):
+            system('phantomjs %s %s %s' % (binfo_exec, gene, outputfile))
+        df_output.loc[i, 'HTML_FILE'] = outputfile 
+
+    df_output.to_csv(output, index=False)
+
+
+def run_step3(config=None):
+
+    inputfile = config['output']['b']
+    outputfile = config['output']['c']
+
+    data = pd.read_csv(inputfile)
+
+    for i in data.index: 
+        progressbar.update(i, data.shape[0])
+        genefile = data.loc[i, 'HTML_FILE']
+        genename = basename(genefile).split('.')[0]
+
+        gene_found = False 
+        content_found = False
+        content = 'UNKNOWN'
+
+        if exists(genefile):
+            gene_found = True 
+
+            with open(genefile, 'rb') as f:
+                lines = f.readlines()
+
+            soup = BeautifulSoup("".join(lines), 'html.parser')
+            tdlist = soup.find_all('td')
+
+            if len(tdlist) >= 6 :
+                content_found = True 
+                content = tdlist[5].get_text()
+
+        content = content.replace('-- & ', '')
+        content = content.replace(' & --', '')
+
+        if content == 'oncogene': 
+            content = 'Oncogene'
+        elif content == '--': 
+            content = 'UNKNOWN'
+
+        data.loc[i, 'ID'] = genename
+        data.loc[i, 'CATEGORY'] = content
+        data.loc[i, 'GENE_FOUND'] = gene_found
+        data.loc[i, 'CONTENT_FOUND'] = content_found
+
+    outdata_df = data[['ID','CATEGORY','GENE_FOUND','CONTENT_FOUND']]
+    
+    outdata_df.to_csv(outputfile, index=False) 
+    
+    outdata_df.head().to_csv(addtag(outputfile, 'SMALL_', prefix=True), \
+        index=False)
+
+
+def run_step4(config=None):
+
+    inputfile = config['output']['c']
+    outputfile = config['output']['d']
+    outputfile_plt = config['output']['d.plot']
+
+    df = pd.read_csv(inputfile)
+
+    groupped = df.groupby('CATEGORY')
+    stat_df = groupped['CATEGORY'].count().to_frame()
+    stat_df.to_csv(outputfile)
+
+    ## figure 
+    fig, ax = plt.subplots()
+    ind = np.array( range(stat_df.shape[0]) )
+    width = 0.35
+    rects1 = ax.bar(ind, stat_df['CATEGORY'], width)
+
+    font = {'family': 'sans-serif',
+            # 'color':  'darkred',
+            'weight': 'normal',
+            'size': 16,
+            }
+
+    ax.set_ylabel('Frequency', fontdict=font)
+    ax.set_title('Stats of categorized mutations', fontdict=font)
+    ax.set_xticks(ind + width/2)
+    ax.set_xticklabels(stat_df.index, fontdict=font)
+
+    plt.savefig(outputfile_plt)
 

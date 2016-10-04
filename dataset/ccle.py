@@ -7,11 +7,10 @@
 #*************************************************************************
 
 import pickle 
-from sbie_optdrug import filelist 
+from sbie_optdrug.dataset import filelist 
 from pdb import set_trace
 import json
 import pandas as pd 
-# from sbie_optdrug import dataset
 
 
 def gex():

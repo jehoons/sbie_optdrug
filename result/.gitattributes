@@ -1,0 +1,2 @@
+*.VSDX filter=lfs diff=lfs merge=lfs -text
+*.PPTX filter=lfs diff=lfs merge=lfs -text

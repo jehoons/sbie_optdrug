@@ -6,30 +6,64 @@
 # This file is part of {sbie_optdrug}.
 #*************************************************************************
 
+import sbie_optdrug
+from os.path import exists
+from ipdb import set_trace
+from boolean2 import Model
 import hashlib
-from pdb import set_trace
-from sbie_optdrug import boolean2
-from sbie_optdrug.boolean2 import Model
 import pandas as pd
-from sbie_optdrug.util import progressbar 
+from util import progressbar 
 import json
 
+# 아래의 알고리즘에서는 2번의 반복이 있어야만 사이클로 인식을 하는것 같다. 
+# 왜 이렇게 하는것일까? 그것은... chaos인 경우가 있기때문인 것으로 생각된다. 
+# def detect_cycles( data ):
+#     """
+#     Detects cycles in the data
 
-def find_attractors(model=None, steps=10, mode='sync', sample_size=1000):
+#     Returns a tuple where the first item is the index at wich the cycle occurs 
+#     the first time and the second number indicates the lenght of the cycle 
+#     (it is 1 for a steady state)
+#     """
+
+#     fsize   = len(data)
+
+#     # set_trace()
+
+#     # maximum size
+#     for msize in range(1, fsize/2+1):
+#         for index in range(fsize):
+#             left  = data[index:index+msize]
+#             right = data[index+msize:index+2*msize]
+
+#             # print data
+#             # print left, right 
+
+#             if left == right:
+#                 return index, msize
+
+#     return 0, 0
+
+
+def find_attractors(model=None, steps=30, mode='sync', sample_size=1000):
 
     simulation_data = { }
-    seen = {}
-    fingerprint_mapping = {}
+    fingerprint_mapping = { }
+    seen = { }
 
     for i in range(sample_size):
         progressbar.update(i, sample_size)
 
         model.initialize()
         model.iterate( steps=steps )
-        index,size = model.detect_cycles()
-        key = model.first.fp()
 
+        key = model.first.fp()
+        
         values = [ x.fp() for x in model.states[:steps] ]
+
+        # detect_cycles() 함수가 사이클을 검출하기 위해서는 2개의 주기가 필요하다. 그러므로 
+        # 충분히 긴 timesteps 동안 시뮬레이션을 해야 한다.        
+        index, size = model.detect_cycles( )
 
         if size == 1:
             attr_type = 'point'
@@ -37,6 +71,8 @@ def find_attractors(model=None, steps=10, mode='sync', sample_size=1000):
             attr_type = 'cyclic'
         elif size == 0:
             attr_type = 'unknown'
+        else: 
+            assert False
 
         if attr_type == 'cyclic':
             cyc_traj = values[index:index + size]
@@ -116,4 +152,44 @@ def find_attractors(model=None, steps=10, mode='sync', sample_size=1000):
     # df.to_csv('output.csv')
 
     return simulation_data
+
+
+
+def test_compute_basin():
+
+
+    import sbie_optdrug
+    from boolean2 import Model
+    from boolean2_addon import attractor 
+
+    # text = """
+    # A = Random
+    # B = Random
+    # C = Random
+    # D = Random
+
+    # A *= D or C
+    # B *= A
+    # C *= B or D
+    # D *= B
+    # """
+
+    text = """
+    A = True
+    B = True
+    C = False
+    
+    B*= A
+    C*= B 
+    A*= not C
+    """
+
+    model = Model( text=text, mode='sync')
+    res = attractor.find_attractors(model=model, sample_size=10)
+    
+    outputfile = 'test_basin_result.json'
+
+    json.dump(res, open(outputfile, 'w'), indent=1)
+
+    assert exists(outputfile)
 

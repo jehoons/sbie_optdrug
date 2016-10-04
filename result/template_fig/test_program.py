@@ -7,7 +7,7 @@
 
 import numpy 
 from os.path import exists
-from sbie_optdrug.result.tab_s5 import program
+from sbie_optdrug.result.template_fig import program
 from pdb import set_trace
 
 
@@ -28,4 +28,3 @@ def test(with_small, force):
 
     assert check_outputs(default_config)
 
-    

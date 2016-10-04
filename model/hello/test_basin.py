@@ -7,31 +7,40 @@
 
 import json
 from pdb import set_trace
-import sbie_optdrug
-
 import sys 
-from os.path import join
-from sbie_optdrug.boolean2 import Model
+from os.path import join, exists
 
-from sbie_optdrug.analysis import boolnet
-from os.path import exists
+import sbie_optdrug
+from boolean2 import Model
+from boolean2_addon import attractor 
+
 
 def test_compute_basin():
+
+    # text = """
+    # A = Random
+    # B = Random
+    # C = Random
+    # D = Random
+
+    # A *= D or C
+    # B *= A
+    # C *= B or D
+    # D *= B
+    # """
 
     text = """
     A = Random
     B = Random
     C = Random
-    D = Random
-
-    A *= D or C
-    B *= A
-    C *= B or D
-    D *= B
+    
+    B*= A
+    C*= B 
+    A*= not C
     """
 
     model = Model( text=text, mode='sync')
-    res = boolnet.find_attractors(model=model, sample_size=1000)
+    res = attractor.find_attractors(model=model, sample_size=1000)
     
     outputfile = 'test_basin_result.json'
 
@@ -40,3 +49,4 @@ def test_compute_basin():
     assert exists(outputfile)
 
     # set_trace()
+

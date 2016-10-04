@@ -7,7 +7,7 @@
 
 import numpy 
 from os.path import exists
-from sbie_optdrug.result.template import program
+from sbie_optdrug.result.template_tbl import program
 from pdb import set_trace
 
 

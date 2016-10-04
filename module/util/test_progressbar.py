@@ -6,7 +6,8 @@
 # This file is part of {sbie_weinberg}.
 #*************************************************************************
 
-from sbie_optdrug.util import progressbar
+import sbie_optdrug
+from util import progressbar
 
 
 def test_update():

@@ -5,10 +5,11 @@
 # This file is part of {sbie_optdrug}.
 #*************************************************************************
 
+import sbie_optdrug
 import json
 from pdb import set_trace
-from sbie_optdrug.boolean2 import Model
-from sbie_optdrug.analysis import boolnet
+from boolean2 import Model
+from boolean2_addon import attractor
 
 
 def test_find_attractors():
@@ -53,8 +54,9 @@ def test_find_attractors():
     """
 
     model = Model( text=text, mode='sync')
-    res = boolnet.find_attractors(model=model, steps=100, sample_size=1000)
+    res = attractor.find_attractors(model=model, steps=25, sample_size=10)
 
     outputfile = 'output.json'
     json.dump(res, open(outputfile, 'w'), indent=1)
+
 
