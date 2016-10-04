@@ -61,3 +61,30 @@ processed_ccle_therapy = join(dir_material,
 
 processed_ccle_druginfo = join(dir_material,
     'processed', 'ccle_drug_info.processed.json')
+
+gdsc_v50 = { }
+
+gdsc_v50['raw'] = { }
+
+gdsc_v50['raw']['expU133A'] = join(dir_material, 'GDSC','release-5.0',
+    'expU133A.txt.zip')
+gdsc_v50['raw']['gdsc_cell_lines_w5'] = join(dir_material, 'GDSC','release-5.0',
+    'gdsc_cell_lines_w5.csv')
+gdsc_v50['raw']['gdsc_compounds_conc_w5'] = join(dir_material, 'GDSC','release-5.0',
+    'gdsc_compounds_conc_w5.csv')
+gdsc_v50['raw']['gdsc_drug_sensitivity_fitted_data_w5'] = join(dir_material, 'GDSC','release-5.0',
+    'gdsc_drug_sensitivity_fitted_data_w5.csv')
+gdsc_v50['raw']['gdsc_drug_sensitivity_raw_data_w5'] = join(dir_material, 'GDSC','release-5.0',
+    'gdsc_drug_sensitivity_raw_data_w5.csv')
+gdsc_v50['raw']['gdsc_en_input_w5'] = join(dir_material, 'GDSC','release-5.0',
+    'gdsc_en_input_w5.csv')
+gdsc_v50['raw']['gdsc_en_output_w5'] = join(dir_material, 'GDSC','release-5.0',
+    'gdsc_en_output_w5.csv')
+gdsc_v50['raw']['gdsc_manova_input_w5'] = join(dir_material, 'GDSC','release-5.0',
+    'gdsc_manova_input_w5.csv')
+gdsc_v50['raw']['gdsc_manova_output_w5'] = join(dir_material, 'GDSC','release-5.0',
+    'gdsc_manova_output_w5.csv')
+gdsc_v50['raw']['gdsc_mutation_w5'] = join(dir_material, 'GDSC','release-5.0',
+    'gdsc_mutation_w5.csv')
+gdsc_v50['raw']['gdsc_tissue_output_w5'] = join(dir_material, 'GDSC','release-5.0',
+    'gdsc_tissue_output_w5.csv')
