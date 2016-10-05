@@ -64,11 +64,11 @@ def rule_mutation(state, name, value, p):
 
     global mutations
 
-    if 'name' in mutations['list']:
+    if name in mutations['list']:
 
-        given_function = mutations['list']['name']['function']
+        given_function = mutations['list'][name]['function']
 
-        intensity = mutations['name']['intensity']
+        intensity = mutations[name]['intensity']
 
         if given_function == 'UNKNOWN':
             given_function = mutations['default_function']
