@@ -20,7 +20,7 @@ def check_outputs(config):
 
 
 def test(with_small, force):
-    
+
     default_config = program.getconfig()
 
     if not check_outputs(default_config) or force:
