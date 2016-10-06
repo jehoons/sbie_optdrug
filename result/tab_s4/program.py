@@ -32,7 +32,7 @@ outputfile_a = join(dirname(__file__), 'TABLE_S4A_MUTGENES.CSV')
 outputfile_b = join(dirname(__file__), 'TABLE_S4B_HTMLFILE_LIST.CSV')
 outputfile_c = join(dirname(__file__), 'TABLE_S4C_TUMORSUPPRESSORS_AND_ONCOGENES.CSV')
 outputfile_d = join(dirname(__file__), 'TABLE_S4D_STATISTICS.CSV')
-outputfile_d_plot = join(dirname(__file__), 'TABLE_S4D_STATISTICS.JPG')
+outputfile_d_plot = join(dirname(__file__), 'TABLE_S4D_STATISTICS.PNG')
 
 config = {
     'program': 'Oncogene/TumorSuppressors Downloader',
