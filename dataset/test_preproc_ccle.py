@@ -18,5 +18,5 @@ def test_main(with_small, force):
 
     preproc_ccle.therapy(force=force)
 
-    # there's json writing bug in preproc_ccle module 
+    # there's json writing bug in preproc_ccle module
     # preproc_ccle.drug(force=True)
