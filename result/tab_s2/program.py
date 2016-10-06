@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
-import pickle 
+import pickle
 from os.path import dirname,join,exists
 from ipdb import set_trace
 import json
-import pandas as pd 
+import pandas as pd
 import sbie_optdrug
-from sbie_optdrug.dataset import filelist 
+from sbie_optdrug.dataset import filelist
 from sbie_optdrug.dataset import ccle
-from util import progressbar
-
+from termutil import progressbar
 
 """ requirements """
 inputfile = join(dirname(__file__), '..', 'tab_s3', 'TABLE.S3.LOGICAL-EQUATIONS.TXT')
@@ -26,7 +25,7 @@ def getconfig():
 
 def run(config=None):
 
-    if config == None: 
+    if config == None:
         config = getconf()
 
     # make node_name file from logical_rule.txt
@@ -158,5 +157,3 @@ def run(config=None):
         j += 1 # change the location of gene_name_1
 
     node_name.to_csv(config['output'], index=False) # save this data frame to csv
-
-    

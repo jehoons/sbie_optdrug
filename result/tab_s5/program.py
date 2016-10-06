@@ -13,7 +13,7 @@ import pandas as pd
 from ipdb import set_trace
 import sbie_optdrug
 from sbie_optdrug.dataset import ccle
-from util import progressbar
+from termutil import progressbar
 
 
 """ requirements """
@@ -148,4 +148,3 @@ def run(config=None):
         i += 1
     json.dump(drug, drug_data, indent=3, sort_keys=True)
     drug_data.close()
-

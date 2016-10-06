@@ -13,10 +13,12 @@ import pandas as pd
 
 import ipdb
 
+import ascii 
+
 rawfiles = filelist.gdsc_v50['raw']
 
 # print rawfiles.keys()
 
-df = pd.read_csv( rawfiles['gdsc_manova_output_w5'] ) 
+df = pd.read_csv( rawfiles['gdsc_manova_output_w5'] )
 
 ipdb.set_trace()

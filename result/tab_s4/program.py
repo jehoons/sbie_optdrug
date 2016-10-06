@@ -7,13 +7,13 @@
 
 import json
 import pickle
-import os 
+import os
 from os import system,mkdir
 from os.path import dirname,join,exists,basename
 import pandas as pd
 from ipdb import set_trace
 from bs4 import BeautifulSoup
-import re 
+import re
 
 import numpy as np
 import matplotlib
@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 
 import sbie_optdrug
 from sbie_optdrug.dataset import ccle,filelist
-from util import progressbar
+from termutil import progressbar
 
 """ requirements """
 # inputfile_a = join(dirname(__file__), '..','tab_s2','TABLE.S2.NODE-NAME.CSV')
@@ -36,7 +36,7 @@ outputfile_d_plot = join(dirname(__file__), 'TABLE_S4D_STATISTICS.JPG')
 
 config = {
     'program': 'Oncogene/TumorSuppressors Downloader',
-    'scratch_dir': dirname(__file__)+'/untracked', 
+    'scratch_dir': dirname(__file__)+'/untracked',
     'input': {
         # 'a': inputfile_a,
         },
@@ -49,7 +49,7 @@ config = {
         }
     }
 
-    
+
 def getconfig():
 
     return config
@@ -59,33 +59,33 @@ def addtag(pathname, addstr, prefix=True):
 
     pathdir = dirname(pathname)
     name, ext = basename(pathname).split('.')
-    
+
     if prefix:
         return join(pathdir, '%s%s.%s' % (addstr,name,ext))
 
-    else: 
+    else:
         return join(pathdir, '%s%s.%s' % (name,addstr,ext))
 
 
 def run_step1(config=None):
 
-    """ 
+    """
     Here, phantomjs can be downloaded as following commands:
     wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
     # gene_name, html_name, class
     # APC, APC.html, TSG or Oncogene
     """
     output = config['output']['a']
-    
+
     if not exists(output) or True :
         mutcna = ccle.mutcna()
         mutcna_names = mutcna.index.values.tolist()
         mut_list = []
         for name in mutcna_names:
             if re.search('.+_MUT$', name):
-                mut_list.append( name.replace('_MUT', '') ) 
+                mut_list.append( name.replace('_MUT', '') )
 
-        mut_set = set(mut_list)        
+        mut_set = set(mut_list)
         mut_list = [m for m in mut_set]
         df_mut = pd.DataFrame(mut_list, columns=['ID'])
         df_mut.to_csv(output, index=False)
@@ -112,7 +112,7 @@ def run_step2(config=None):
         outputfile = join(output_dir, gene+'.html')
         if not exists(outputfile):
             system('phantomjs %s %s %s' % (binfo_exec, gene, outputfile))
-        df_output.loc[i, 'HTML_FILE'] = outputfile 
+        df_output.loc[i, 'HTML_FILE'] = outputfile
 
     df_output.to_csv(output, index=False)
 
@@ -124,17 +124,17 @@ def run_step3(config=None):
 
     data = pd.read_csv(inputfile)
 
-    for i in data.index: 
+    for i in data.index:
         progressbar.update(i, data.shape[0])
         genefile = data.loc[i, 'HTML_FILE']
         genename = basename(genefile).split('.')[0]
 
-        gene_found = False 
+        gene_found = False
         content_found = False
         content = 'UNKNOWN'
 
         if exists(genefile):
-            gene_found = True 
+            gene_found = True
 
             with open(genefile, 'rb') as f:
                 lines = f.readlines()
@@ -143,15 +143,15 @@ def run_step3(config=None):
             tdlist = soup.find_all('td')
 
             if len(tdlist) >= 6 :
-                content_found = True 
+                content_found = True
                 content = tdlist[5].get_text()
 
         content = content.replace('-- & ', '')
         content = content.replace(' & --', '')
 
-        if content == 'oncogene': 
+        if content == 'oncogene':
             content = 'Oncogene'
-        elif content == '--': 
+        elif content == '--':
             content = 'UNKNOWN'
 
         data.loc[i, 'ID'] = genename
@@ -160,9 +160,9 @@ def run_step3(config=None):
         data.loc[i, 'CONTENT_FOUND'] = content_found
 
     outdata_df = data[['ID','CATEGORY','GENE_FOUND','CONTENT_FOUND']]
-    
-    outdata_df.to_csv(outputfile, index=False) 
-    
+
+    outdata_df.to_csv(outputfile, index=False)
+
     outdata_df.head().to_csv(addtag(outputfile, 'SMALL_', prefix=True), \
         index=False)
 
@@ -179,7 +179,7 @@ def run_step4(config=None):
     stat_df = groupped['CATEGORY'].count().to_frame()
     stat_df.to_csv(outputfile)
 
-    ## figure 
+    ## figure
     fig, ax = plt.subplots()
     ind = np.array( range(stat_df.shape[0]) )
     width = 0.35
@@ -197,4 +197,3 @@ def run_step4(config=None):
     ax.set_xticklabels(stat_df.index, fontdict=font)
 
     plt.savefig(outputfile_plt)
-

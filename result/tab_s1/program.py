@@ -1,11 +1,11 @@
 import json
 import pickle
 from os.path import dirname,join
-import pandas as pd 
+import pandas as pd
 from ipdb import set_trace
 import sbie_optdrug
 from sbie_optdrug.dataset import ccle,filelist
-from util import progressbar
+from termutil import progressbar
 
 
 """ requirements """
@@ -18,11 +18,11 @@ outputfile_c = join(dirname(__file__), 'TABLE.S1C.NUM_MUTCNA.CSV')
 outputfile_d = join(dirname(__file__), 'TABLE.S1D.NUM_DRUG.CSV')
 
 config = {
-    'input': inputfile, 
-    'output_a': outputfile_a, 
-    'output_b': outputfile_b, 
-    'output_c': outputfile_c, 
-    'output_d': outputfile_d     
+    'input': inputfile,
+    'output_a': outputfile_a,
+    'output_b': outputfile_b,
+    'output_c': outputfile_c,
+    'output_d': outputfile_d
     }
 
 
@@ -336,8 +336,8 @@ def run(config=None):
 
     # Count the number of Mutation, amplification, deletion gene
     # and the number of gene that correspond with network
-    data_MUTCNA = pd.DataFrame([], columns=['Cell Line', 'CCLE Mut', 'CCLE CNV AMP', 
-        'CCLE CNV DEL', 'Network Mut', 'Network CNV AMP', 'Network CNV DEL', 
+    data_MUTCNA = pd.DataFrame([], columns=['Cell Line', 'CCLE Mut', 'CCLE CNV AMP',
+        'CCLE CNV DEL', 'Network Mut', 'Network CNV AMP', 'Network CNV DEL',
         'Ratio of Mut', 'Ratio of CNV AMP', 'Ratio of CNV DEL'])
     i = 0
     for i in range(len(mutcna_col.columns)):
@@ -363,25 +363,25 @@ def run(config=None):
 
     # calculate the ratio of network data in ccle data
     i = 0
-    for i in range(len(mutcna_col.columns)):        
+    for i in range(len(mutcna_col.columns)):
         progressbar.update(i, len(mutcna_col.columns))
 
         if data_MUTCNA.loc[i, 'CCLE Mut'] != 0:
-            data_MUTCNA.loc[i, 'Ratio of Mut'] = float(data_MUTCNA.loc[i, 
+            data_MUTCNA.loc[i, 'Ratio of Mut'] = float(data_MUTCNA.loc[i,
                 'Network Mut'])/float(data_MUTCNA.loc[i, 'CCLE Mut'])*100
 
         elif data_MUTCNA.loc[i, 'CCLE Mut'] == 0:
             data_MUTCNA.loc[i, 'Ratio of Mut'] = 0
 
         if data_MUTCNA.loc[i, 'CCLE CNV AMP'] != 0:
-            data_MUTCNA.loc[i, 'Ratio of CNV AMP'] = float(data_MUTCNA.loc[i, 
+            data_MUTCNA.loc[i, 'Ratio of CNV AMP'] = float(data_MUTCNA.loc[i,
                 'Network CNV AMP'])/float(data_MUTCNA.loc[i, 'CCLE CNV AMP'])*100
 
         elif data_MUTCNA.loc[i, 'CCLE CNV AMP'] == 0:
             data_MUTCNA.loc[i, 'Ratio of CNV AMP'] = 0
 
         if data_MUTCNA.loc[i, 'CCLE CNV DEL'] != 0:
-            data_MUTCNA.loc[i, 'Ratio of CNV DEL'] = float(data_MUTCNA.loc[i, 
+            data_MUTCNA.loc[i, 'Ratio of CNV DEL'] = float(data_MUTCNA.loc[i,
                 'Network CNV DEL'])/float(data_MUTCNA.loc[i, 'CCLE CNV DEL'])*100
 
         elif data_MUTCNA.loc[i, 'CCLE CNV DEL'] == 0:
@@ -404,7 +404,7 @@ def run(config=None):
     # Count the number of drug and the data that have cell line name
     # with 'LARGE_INTESTINE' and same gene name with network
 
-    data_Drug = pd.DataFrame([], columns=['Drug', 'Target', 'Total Cell line number', 
+    data_Drug = pd.DataFrame([], columns=['Drug', 'Target', 'Total Cell line number',
         'Number of Large intestine', 'Target in Network'])
 
     num = pd.DataFrame([], columns=['Number of data in each drug'])
@@ -460,12 +460,10 @@ def run(config=None):
                 data_Drug.loc[loc, 'Number of Large intestine'] = num_LI
 
                 loc += 1
-        
+
         i += 1
-        
-    data_Drug.loc[loc-1, 'Total Cell line number'] = i - num.loc[loc-2, 
+
+    data_Drug.loc[loc-1, 'Total Cell line number'] = i - num.loc[loc-2,
         'Number of data in each drug']
 
     data_Drug.to_csv(config['output_d'], index=False)
-
-    

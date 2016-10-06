@@ -6,7 +6,7 @@
 #*************************************************************************
 
 from os.path import dirname,join
-from util import progressbar
+from termutil import progressbar
 from pdb import set_trace
 
 """ requirements """
@@ -16,14 +16,14 @@ inputfile_a = join(dirname(__file__), 'TABLE.SXX.INPUTDATA.CSV')
 outputfile_a = join(dirname(__file__), 'TABLE.SXX.OUTPUTDATA.CSV')
 
 config = {
-    'program': 'template', 
+    'program': 'template',
     'parameters': {
-        'k1': 1, 
+        'k1': 1,
         'k2': 2
-        }, 
+        },
     'input': {
         'a': inputfile_a
-        }, 
+        },
     'output': {
         'a': outputfile_a
         }
@@ -39,4 +39,3 @@ def run(config=None):
 
     with open(config['output']['a'], 'w') as fobj:
         fobj.write('hello')
-

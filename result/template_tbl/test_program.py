@@ -5,7 +5,7 @@
 # This file is part of {sbie_optdrug}.
 #*************************************************************************
 
-import numpy 
+import numpy
 from os.path import exists
 from sbie_optdrug.result.template_tbl import program
 from pdb import set_trace
@@ -20,11 +20,10 @@ def check_outputs(config):
 
 
 def test(with_small, force):
-    
+
     default_config = program.getconfig()
 
     if not check_outputs(default_config) or force:
         program.run(default_config)
 
     assert check_outputs(default_config)
-

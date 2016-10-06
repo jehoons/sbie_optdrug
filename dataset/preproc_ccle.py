@@ -6,8 +6,8 @@
 # This file is part of {sbie_optdrug}.
 #*************************************************************************
 
-from sbie_optdrug import filelist 
-from pdb import set_trace
+from sbie_optdrug.dataset import filelist
+from ipdb import set_trace
 from os.path import join, exists, split
 import pytest
 import pandas as pd
@@ -15,14 +15,13 @@ import tempfile
 import json
 import pickle
 import re
-from sbie_optdrug import util
 import glob
 import os
 import shutil
-
+from ascii import progressbar
 
 def gex(force=False):
-	print '- processing gene expression data ...'
+	print ('- processing gene expression data ...')
 
 	if exists(filelist.processed_ccle_gex) and force==False:
 		return
@@ -35,7 +34,7 @@ def gex(force=False):
 
 
 def mutcna(force=False):
-	print '- processing mutation and CNA data ...'
+	print ('- processing mutation and CNA data ...')
 
 	if exists(filelist.processed_ccle_mutcna_dense) and force==False:
 		return
@@ -65,7 +64,7 @@ def mutcna(force=False):
 	pickle.dump(df_del, open(filelist.processed_ccle_mutcna_del, "wb" ))
 	ccle_mutcna_dense = {}
 	for i, cell in enumerate(df0.columns):
-		util.update_progress(i, df0.shape[1])
+		progressbar.update(i, df0.shape[1])
 		celldata = df0[cell]
 		dic = {'MUT': [], 'DEL': [], 'AMP': []}
 		ifilt = celldata[celldata==1].index
@@ -85,7 +84,7 @@ def mutcna(force=False):
 
 
 def sampleinfo(force=False):
-	print '- processing sample information data ...'
+	print ('- processing sample information data ...')
 
 	if exists(filelist.processed_ccle_sampleinfo) and force==False:
 		return
@@ -95,7 +94,7 @@ def sampleinfo(force=False):
 
 
 def therapy(force=False):
-	print '- processing therapy data ...'
+	print ('- processing therapy data ...')
 
 	if exists(filelist.processed_ccle_therapy) and force==False:
 		return
@@ -105,46 +104,49 @@ def therapy(force=False):
 
 
 def drug(force=False):
-	print '- processing drug data ...'
+    print ('- processing drug data ...')
 
-	if exists(filelist.processed_ccle_druginfo) and force==False:
-		return
+    if exists(filelist.processed_ccle_druginfo) and force==False:
+        return
 
-	files = glob.glob(join(filelist.ccle_drug_dir, '*.csv'))
-	sdf_data = {}
-	for i, file in enumerate(files):
-		util.update_progress(i, len(files))
-		df0 = pd.read_csv(file)
-		idx = os.path.split(file)[1].split('.')[0]
-		sdf_dir = join(filelist.ccle_drug_dir, 'structure', idx)
-		sdf_files = glob.glob(sdf_dir+'/*.sdf')
+    files = glob.glob(join(filelist.ccle_drug_dir, '*.csv'))
+    sdf_data = {}
+    for i, file in enumerate(files):
+        progressbar.update(i, len(files))
+        df0 = pd.read_csv(file)
+        idx = os.path.split(file)[1].split('.')[0]
+        sdf_dir = join(filelist.ccle_drug_dir, 'structure', idx)
+        sdf_files = glob.glob(sdf_dir+'/*.sdf')
 
-		sdf_files_list = []
-		for sdf in sdf_files:
-			if simple_check_sdf(sdf):
-				sdf_files_list.append(sdf)
+        sdf_files_list = []
+        for sdf in sdf_files:
+            if simple_check_sdf(sdf):
+                sdf_files_list.append(sdf)
 
-		sdf_data[idx] = {
-			'structure': sdf_files_list,
-			'info': df0.loc[0].to_dict()
-			}
+        sdf_data[idx] = {
+            'structure': sdf_files_list,
+            'info': df0.loc[0].to_dict()
+            }
 
-		for src in sdf_files_list:
-			dst = join(filelist.dir_material, 'processed', 'drug',
-				idx+'_'+split(src)[1])
-			shutil.copyfile(src, dst)
+        for src in sdf_files_list:
+            dst = join(filelist.dir_material, 'processed', 'drug',
+                idx+'_'+split(src)[1])
+            shutil.copyfile(src, dst)
 
-	with open(filelist.processed_ccle_druginfo, 'wb') as outfile:
-		json.dump(sdf_data, outfile, indent=4, sort_keys=True,
-			separators=(',', ':'))
-
+    with open(filelist.processed_ccle_druginfo, 'w', \
+        encoding='utf-8') as outfile:
+        # set_trace()
+        json.dump(sdf_data, outfile, indent=4, sort_keys=True,
+            separators=(',', ':'))
 
 def simple_check_sdf(filename):
-	lines = file(filename).readlines()
-	res = False
-	for line in lines:
-		if line.find('$$$$') >= 0:
-			res = True
-			break
+    with open(filename, 'r') as f:
+        lines = f.readlines()
 
-	return res
+        res = False
+        for line in lines:
+            if line.find('$$$$') >= 0:
+                res = True
+                break
+
+    return res
