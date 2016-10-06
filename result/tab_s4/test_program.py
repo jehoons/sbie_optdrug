@@ -32,8 +32,8 @@ def test(with_small, force):
     if not exists(default_config['output']['c']) or force:
         program.run_step3(default_config)
 
-    # if not exists(default_config['output']['d']) or force:
-    program.run_step4(default_config)    
+    if not exists(default_config['output']['d']) or force:
+        program.run_step4(default_config)
 
     # assert check_outputs(default_config)
 
