@@ -16,13 +16,15 @@ outputfile_a = join(dirname(__file__), 'TABLE.S1A.MUTCNA_CRC_NET.CSV')
 outputfile_b = join(dirname(__file__), 'TABLE.S1B.THERAPY_CRC_NET.CSV')
 outputfile_c = join(dirname(__file__), 'TABLE.S1C.NUM_MUTCNA.CSV')
 outputfile_d = join(dirname(__file__), 'TABLE.S1D.NUM_DRUG.CSV')
+outputfile_e = join(dirname(__file__), 'TABLE.S1E.LOF_GOF_INDV.CSV')
 
 config = {
     'input': inputfile,
     'output_a': outputfile_a,
     'output_b': outputfile_b,
     'output_c': outputfile_c,
-    'output_d': outputfile_d
+    'output_d': outputfile_d,
+    'output_e': outputfile_e
     }
 
 
@@ -113,7 +115,7 @@ def run(config=None):
                 data_mut_cor = []
                 for j in range(len(data_mut.index)):
                     gene_name = data_mut.index[j]
-                    if (gene_name.find(gene_index) > -1) & (gene_name.find('TRAF') == -1):
+                    if (gene_name.find(gene_index) > -1) & (gene_name.find('TRAF') == -1) & (gene_name.find('PRAF') == -1):
                         temp = data_mut.ix[[j], :]
                         if len(data_mut_cor) == 0:
                             data_mut_cor = temp
