@@ -23,10 +23,12 @@ inputfile_c = join(dirname(__file__), '..','tab_s1','TABLE.S1B.THERAPY_CRC_NET.C
 
 
 """ results """
-outputfile_a = join(dirname(__file__), 'TABLE.S5A.COPYNUMVAR_data.json')
-outputfile_b = join(dirname(__file__), 'TABLE.S5B.MUTATION_data.json')
-outputfile_c = join(dirname(__file__), 'TABLE.S5C.DRUG_data.json')
-
+outputfile_a = join(dirname(__file__), 'TABLE.S5A.COPYNUMVAR_data_gene.json')
+outputfile_b = join(dirname(__file__), 'TABLE.S5A.COPYNUMVAR_data_s4.json')
+outputfile_c = join(dirname(__file__), 'TABLE.S5B.MUTATION_data.json')
+outputfile_d = join(dirname(__file__), 'TABLE.S5C.DRUG_data.json')
+# outputfile_a : table_S1A에 GOF,LOF 추가한 파일 하나더 만들고, GOF,LOF일 때 GOF, LOF 넣는거로 만들기
+# outputfile_b : 
 
 config = {
     'program': 'template',
@@ -38,7 +40,8 @@ config = {
     'output': {
         'output_a': outputfile_a,
         'output_b': outputfile_b,
-        'output_c': outputfile_c
+        'output_c': outputfile_c,
+        'output_d': outputfile_d
         }
     }
 
@@ -51,8 +54,9 @@ def run(config=None):
     data_mutcna = pd.read_csv(config['input']['input_b'])
     data_therapy = pd.read_csv(config['input']['input_c'])
 
-    copy_number_data = open(config['output']['output_a'], 'w')
-    mutation_data = open(config['output']['output_b'], 'w')
+    copy_number_data_gene = open(config['output']['output_a'], 'w')
+    copy_number_data_s4 = open(config['output']['output_b'], 'w')
+    mutation_data = open(config['output']['output_c'], 'w')
     mutcna_index = data_mutcna['Description']
     mutcna = data_mutcna[data_mutcna.columns[2:]]
     mutcna.index = mutcna_index
@@ -121,12 +125,12 @@ def run(config=None):
             cnd[cln] = node_data_cnv
             mut[cln] = node_data_mut
         i += 1
-    json.dump(cnd, copy_number_data, indent=3, sort_keys=True)
+    json.dump(cnd, copy_number_data_gene, indent=3, sort_keys=True)
     json.dump(mut, mutation_data, indent=3, sort_keys=True)
-    copy_number_data.close()
+    copy_number_data_gene.close()
     mutation_data.close()
 
-    drug_data = open(config['output']['output_c'], 'w')
+    drug_data = open(config['output']['output_d'], 'w')
     i = 0
     drug = {}
     for i in data_therapy['CCLE Cell Line Name'].index:
