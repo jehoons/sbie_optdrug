@@ -28,7 +28,9 @@ outputfile_b = join(dirname(__file__), 'TABLE.S5A.COPYNUMVAR_data_s4.json')
 outputfile_c = join(dirname(__file__), 'TABLE.S5B.MUTATION_data.json')
 outputfile_d = join(dirname(__file__), 'TABLE.S5C.DRUG_data.json')
 # outputfile_a : table_S1A에 GOF,LOF 추가한 파일 하나더 만들고, GOF,LOF일 때 GOF, LOF 넣는거로 만들기
-# outputfile_b : 
+# outputfile_b : table_s4d에 node과 같은 gene name을 찾아서 gene name, fucntion list 만들고
+# 길이가 1이거나 1이상이지만 function 모두 same 이면 그 function 적용
+# 아닌 경우는 생각해보기
 
 config = {
     'program': 'template',
