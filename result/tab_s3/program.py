@@ -9,12 +9,14 @@ from termutil import progressbar
 
 # from sbie_optdrug.model.published import fumia_network
 
-
 """ requirements """
 # inputfile = join(dirname(__file__), 'logical_rule.txt')
 
 """ results """
-outputfile = join(dirname(__file__), 'TABLE.S3.LOGICAL-EQUATIONS.TXT')
+
+from sbie_optdrug.result import tab_s3 
+
+outputfile = tab_s3.outputfilename
 
 config = {
     'program': 'Table S3',

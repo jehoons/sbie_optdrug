@@ -15,6 +15,9 @@
 
 ### [Table S6. Regression analysis][tab_s6]
 
+### [Table S7. Scanning of Fumia network][tab_s7]
+Fumia네트워크의 모든 입력, 드럭타겟의 조합에 대해서 그 어트랙터베이신을 구한다.
+
 ## Materials and Methods
 [BooleanNet Simulator][boolean2-sim] is used as simulation engine used in this research. Fumia Network is used as backbone network for this research. We used drug-dose response from CCLE and GDSC database.
 
