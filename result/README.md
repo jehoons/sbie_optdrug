@@ -21,15 +21,14 @@ Fumia네트워크의 모든 입력, 드럭타겟의 조합에 대해서 그 어�
 ## Materials and Methods
 [BooleanNet Simulator][boolean2-sim] is used as simulation engine used in this research. Fumia Network is used as backbone network for this research. We used drug-dose response from CCLE and GDSC database.
 
-
 [giordano06]: http://www.nature.com/onc/journal/v25/n38/full/1209721a.html
-
 [boolean2-sim]: https://scfbm.biomedcentral.com/articles/10.1186/1751-0473-3-16
+[tab_s1]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s1
+[tab_s2]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s2
+[tab_s3]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s3
+[tab_s4]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s4
+[tab_s5]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s5
+[tab_s6]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s6
+[tab_s7]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s7
 
-[tab_s1]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s1/README.md
-[tab_s2]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s2/README.md
-[tab_s3]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s3/README.md
-[tab_s4]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s4/README.md
-[tab_s5]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s5/README.md
-[tab_s6]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s6/README.md
 
