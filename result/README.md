@@ -13,13 +13,13 @@
 ### [Table S5. Collecting Patient-specific data and chemical treatment data][tab_s5]
 뮤테이션 진익스프레션 등과 같은 환자특이적 프로화일들을 수집하고 시뮬레이션에 용이한 형태로 정리하였다.
 
-### [Table S6. ][tab_s6]
+### [Table S6. Regression analysis][tab_s6]
 
 ## Materials and Methods
 [BooleanNet Simulator][boolean2-sim] is used as simulation engine used in this research. Fumia Network is used as backbone network for this research. We used drug-dose response from CCLE and GDSC database.
 
 
-[giordano06]: (http://www.nature.com/onc/journal/v25/n38/full/1209721a.html)
+[giordano06]: http://www.nature.com/onc/journal/v25/n38/full/1209721a.html
 
 [boolean2-sim]: https://scfbm.biomedcentral.com/articles/10.1186/1751-0473-3-16
 
