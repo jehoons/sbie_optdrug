@@ -7,7 +7,7 @@
 
 import numpy
 from os.path import exists
-from sbie_optdrug.result.template_tbl import program
+from sbie_optdrug.result.tab_s7 import program
 from ipdb import set_trace
 
 
@@ -21,19 +21,20 @@ def check_outputs(config):
 
 def test(with_small, force):
 
-    # default_config = program.getconfig()
+    default_config = program.getconfig()
 
     # if not check_outputs(default_config) or force:
     #     program.run(default_config)
 
     # assert check_outputs(default_config)
 
+    program.run(default_config)
+
     print ('hello')
 
+# def test_1():
 
-def test_1():
 
+#     from sbie_optdrug.dataset import ccle
 
-    from sbie_optdrug.dataset import ccle
-
-    # set_trace()
+#     # set_trace()
