@@ -11,7 +11,7 @@ from ipdb import set_trace
 from boolean3 import Model
 import hashlib
 import pandas as pd
-import progressbar
+from boolean3_addon import progressbar
 import json
 
 
