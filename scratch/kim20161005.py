@@ -13,8 +13,8 @@ from sbie_optdrug.result import tab_s5
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from sbie_optdrug import boolean2
-from sbie_optdrug.boolean2 import util
+# from sbie_optdrug import boolean2
+# from sbie_optdrug.boolean2 import util
 from sbie_optdrug.util import progressbar
 import random
 

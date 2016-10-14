@@ -333,6 +333,13 @@ def run(config=None):
             total_therapy = pd.concat([total_therapy, data_therapy])
         i += 1
 
+    GOF = ['TGFB', 'ATP1A1OS', 'ATP5', 'ATPAF', 'ATPB', ]
+    i = 0
+    for i in total_mut.index:
+        gene_name = total_mut.index[i]
+
+
+
     total_mut.to_csv(config['output_a'])
     total_therapy.to_csv(config['output_b'], index=False)
 
