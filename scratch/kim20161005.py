@@ -1,4 +1,4 @@
-import json
+import json,re
 import pickle
 from os.path import dirname,join,exists
 import sbie_optdrug
@@ -13,9 +13,9 @@ from sbie_optdrug.result import tab_s5
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-# from sbie_optdrug import boolean2
-# from sbie_optdrug.boolean2 import util
-from sbie_optdrug.util import progressbar
+from boolean3 import Model
+from boolean3_addon import attractor
+from termutil import progressbar
 import random
 
 inputfile = join(dirname(tab_s2.__file__), 'TABLE.S2.NODE-NAME.CSV')
