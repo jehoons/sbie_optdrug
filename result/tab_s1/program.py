@@ -332,16 +332,49 @@ def run(config=None):
             total_mut = pd.concat([total_mut, data_mut])
             total_therapy = pd.concat([total_therapy, data_therapy])
         i += 1
-
-    GOF = ['TGFB', 'ATP1A1OS', 'ATP5', 'ATPAF', 'ATPB', ]
-    i = 0
-    for i in total_mut.index:
-        gene_name = total_mut.index[i]
-
-
-
-    total_mut.to_csv(config['output_a'])
     total_therapy.to_csv(config['output_b'], index=False)
+    total_mut.to_csv(config['output_a'])
+
+    GOF = ['TGFB', 'NF1', 'RTK', 'PTEN', 'PDK', 'RAF', 'AKT', 'WNT', 'GSK3', 'BCAT',
+           'VHL', 'MAX', 'MXI1', 'TSC', 'RHEB', 'BCL2', 'BAX', 'BAD', 'E2F', 'P14',
+           'CDH1', 'CDC20', 'P21', 'MDM2', 'FADD', 'CASP8', 'BAK1', 'FOXO', 'ROS',
+           'APAF1', 'CASP9', 'VEGF', 'TCF', 'MIZ', 'ATM', 'ATR', 'EEF2', 'LDHA']
+    LOF = 'AMPD'
+    REM_LOF = ['ATP1', 'ATP2', 'ATP4', 'ATP6', 'ATP7', 'ATP8', 'ATP9', 'ATPAF1-AS1', 'ATPBD4-AS1',
+               'HRASLS', 'RASAL2-AS1', 'NFKBI', 'APCDD1L', 'SAPCD', 'MTOR-AS1', 'HIF1A-AS2',
+               'MYCBP2-AS1', 'WRAP53', 'RB1', 'RBL', 'SMAD5-AS1']
+    GOF_LOF = pd.DataFrame([], index = total_mut.index, columns=['Loss or Gain'])
+    GOF_LOF['Loss or Gain'] = 'a'
+    i = 0
+    for i in range(len(GOF_LOF.index)):
+        progressbar.update(i, GOF_LOF.index.shape[0])
+        gene_name = GOF_LOF.index[i]
+        if gene_name.find(LOF) > -1:
+            GOF_LOF['Loss or Gain'][gene_name] = 'Loss'
+        else:
+            j = 0
+            for j in range(len(GOF)):
+                seq = GOF[j]
+                if gene_name.find(seq) > -1:
+                    GOF_LOF['Loss or Gain'][gene_name] = 'Gain'
+                    continue
+                else:
+                    j += 1
+            if (GOF_LOF['Loss or Gain'][gene_name] == 'a'):
+                k = 0
+                for k in range(len(REM_LOF)):
+                    seq = REM_LOF[k]
+                    if gene_name.find(seq) > -1:
+                        if ((gene_name.find('ATP1A1OS') == -1) & (gene_name.find('APCDD1L-AS1') == -1) & (gene_name.find('RB1CC1') == -1)):
+                            GOF_LOF['Loss or Gain'][gene_name] = 'Loss'
+                            continue
+                        else:
+                            k += 1
+                if (GOF_LOF['Loss or Gain'][gene_name] == 'a'):
+                    GOF_LOF['Loss or Gain'][gene_name] = 'Gain'
+        i += 1
+    GOF_LOF.to_csv(config['output_e'])
+
 
     # Count the number of Mutation, amplification, deletion gene
     # and the number of gene that correspond with network
