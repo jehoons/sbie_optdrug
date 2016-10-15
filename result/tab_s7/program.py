@@ -14,6 +14,7 @@ from boolean3_addon import attractor
 from termutil import progressbar
 from os.path import dirname,join
 from sbie_optdrug.result import tab_s3
+from boolean3_addon import attr_cy
 
 # """ requirements """
 # inputfile_a = join(dirname(__file__), 'TABLE.SXX.INPUTDATA.CSV')
@@ -45,15 +46,6 @@ def getconfig():
 #         fobj.write('hello')
 
 def run(config=None):
-    text = """
-    A = Random
-    B = Random
-    C = Random
-    
-    B*= A
-    C*= B 
-    A*= not C
-    """
 
     def pinning():
         return {'S_hTRET': False}
@@ -96,10 +88,17 @@ def run(config=None):
     
     alleq = init_list + eq_list
     model_string = "\n".join(init_list + eq_list)
-    model = Model( text=model_string, mode='sync')
-    model.parser.RULE_SETVALUE = set_value
-    model.initialize()
-    res = attractor.find_attractors(model=model, sample_size=1000, steps=30)
-    outputfile = 'test_basin_result.json'
-    json.dump(res, open(outputfile, 'w'), indent=2)
+
+    attr_cy.build(model_string)
+
+    res = attr_cy.run(samples=100000, steps=50, debug=False)
+    
+    json.dump(res, open('output.json', 'w'), indent=4)
+
+    # model = Model( text=model_string, mode='sync')
+    # model.parser.RULE_SETVALUE = set_value
+    # model.initialize()
+    # res = attractor.find_attractors(model=model, sample_size=1000, steps=30)
+    # outputfile = 'test_basin_result.json'
+    # json.dump(res, open(outputfile, 'w'), indent=2)
 
