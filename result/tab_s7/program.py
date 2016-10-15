@@ -14,25 +14,21 @@ from boolean3_addon import attractor
 from termutil import progressbar
 from os.path import dirname,join
 from sbie_optdrug.result import tab_s3
+from sbie_optdrug.result import tab_s7
 from boolean3_addon import attr_cy
 
-# """ requirements """
-# inputfile_a = join(dirname(__file__), 'TABLE.SXX.INPUTDATA.CSV')
-
-# """ results """
-# outputfile_a = join(dirname(__file__), 'TABLE.SXX.OUTPUTDATA.CSV')
-
 config = {
-    'program': 'Table_S3',
+    'program': 'Table_S7',
     'parameters': {
-        # 'k1': 1,
-        # 'k2': 2
+        'samples': 10000, 
+        'steps': 30
         },
     'input': {
         # 'a': inputfile_a
         },
     'output': {
-        # 'a': outputfile_a
+        'a': tab_s7.outputfile_a, 
+        'b': tab_s7.outputfile_b
         }
     }
 
@@ -45,18 +41,7 @@ def getconfig():
 #     with open(config['output']['a'], 'w') as fobj:
 #         fobj.write('hello')
 
-def run(config=None):
-
-    def pinning():
-        return {'S_hTRET': False}
-
-    def set_value( state, name, value, p ):
-        pinned_list = pinning()
-        if name in pinned_list:
-            value = pinned_list[name]
-
-        setattr( state, name, value )
-        return value
+def run_step1(config=None):
 
     data = tab_s3.load()
     eq_list = data['equation'].values.tolist()    
@@ -89,16 +74,17 @@ def run(config=None):
     alleq = init_list + eq_list
     model_string = "\n".join(init_list + eq_list)
 
-    attr_cy.build(model_string)
+    with open(config['output']['a'], 'w') as f: 
+        f.write(model_string)
 
-    res = attr_cy.run(samples=100000, steps=50, debug=False)
-    
-    json.dump(res, open('output.json', 'w'), indent=4)
 
-    # model = Model( text=model_string, mode='sync')
-    # model.parser.RULE_SETVALUE = set_value
-    # model.initialize()
-    # res = attractor.find_attractors(model=model, sample_size=1000, steps=30)
-    # outputfile = 'test_basin_result.json'
-    # json.dump(res, open(outputfile, 'w'), indent=2)
+def run_step2(config=None):
+
+    data = tab_s7.load_a()
+    model = "\n".join( data['equation'].values.tolist() )
+    attr_cy.build(model)
+    samples = config['parameters']['samples']
+    steps = config['parameters']['steps']
+    result_data = attr_cy.run(samples=samples, steps=steps, debug=False)
+    json.dump(result_data, open(config['output']['b'], 'w'), indent=4)
 
