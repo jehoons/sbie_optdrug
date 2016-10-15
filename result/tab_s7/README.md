@@ -1,4 +1,4 @@
-여기서는 새로 개발한 attr_cy 모듈을 이용한다. 사용하는 방법은 아래와 같다. 여기서, 테스트에 이용하는 모델은 `fA = A or C`, `fB = A and C`, `fC = not A or B`를 이용하였다. 이모델의 상태천이 다이어그램은 아래 같다.
+여기서의 분석은 새로 개발한 attr_cy 모듈을 이용하며, 사용하는 방법은 아래와 같다. 테스트에 이용된 모델은 `fA = A or C`, `fB = A and C`, `fC = not A or B`를 이용하였다. 이모델의 상태천이 다이어그램은 아래 같다.
 
 ![image1][image1]
 
@@ -64,6 +64,11 @@ def test_hello(with_small, force):
 ```
 
 ### Table S7. Scanning of fumia network
+
+#### Table S7A. 푸미아네트워크 시뮬레이션에 필요한 전처리 모델 데이터
+
+#### Table S7B. 푸미아네트워크의 어트렉터베이신을 분석한 결과
+
 ![draft_v1][draft_v1]
 
 어트랙터의 베이신들을 조사한 결과, 메이저한 어트랙터는 발견되지 않았는데, 이는 푸미아네트워크에서 필요로 하는 입력조건을 설정하지 않았기 때문일 것으로 생각된다.
@@ -71,3 +76,4 @@ def test_hello(with_small, force):
 [draft_v1]: https://www.dropbox.com/s/bqk2zyshqpdjsn3/2016-10-15-1822-TABLE.S7B.ATTRACTORS.png?dl=1
 
 [image1]: https://www.dropbox.com/s/9yeovfo31ftfxz0/2016-10-15%2017_12_43-%EC%82%AC%EC%A7%84.png?dl=1
+
