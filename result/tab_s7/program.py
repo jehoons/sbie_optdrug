@@ -7,22 +7,23 @@
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from ipdb import set_trace
+
 import json,re
-from boolean3 import Model 
-from boolean3_addon import attractor
+from ipdb import set_trace
 from termutil import progressbar
 from os.path import dirname,join,exists
+from boolean3_addon import attr_cy
+import numpy as np
+
 from sbie_optdrug.result import tab_s3
 from sbie_optdrug.result import tab_s7
-from boolean3_addon import attr_cy
-import json
-import numpy as np
+from boolean3 import Model 
+from boolean3_addon import attractor
 
 config = {
     'program': 'Table_S7',
     'parameters': {
-        'samples': 100000,
+        'samples': 1000000,
         'steps': 30
         },
     'input': {
