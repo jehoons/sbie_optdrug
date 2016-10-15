@@ -79,5 +79,6 @@ True|True|True|True|True|
 
 [draft_v1]: https://www.dropbox.com/s/bqk2zyshqpdjsn3/2016-10-15-1822-TABLE.S7B.ATTRACTORS.png?dl=1
 
-[image1]: https://www.dropbox.com/s/9yeovfo31ftfxz0/2016-10-15%2017_12_43-%EC%82%AC%EC%A7%84.png?dl=1
+[image1]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s7/TABLE.S7B.ATTRACTORS.png
+
 
