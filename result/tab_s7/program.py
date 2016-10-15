@@ -4,23 +4,25 @@
 #
 # This file is part of {sbie_optdrug}.
 #*************************************************************************
-# import matplotlib
-# matplotlib.use('Agg')
-# import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 from ipdb import set_trace
 import json,re
 from boolean3 import Model 
 from boolean3_addon import attractor
 from termutil import progressbar
-from os.path import dirname,join
+from os.path import dirname,join,exists
 from sbie_optdrug.result import tab_s3
 from sbie_optdrug.result import tab_s7
 from boolean3_addon import attr_cy
+import json
+import numpy as np
 
 config = {
     'program': 'Table_S7',
     'parameters': {
-        'samples': 10000, 
+        'samples': 100000,
         'steps': 30
         },
     'input': {
@@ -28,7 +30,8 @@ config = {
         },
     'output': {
         'a': tab_s7.outputfile_a, 
-        'b': tab_s7.outputfile_b
+        'b': tab_s7.outputfile_b, 
+        'b_plot': tab_s7.outputfile_b_plot
         }
     }
 
@@ -36,12 +39,11 @@ def getconfig():
     
     return config
 
-# def run(config=None):
 
-#     with open(config['output']['a'], 'w') as fobj:
-#         fobj.write('hello')
-
-def run_step1(config=None):
+def run_step1(config=None, force=False):
+    "Prepare equation file"
+    if exists(config['output']['a']) and force==False: 
+        return
 
     data = tab_s3.load()
     eq_list = data['equation'].values.tolist()    
@@ -78,7 +80,11 @@ def run_step1(config=None):
         f.write(model_string)
 
 
-def run_step2(config=None):
+def run_step2(config=None, force=False):
+    "Compute basin size of the model"
+    outputfile = config['output']['b']
+    if exists(outputfile) and force==False: 
+        return
 
     data = tab_s7.load_a()
     model = "\n".join( data['equation'].values.tolist() )
@@ -86,5 +92,26 @@ def run_step2(config=None):
     samples = config['parameters']['samples']
     steps = config['parameters']['steps']
     result_data = attr_cy.run(samples=samples, steps=steps, debug=False)
-    json.dump(result_data, open(config['output']['b'], 'w'), indent=4)
+    json.dump(result_data, open(outputfile, 'w'), indent=4)
+
+
+def run_step2_plot(config=None, force=False):
+    "draw figure"
+    outputfile = config['output']['b_plot']
+    if exists(outputfile) and force==False: 
+        return
+
+    result_data = tab_s7.load_b()
+    ratio_list = [] 
+    labels = []
+    for attrk in result_data['attractors'].keys():
+        r = result_data['attractors'][attrk]['ratio']
+        ratio_list.append(r)
+        labels.append(attrk)
+    
+    fig, ax = plt.subplots()
+    
+    ax.bar(np.arange(len(ratio_list)), ratio_list)
+    ax.set_xticklabels(labels)
+    plt.savefig(outputfile)
 

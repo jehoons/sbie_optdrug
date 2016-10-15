@@ -9,7 +9,6 @@ import numpy
 from os.path import exists
 from sbie_optdrug.result.tab_s7 import program
 from ipdb import set_trace
-
 from boolean3_addon import attr_cy
 import json
 
@@ -48,6 +47,10 @@ def check_outputs(config):
 
 def test_this(with_small, force):
     default_config = program.getconfig()
+    
     program.run_step1(default_config)
+    
     program.run_step2(default_config)
+    
+    program.run_step2_plot(default_config)
 
