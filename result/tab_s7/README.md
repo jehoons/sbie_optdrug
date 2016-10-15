@@ -69,13 +69,15 @@ def test_hello(with_small, force):
 
 #### Table S7B. 푸미아네트워크의 어트렉터베이신을 분석한 결과
 
-![draft_v1][draft_v1]
-
-어트랙터의 베이신들을 조사한 결과, 메이저한 어트랙터는 발견되지 않았는데, 이는 푸미아네트워크에서 필요로 하는 입력조건을 설정하지 않았기 때문일 것으로 생각된다. 랜덤으로 설정하였을때에는 도미넌트한 어트렉터가 존재하지 않는 것처럼 보였다. 입력노드들은 `Mutagenic`, `GFs`, `Nutrients`, `TNF-alpha`, `Hypoxia`가 있는데 이들을 다음과 같이 설정하고 나면, 아래 그림과 같은 결과를 얻을 수 있다.
+어트랙터의 베이신들을 조사한 결과, 메이저한 어트랙터는 발견되지 않았는데, 이는 푸미아네트워크에서 필요로 하는 입력조건을 설정하지 않았기 때문일 것으로 생각된다. 랜덤으로 설정하였을때에는 도미넌트한 어트렉터가 존재하지 않는 것처럼 보였다. 입력노드들은 `Mutagenic`, `GFs`, `Nutrients`, `TNF-alpha`, `Hypoxia`가 있는데 이들을 다음과 같이 설정하고 나면, 
 
 `Mutagenic` | `GFs` | `Nutrients` | `TNF-alpha` | `Hypoxia` |
 ---|---|---|---|---|
 True|True|True|True|False|
+
+아래 그림과 같은 결과를 얻을 수 있다.
+
+![draft_v1][draft_v1]
 
 [image1]: https://www.dropbox.com/s/9yeovfo31ftfxz0/2016-10-15%2017_12_43-%EC%82%AC%EC%A7%84.png?dl=1
 
