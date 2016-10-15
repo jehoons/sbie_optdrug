@@ -65,7 +65,8 @@ def test_hello(with_small, force):
 
 ### Table S7. Scanning of fumia network
 ![draft_v1][draft_v1]
-이것이 현재의 결과이다. 뚜렷한 결과가 보이지 않는 이유는 입력조건을 설정하지 않았기 때문일 것으로 생각된다. 
+
+어트랙터의 베이신들을 조사한 결과, 메이저한 어트랙터는 발견되지 않았는데, 이는 푸미아네트워크에서 필요로 하는 입력조건을 설정하지 않았기 때문일 것으로 생각된다.
 
 [draft_v1]: https://www.dropbox.com/s/bqk2zyshqpdjsn3/2016-10-15-1822-TABLE.S7B.ATTRACTORS.png?dl=1
 
