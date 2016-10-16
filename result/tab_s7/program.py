@@ -23,7 +23,7 @@ from boolean3_addon import attractor
 config = {
     'program': 'Table_S7',
     'parameters': {
-        'samples': 1000000,
+        'samples': 10000000,
         'steps': 30
         },
     'input': {
