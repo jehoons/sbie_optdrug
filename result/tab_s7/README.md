@@ -84,7 +84,7 @@ True|True|True|True|False|
 
 [image1]: https://www.dropbox.com/s/9yeovfo31ftfxz0/2016-10-15%2017_12_43-%EC%82%AC%EC%A7%84.png?dl=1
 
-[draft_v1]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s7/TABLE.S7B.ATTRACTORS.png
+[draft_v1]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s7/TABLE_S7B_ATTRACTORS.png
 
 
 
