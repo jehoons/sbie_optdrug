@@ -1,3 +1,28 @@
+### Table S7. Scanning of fumia network
+
+#### Table S7A. 푸미아네트워크 시뮬레이션에 필요한 전처리 모델 데이터
+
+#### Table S7B. 푸미아네트워크의 어트렉터베이신을 분석한 결과
+
+어트랙터의 베이신들을 조사한 결과, 메이저한 어트랙터는 발견되지 않았는데, 이는 푸미아네트워크에서 필요로 하는 입력조건을 설정하지 않았기 때문일 것으로 생각된다. 랜덤으로 설정하였을때에는 도미넌트한 어트렉터가 존재하지 않는 것처럼 보였다. 입력노드들은 `Mutagenic`, `GFs`, `Nutrients`, `TNF-alpha`, `Hypoxia`가 있는데 이들을 다음과 같이 설정하고 나면, 
+
+`Mutagenic` | `GFs` | `Nutrients` | `TNF-alpha` | `Hypoxia` |
+---|---|---|---|---|
+True|True|True|True|False|
+
+도미넌트한 어트렉터의 베이신을 얻을수 있었다.
+
+#### Table S7C,D 오트랙테베이신의 계산에 필요한 입력데이터 및 계산결과
+미리 계산된 데이터는 [여기](http://gofile.me/3gpVt/QgRA45O0V)에서 다운로드
+
+### Table S7. Figures 
+**Table S7B Plot.** 이 그래프에서는 푸미아 모델이 어떤 조건에서는 도미넌트한 어트렉터를 가지지 않음을 보이며, 도미넌트한 어트렉터를 가지기 위해서는 특정한 입력조건이 필요하다는 것을 암시하였다.
+
+**Table S7B Plot**
+
+![draft_v1][draft_v1]
+
+### Method for Table S7
 여기서의 분석은 새로 개발한 attr_cy 모듈을 이용하며, 사용하는 방법은 아래와 같다. 테스트에 이용된 모델은 `fA = A or C`, `fB = A and C`, `fC = not A or B`를 이용하였다. 이모델의 상태천이 다이어그램은 아래 같다.
 
 ![image1][image1]
@@ -62,30 +87,6 @@ def test_hello(with_small, force):
     }
 }
 ```
-
-### Table S7. Scanning of fumia network
-
-#### Table S7A. 푸미아네트워크 시뮬레이션에 필요한 전처리 모델 데이터
-
-#### Table S7B. 푸미아네트워크의 어트렉터베이신을 분석한 결과
-
-어트랙터의 베이신들을 조사한 결과, 메이저한 어트랙터는 발견되지 않았는데, 이는 푸미아네트워크에서 필요로 하는 입력조건을 설정하지 않았기 때문일 것으로 생각된다. 랜덤으로 설정하였을때에는 도미넌트한 어트렉터가 존재하지 않는 것처럼 보였다. 입력노드들은 `Mutagenic`, `GFs`, `Nutrients`, `TNF-alpha`, `Hypoxia`가 있는데 이들을 다음과 같이 설정하고 나면, 
-
-`Mutagenic` | `GFs` | `Nutrients` | `TNF-alpha` | `Hypoxia` |
----|---|---|---|---|
-True|True|True|True|False|
-
-도미넌트한 어트렉터의 베이신을 얻을수 있었다.
-
-#### Table S7C,D 오트랙테베이신의 계산에 필요한 입력데이터 및 계산결과
-미리 계산된 데이터는 [여기](http://gofile.me/3gpVt/QgRA45O0V)에서 다운로드
-
-### Table S7. Figures 
-**Table S7B Plot.** 이 그래프에서는 푸미아 모델이 어떤 조건에서는 도미넌트한 어트렉터를 가지지 않음을 보이며, 도미넌트한 어트렉터를 가지기 위해서는 특정한 입력조건이 필요하다는 것을 암시하였다.
-
-**Table S7B Plot**
-
-![draft_v1][draft_v1]
 
 [image1]: https://www.dropbox.com/s/9yeovfo31ftfxz0/2016-10-15%2017_12_43-%EC%82%AC%EC%A7%84.png?dl=1
 
