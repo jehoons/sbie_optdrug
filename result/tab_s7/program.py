@@ -158,12 +158,12 @@ def myengine(config):
     on_states = config['parameters']['on_states'] 
     off_states = config['parameters']['off_states']
 
-    # if not exists('engine.cpython-35m-x86_64-linux-gnu.so'):
-    #     data = tab_s7.load_a()        
-    #     model = "\n".join( data['equation'].values.tolist() )
-    #     attr_cy.build(model)
-    #     import os 
-    #     os.system('python setup.py build_ext --inplace')
+    if not exists('engine.pyx'):
+        data = tab_s7.load_a()        
+        model = "\n".join( data['equation'].values.tolist() )
+        attr_cy.build(model)
+
+    import pyximport; pyximport.install()
 
     import engine
 
@@ -192,14 +192,7 @@ def run_d(config=None, force=False):
     
     scanning_result = p.map(myengine, data['configs'])
     
-    # scanning_result = p.map_async(myengine, data['configs'])
-    # p.close() 
-    # while(True):
-    #     if (scanning_result.ready()): break
-    #     remaining = scanning_result._number_left
-    #     print ('%d tasks remaining...'%remaining)
-    #     time.sleep(0.5) 
-
     with open(outputfile, 'w') as fileout:
         json.dump({'scanning_results': scanning_result}, fileout, indent=1)
 
+        
