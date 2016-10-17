@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #*************************************************************************
-# Author: {Name, <email>
+# Author: {Je-Hoon Song, <song.jehoon@gmail.com>
 #
 # This file is part of {sbie_optdrug}.
 #*************************************************************************
@@ -12,6 +12,7 @@ from ipdb import set_trace
 from boolean3_addon import attr_cy
 import json
 
+default_config = program.getconfig()
 
 def check_outputs(config):
 
@@ -20,22 +21,22 @@ def check_outputs(config):
 
     return numpy.product(exist_list)
 
+def test_1(with_small, force):
+    
+    program.run_a(config=default_config, force=force)
+    
+    program.run_b(config=default_config, force=force)
+    
+    program.run_b_plot(config=default_config, force=force)
+    
+    program.run_c(config=default_config, force=force)    
 
-def test_this(with_small, force):
-
-    default_config = program.getconfig()
-    program.run_step1(config=default_config, force=force)
-    program.run_step2(config=default_config, force=force)
-    program.run_step2_plot(config=default_config, force=force)
+    program.run_d(config=default_config, force=force)
 
 
 # def test_this(with_small, force):
-
-#     default_config = program.getconfig()
-
-#     # if not check_outputs(default_config) or force:
-#     #     program.run(default_config)
-
-#     # assert check_outputs(default_config)
-
-#     program.run(default_config)
+    # default_config = program.getconfig()
+    # if not check_outputs(default_config) or force:
+    #     program.run(default_config)
+    # assert check_outputs(default_config)
+    # program.run(default_config)

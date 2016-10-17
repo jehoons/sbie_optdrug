@@ -79,7 +79,14 @@ True|True|True|True|False|
 
 ![draft_v1][draft_v1]
 
+#### Table S7C,D 오트랙테베이신의 계산에 필요한 입력데이터 및 계산결과
+미리 계산된 데이터는 [여기](http://gofile.me/3gpVt/QgRA45O0V)에서 다운로드
+
 [image1]: https://www.dropbox.com/s/9yeovfo31ftfxz0/2016-10-15%2017_12_43-%EC%82%AC%EC%A7%84.png?dl=1
 
 [draft_v1]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s7/TABLE.S7B.ATTRACTORS.png
+
+
+
+
 

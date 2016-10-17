@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import json,re
 from ipdb import set_trace
 from termutil import progressbar
+from os import system
 from os.path import dirname,join,exists
 from boolean3_addon import attr_cy
 import numpy as np
@@ -20,29 +21,14 @@ from sbie_optdrug.result import tab_s7
 from boolean3 import Model 
 from boolean3_addon import attractor
 
-config = {
-    'program': 'Table_S7',
-    'parameters': {
-        'samples': 10000000,
-        'steps': 30
-        },
-    'input': {
-        # 'a': inputfile_a
-        },
-    'output': {
-        'a': tab_s7.outputfile_a, 
-        'b': tab_s7.outputfile_b, 
-        'b_plot': tab_s7.outputfile_b_plot
-        }
-    }
 
 def getconfig():
-    
-    return config
+    "return config object"
+    return tab_s7.config
 
 
-def run_step1(config=None, force=False):
-    "Prepare equation file"
+def run_a(config=None, force=False):    
+    "Prepare equation file"    
     if exists(config['output']['a']) and force==False: 
         return
 
@@ -81,7 +67,7 @@ def run_step1(config=None, force=False):
         f.write(model_string)
 
 
-def run_step2(config=None, force=False):
+def run_b(config=None, force=False):
     "Compute basin size of the model"
     outputfile = config['output']['b']
     if exists(outputfile) and force==False: 
@@ -89,14 +75,19 @@ def run_step2(config=None, force=False):
 
     data = tab_s7.load_a()
     model = "\n".join( data['equation'].values.tolist() )
-    attr_cy.build(model)
+
     samples = config['parameters']['samples']
     steps = config['parameters']['steps']
-    result_data = attr_cy.run(samples=samples, steps=steps, debug=False)
+    on_states = config['parameters']['on_states'] 
+    off_states = config['parameters']['off_states'] 
+
+    attr_cy.build(model, on_states=on_states, off_states=off_states)
+    result_data = attr_cy.run(samples=samples, steps=steps, debug=True)
+    # on_states=[], off_states=[]
     json.dump(result_data, open(outputfile, 'w'), indent=4)
 
 
-def run_step2_plot(config=None, force=False):
+def run_b_plot(config=None, force=False):
     "draw figure"
     outputfile = config['output']['b_plot']
     if exists(outputfile) and force==False: 
@@ -115,4 +106,100 @@ def run_step2_plot(config=None, force=False):
     ax.bar(np.arange(len(ratio_list)), ratio_list)
     ax.set_xticklabels(labels)
     plt.savefig(outputfile)
+
+
+def run_c(config=None, force=False):
+    "generate input combinations"
+    from itertools import combinations,product
+    from copy import deepcopy
+
+    outputfile = config['output']['c']
+    if exists(outputfile) and force==False: 
+         return
+
+    result_data = tab_s7.load_b()    
+    nodes = result_data['labels']
+    input_nodes = config['parameters']['input_nodes']
+
+    free_nodes = set(nodes) - set(input_nodes)
+    free_nodes = list(set(free_nodes))
+    combi1 = [c for c in combinations(free_nodes, 1)]
+    combi2 = [c for c in combinations(free_nodes, 2)]
+    combi3 = [c for c in combinations(free_nodes, 3)]
+    combi = combi1 + combi2 + [()]
+    table = list(product([False, True], repeat=len(input_nodes)))
+    
+    config_list = []
+    for k,inp in enumerate(table):
+        progressbar.update(k, len(table))
+        for com in combi:
+            on_states = [] 
+            off_states = [] 
+            off_states = off_states + [c for c in com]
+            for i,t in enumerate(inp):
+                if t : 
+                    on_states.append( input_nodes[i] ) 
+                else: 
+                    off_states.append( input_nodes[i] )
+            
+            config1 = deepcopy(config)
+            config1['parameters']['on_states'] = deepcopy(on_states)
+            config1['parameters']['off_states'] = deepcopy(off_states)
+            config_list.append(deepcopy(config1))                       
+
+    with open(outputfile, 'w') as outfile:
+        json.dump({'configs': config_list, 'num_configs': len(config_list)},
+            outfile, indent=4)
+
+
+def myengine(config): 
+    samples = config['parameters']['samples']
+    steps = config['parameters']['steps']
+    on_states = config['parameters']['on_states'] 
+    off_states = config['parameters']['off_states']
+
+    # if not exists('engine.cpython-35m-x86_64-linux-gnu.so'):
+    #     data = tab_s7.load_a()        
+    #     model = "\n".join( data['equation'].values.tolist() )
+    #     attr_cy.build(model)
+    #     import os 
+    #     os.system('python setup.py build_ext --inplace')
+
+    import engine
+
+    result = engine.main(samples=samples, steps=steps, debug=False, \
+        progress=False, on_states=on_states, off_states=off_states)
+
+    result['parameters'] = {
+        'samples': samples,
+        'steps': steps
+        }
+
+    return result
+
+
+def run_d(config=None, force=False): 
+
+    outputfile = config['output']['d']
+    if exists(outputfile) and force==False: 
+         return
+
+    data = json.load(open('TABLE_S7C_INPUT_COMBINATIONS.json','r'))    
+    
+    import time 
+    from multiprocessing import Pool    
+    p = Pool(60)    
+    
+    scanning_result = p.map(myengine, data['configs'])
+    
+    # scanning_result = p.map_async(myengine, data['configs'])
+    # p.close() 
+    # while(True):
+    #     if (scanning_result.ready()): break
+    #     remaining = scanning_result._number_left
+    #     print ('%d tasks remaining...'%remaining)
+    #     time.sleep(0.5) 
+
+    with open(outputfile, 'w') as fileout:
+        json.dump({'scanning_results': scanning_result}, fileout, indent=1)
 

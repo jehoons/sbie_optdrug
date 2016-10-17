@@ -17,18 +17,52 @@ import json
 # """ results """
 # outputfile_a = join(dirname(__file__), 'TABLE.SXX.OUTPUTDATA.CSV')
 
-outputfile_a = join(dirname(__file__), 'TABLE.S7A.FUMIA_PROCESSED.csv')
-outputfile_b = join(dirname(__file__), 'TABLE.S7B.ATTRACTORS.json')
-outputfile_b_plot = join(dirname(__file__), 'TABLE.S7B.ATTRACTORS.png')
+OUTFILE_A = join(dirname(__file__), 'TABLE_S7A_FUMIA_PROCESSED.csv')
+OUTFILE_B = join(dirname(__file__), 'TABLE_S7B_ATTRACTORS.json')
+OUTFILE_B_PLOT = join(dirname(__file__), 'TABLE_S7B_ATTRACTORS.png')
+OUTFILE_C = join(dirname(__file__), 'TABLE_S7C_INPUT_COMBINATIONS.json')
+OUTFILE_D = join(dirname(__file__), 'TABLE_S7D_SCANNING_RESULT.json')
+
+config = {
+    'program': 'Table_S7',
+    'parameters': {
+        'samples': 10000,
+        'steps': 30, 
+        'on_states': [], 
+        'off_states': [],
+        'input_nodes': ['S_Mutagen', 'S_GFs', 'S_Nutrients', 'S_TNFalpha', 'S_Hypoxia']
+        },
+    'input': {
+        # 'a': inputfile_a
+        },
+    'output': {
+        'a': OUTFILE_A, 
+        'b': OUTFILE_B, 
+        'b_plot': OUTFILE_B_PLOT, 
+        'c': OUTFILE_C,
+        'd': OUTFILE_D
+        }
+    }
 
 def load_a():
-    df = pd.read_csv(outputfile_a, names=['equation'])
+    df = pd.read_csv(OUTFILE_A, names=['equation'])
     
     return df
 
 def load_b():
-    with open(outputfile_b,'r') as f: 
+    with open(OUTFILE_B,'r') as f: 
         jsondata = json.load(f)    
 
     return jsondata
 
+def load_c():
+    with open(OUTFILE_C,'r') as f: 
+        jsondata = json.load(f)    
+
+    return jsondata    
+
+def load_d():
+    with open(OUTFILE_D,'r') as f: 
+        jsondata = json.load(f)
+
+    return jsondata        
