@@ -75,16 +75,23 @@ def test_hello(with_small, force):
 ---|---|---|---|---|
 True|True|True|True|False|
 
-아래 그림과 같은 결과를 얻을 수 있다.
-
-![draft_v1][draft_v1]
+도미넌트한 어트렉터의 베이신을 얻을수 있었다.
 
 #### Table S7C,D 오트랙테베이신의 계산에 필요한 입력데이터 및 계산결과
 미리 계산된 데이터는 [여기](http://gofile.me/3gpVt/QgRA45O0V)에서 다운로드
 
+### Table S7. Figures 
+**Table S7B Plot.** 이 그래프에서는 푸미아 모델이 어떤 조건에서는 도미넌트한 어트렉터를 가지지 않음을 보이며, 도미넌트한 어트렉터를 가지기 위해서는 특정한 입력조건이 필요하다는 것을 암시하였다.
+
+**Table S7B Plot**
+
+![draft_v1][draft_v1]
+
 [image1]: https://www.dropbox.com/s/9yeovfo31ftfxz0/2016-10-15%2017_12_43-%EC%82%AC%EC%A7%84.png?dl=1
 
 [draft_v1]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s7/TABLE_S7B_ATTRACTORS.png
+
+
 
 
 
