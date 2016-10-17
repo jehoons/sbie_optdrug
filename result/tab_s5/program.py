@@ -20,14 +20,17 @@ from termutil import progressbar
 inputfile_a = join(dirname(__file__), '..','tab_s2','TABLE.S2.NODE-NAME.CSV')
 inputfile_b = join(dirname(__file__), '..','tab_s1','TABLE.S1A.MUTCNA_CRC_NET.CSV')
 inputfile_c = join(dirname(__file__), '..','tab_s1','TABLE.S1B.THERAPY_CRC_NET.CSV')
-
+inputfile_d = join(dirname(__file__), '..','tab_s1','TABLE.S1E.LOF_GOF_INDV.CSV')
+inputfile_e = join(dirname(__file__), '..','tab_s4','TABLE_S4A_MUTGENES.CSV')
+inputfile_f = join(dirname(__file__), '..','tab_s4','TABLE_S4C_TUMORSUPPRESSORS_AND_ONCOGENES.CSV')
 
 """ results """
-outputfile_a = join(dirname(__file__), 'TABLE.S5A.COPYNUMVAR_data_gene.json')
+outputfile_a = join(dirname(__file__), 'TABLE.S5A.COPYNUMVAR_data_s1.json')
 outputfile_b = join(dirname(__file__), 'TABLE.S5A.COPYNUMVAR_data_s4.json')
-outputfile_c = join(dirname(__file__), 'TABLE.S5B.MUTATION_data.json')
-outputfile_d = join(dirname(__file__), 'TABLE.S5C.DRUG_data.json')
-# outputfile_a : table_S1A에 GOF,LOF 추가한 파일 하나더 만들고, GOF,LOF일 때 GOF, LOF 넣는거로 만들기
+outputfile_c = join(dirname(__file__), 'TABLE.S5B.MUTATION_data_s1.json')
+outputfile_d = join(dirname(__file__), 'TABLE.S5B.MUTATION_data_s4.json')
+outputfile_e = join(dirname(__file__), 'TABLE.S5C.DRUG_data.json')
+# outputfile_a : GOF,LOF일 때 GOF, LOF 넣는거로 만들기
 # outputfile_b : table_s4d에 node과 같은 gene name을 찾아서 gene name, fucntion list 만들고
 # 길이가 1이거나 1이상이지만 function 모두 same 이면 그 function 적용
 # 아닌 경우는 생각해보기
@@ -37,13 +40,17 @@ config = {
     'input': {
         'input_a': inputfile_a,
         'input_b': inputfile_b,
-        'input_c': inputfile_c
+        'input_c': inputfile_c,
+        'input_d': inputfile_d,
+        'input_e': inputfile_e,
+        'input_f': inputfile_f
         },
     'output': {
         'output_a': outputfile_a,
         'output_b': outputfile_b,
         'output_c': outputfile_c,
-        'output_d': outputfile_d
+        'output_d': outputfile_d,
+        'output_e': outputfile_e
         }
     }
 
@@ -55,10 +62,14 @@ def run(config=None):
     gene = pd.read_csv(config['input']['input_a'])
     data_mutcna = pd.read_csv(config['input']['input_b'])
     data_therapy = pd.read_csv(config['input']['input_c'])
+    LOF_GOF_s1 = pd.read_csv(config['input']['input_d']) # index : number
+    Mutagen_s4 = pd.read_csv(config['input']['input_e']) # index : number
+    LOF_GOF_s4 = pd.read_csv(config['input']['input_f']) # index : number
 
-    copy_number_data_gene = open(config['output']['output_a'], 'w')
+    copy_number_data_s1 = open(config['output']['output_a'], 'w')
     copy_number_data_s4 = open(config['output']['output_b'], 'w')
-    mutation_data = open(config['output']['output_c'], 'w')
+    mutation_data_s1 = open(config['output']['output_c'], 'w')
+    mutation_data_s4 = open(config['output']['output_d'], 'w')
     mutcna_index = data_mutcna['Description']
     mutcna = data_mutcna[data_mutcna.columns[2:]]
     mutcna.index = mutcna_index
@@ -66,71 +77,242 @@ def run(config=None):
     mutcna_AMP = mutcna[mutcna.index.str.contains('_AMP')]
     mutcna_DEL = mutcna[mutcna.index.str.contains('_DEL')]
     i = 0
-    cnd = {}
-    mut = {}
+    cnd_s1 = {}
+    mut_s1 = {}
+    cnd_s4 = {}
+    mut_s4 = {}
     for i in range(len(mutcna.columns)):
         progressbar.update(i, len(mutcna.columns))
         cln = mutcna.columns[i]
         if (len(cln) != 0) & (cln != 'Description'):
-            cnd_add = {cln: {}}
-            mut_add = {cln: {}}
+            cnd_add_s1 = {cln: {}}
+            mut_add_s1 = {cln: {}}
+            cnd_add_s4= {cln: {}}
+            mut_add_s4 = {cln: {}}
             mutcna_MUT_cln = mutcna_MUT[cln]
             mutcna_AMP_cln = mutcna_AMP[cln]
             mutcna_DEL_cln = mutcna_DEL[cln]
             mutcna_MUT_cln_data = mutcna_MUT_cln[mutcna_MUT_cln == 1]
             mutcna_AMP_cln_data = mutcna_AMP_cln[mutcna_AMP_cln == 1]
             mutcna_DEL_cln_data = mutcna_DEL_cln[mutcna_DEL_cln == 1]
-            set_trace()
-            if len(cnd) == 0:
-                cnd = cnd_add
-                mut = mut_add
-            else:
-                cnd = dict(cnd.items() + cnd_add.items())
-                mut = dict(mut.items() + mut_add.items())
+            if len(cnd_s1) == 0:
+                cnd_s1 = cnd_add_s1
+            if len(mut_s1) == 0:
+                mut_s1 = mut_add_s1
+            elif len(cnd_s1) != 0:
+                cnd_s1 = dict(cnd_s1.items() + cnd_add_s1.items())
+            elif len(mut_s1) != 0:
+                mut_s1 = dict(mut_s1.items() + mut_add_s1.items())
+
+            if len(cnd_s4) == 0:
+                cnd_s4 = cnd_add_s4
+            if len(mut_s4) == 0:
+                mut_s4 = mut_add_s4
+            elif len(cnd_s4) != 0:
+                cnd_s4 = dict(cnd_s4.items() + cnd_add_s4.items())
+            elif len(mut_s4) != 0:
+                mut_s4 = dict(mut_s4.items() + mut_add_s4.items())
+
             j = 0
-            node_data_cnv = {}
-            node_data_mut = {}
+            node_data_cnv_s1 = {}
+            node_data_mut_s1 = {}
+            node_data_cnv_s4 = {}
+            node_data_mut_s4 = {}
             for j in gene.index:
                 name = gene.loc[j, 'node_name']
-                node_data_cnv_add = {name: {'function': ''}}
-                node_data_mut_add = {name: {'function': ''}}
+                node_data_cnv_add_s1 = {name: {'function': ''}}
+                node_data_mut_add_s1 = {name: {'function': ''}}
+                node_data_cnv_add_s4 = {name: {'function': ''}}
+                node_data_mut_add_s4 = {name: {'function': ''}}
                 if len(mutcna_MUT_cln_data) != 0:
                     mutcna_MUT_cln_data_node = mutcna_MUT_cln_data[mutcna_MUT_cln_data.index.str.contains(name)]
                     if len(mutcna_MUT_cln_data_node) != 0:
-                        if len(node_data_mut) == 0:
-                            node_data_mut_add[name]['function'] = 'MUT'
-                            node_data_mut = node_data_mut_add
-                        else:
-                            node_data_mut_add[name]['function'] = 'MUT'
-                            node_data_mut = dict(node_data_mut.items() + node_data_mut_add.items())
+                        k = 0
+                        for k in range(len(mutcna_MUT_cln_data_node.index)):
+                            chk_list = mutcna_MUT_cln_data_node.index[k]
+                            L_G_list = LOF_GOF_s1[LOF_GOF_s1['Description'] == chk_list]['Loss or Gain']
+                            set_trace()
+                            if L_G_list == 'Gain':
+                                L_G = 'GOF'
+                            elif L_G_list == 'Loss':
+                                L_G = 'LOF'
+                            if len(node_data_mut_s1) == 0:
+                                node_data_mut_add_s1[name]['function'] = L_G
+                                node_data_mut_s1 = node_data_mut_add_s1
+                            elif len(node_data_mut_s1) != 0:
+                                node_data_mut_add_s1[name]['function'] = L_G
+                                node_data_mut_s1 = dict(node_data_mut_s1.items() + node_data_mut_add_s1.items())
+
+                            chk_list_name = chk_list[0:chk_list.find('_')]
+                            if chk_list_name.find('.') > -1:
+                                chk_list_name = chk_list_name[0:chk_list_name.find('.')]
+                            if chk_list_name.find('-') > -1:
+                                if chk_list_name.find('-') < chk_list_name.find(name):
+                                    chk_list_name = chk_list_name[chk_list_name.find(name):]
+                                else:
+                                    chk_list_name = chk_list_name[chk_list_name.find(name):chk_list_name.find('-')]
+                            mut_list = LOF_GOF_s4[LOF_GOF_s4['ID']==chk_list_name]
+                            if len(mut_list) > 0:
+                                if 'UNKNOWN' in mut_list['CATEGORY']:
+                                    if 'Oncogene' in mut_list['CATEGORY']:
+                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                            L_G = 'GOF'
+                                        else:
+                                            L_G = 'GOF'
+                                    else:
+                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                            L_G = 'LOF'
+                                        else:
+                                            L_G = 'GOF'
+                                else:
+                                    if 'Oncogene' in mut_list['CATEGORY']:
+                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                            L_G = 'GOF'
+                                        else:
+                                            L_G = 'GOF'
+                                    else:
+                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                            L_G = 'LOF'
+                                        else:
+                                            L_G = 'GOF'
+                            else:
+                                L_G = 'GOF'
+                            if len(node_data_mut_s4) == 0:
+                                node_data_mut_add_s1[name]['function'] = L_G
+                                node_data_mut_s1 = node_data_mut_add_s1
+                            elif len(node_data_mut_s4) != 0:
+                                node_data_mut_add_s4[name]['function'] = L_G
+                                node_data_mut_s4 = dict(node_data_mut_s4.items() + node_data_mut_add_s4.items())
                 if len(mutcna_AMP_cln_data) != 0:
                     mutcna_AMP_cln_data_node = mutcna_AMP_cln_data[mutcna_AMP_cln_data.index.str.contains(name)]
-                    set_trace()
                     if len(mutcna_AMP_cln_data_node) != 0:
-                        if len(node_data_cnv) == 0:
-                            node_data_cnv_add[name]['function'] = 'AMP'
-                            node_data_cnv = node_data_cnv_add
-                        else:
-                            node_data_cnv_add[name]['function'] = 'AMP'
-                            node_data_cnv = dict(node_data_cnv.items() + node_data_cnv_add.items())
+                        k = 0
+                        for k in range(len(mutcna_AMP_cln_data_node.index)):
+                            chk_list = mutcna_AMP_cln_data_node.index[k]
+                            L_G_list = LOF_GOF_s1[LOF_GOF_s1['Description'] == chk_list]['Loss or Gain']
+                            if L_G_list == 'Gain':
+                                L_G = 'GOF'
+                            elif L_G_list == 'Loss':
+                                L_G = 'LOF'
+                            if len(node_data_cnv_s1) == 0:
+                                node_data_cnv_add_s1[name]['function'] = L_G
+                                node_data_cnv_s1 = node_data_cnv_add_s1
+                            elif len(node_data_mut_s1) != 0:
+                                node_data_cnv_add_s1[name]['function'] = L_G
+                                node_data_cnv_s1 = dict(node_data_cnv_s1.items() + node_data_cnv_add_s1.items())
+
+                            chk_list_name = chk_list[0:chk_list.find('_')]
+                            if chk_list_name.find('.') > -1:
+                                chk_list_name = chk_list_name[0:chk_list_name.find('.')]
+                            if chk_list_name.find('-') > -1:
+                                if chk_list_name.find('-') < chk_list_name.find(name):
+                                    chk_list_name = chk_list_name[chk_list_name.find(name):]
+                                else:
+                                    chk_list_name = chk_list_name[chk_list_name.find(name):chk_list_name.find('-')]
+                            mut_list = LOF_GOF_s4[LOF_GOF_s4['ID'] == chk_list_name]
+                            if len(mut_list) > 0:
+                                if 'UNKNOWN' in mut_list['CATEGORY']:
+                                    if 'Oncogene' in mut_list['CATEGORY']:
+                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                            L_G = 'GOF'
+                                        else:
+                                            L_G = 'GOF'
+                                    else:
+                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                            L_G = 'LOF'
+                                        else:
+                                            L_G = 'GOF'
+                                else:
+                                    if 'Oncogene' in mut_list['CATEGORY']:
+                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                            L_G = 'GOF'
+                                        else:
+                                            L_G = 'GOF'
+                                    else:
+                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                            L_G = 'LOF'
+                                        else:
+                                            L_G = 'GOF'
+                            else:
+                                a = 'GOF'
+                            if len(node_data_cnv_s4) == 0:
+                                node_data_cnv_add_s1[name]['function'] = L_G
+                                node_data_cnv_s1 = node_data_cnv_add_s1
+                            elif len(node_data_mut_s4) != 0:
+                                node_data_cnv_add_s4[name]['function'] = L_G
+                                node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
                 if len(mutcna_DEL_cln_data) != 0:
                     mutcna_DEL_cln_data_node = mutcna_DEL_cln_data[mutcna_DEL_cln_data.index.str.contains(name)]
-                    set_trace()
                     if len(mutcna_DEL_cln_data_node) != 0:
-                        if len(node_data_cnv) == 0:
-                            node_data_cnv_add[name]['function'] = 'DEL'
-                            node_data_cnv = node_data_cnv_add
-                        else:
-                            node_data_cnv_add[name]['function'] = 'DEL'
-                            node_data_cnv = dict(node_data_cnv.items() + node_data_cnv_add.items())
+                        k = 0
+                        for k in range(len(mutcna_DEL_cln_data_node.index)):
+                            chk_list = mutcna_DEL_cln_data_node.index[k]
+                            L_G_list = LOF_GOF_s1[LOF_GOF_s1['Description'] == chk_list]['Loss or Gain']
+                            if L_G_list == 'Loss':
+                                L_G = 'GOF'
+                            elif L_G_list == 'Gain':
+                                L_G = 'LOF'
+                            if len(node_data_cnv_s1) == 0:
+                                node_data_cnv_add_s1[name]['function'] = L_G
+                                node_data_cnv_s1 = node_data_cnv_add_s1
+                            elif len(node_data_cnv_s1) != 0:
+                                node_data_cnv_add_s1[name]['function'] = L_G
+                                node_data_cnv_s1 = dict(node_data_cnv_s1.items() + node_data_cnv_add_s1.items())
+
+                            chk_list_name = chk_list[0:chk_list.find('_')]
+                            if chk_list_name.find('.') > -1:
+                                chk_list_name = chk_list_name[0:chk_list_name.find('.')]
+                            if chk_list_name.find('-') > -1:
+                                if chk_list_name.find('-') < chk_list_name.find(name):
+                                    chk_list_name = chk_list_name[chk_list_name.find(name):]
+                                else:
+                                    chk_list_name = chk_list_name[chk_list_name.find(name):chk_list_name.find('-')]
+                            mut_list = LOF_GOF_s4[LOF_GOF_s4['ID'] == chk_list_name]
+                            if len(mut_list) > 0:
+                                if 'UNKNOWN' in mut_list['CATEGORY']:
+                                    if 'Oncogene' in mut_list['CATEGORY']:
+                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                            L_G = 'GOF'
+                                        else:
+                                            L_G = 'GOF'
+                                    else:
+                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                            L_G = 'LOF'
+                                        else:
+                                            L_G = 'GOF'
+                                else:
+                                    if 'Oncogene' in mut_list['CATEGORY']:
+                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                            L_G = 'GOF'
+                                        else:
+                                            L_G = 'GOF'
+                                    else:
+                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                            L_G = 'LOF'
+                                        else:
+                                            L_G = 'GOF'
+                            else:
+                                a = 'GOF'
+                            if len(node_data_cnv_s4) == 0:
+                                node_data_cnv_add_s1[name]['function'] = L_G
+                                node_data_cnv_s1 = node_data_cnv_add_s1
+                            elif len(node_data_cnv_s4) != 0:
+                                node_data_cnv_add_s4[name]['function'] = L_G
+                                node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
                 j += 1
-            cnd[cln] = node_data_cnv
-            mut[cln] = node_data_mut
+            cnd_s1[cln] = node_data_cnv_s1
+            mut_s1[cln] = node_data_mut_s1
+            cnd_s4[cln] = node_data_cnv_s4
+            mut_s4[cln] = node_data_mut_s4
         i += 1
-    json.dump(cnd, copy_number_data_gene, indent=3, sort_keys=True)
-    json.dump(mut, mutation_data, indent=3, sort_keys=True)
-    copy_number_data_gene.close()
-    mutation_data.close()
+    json.dump(cnd_s1, copy_number_data_s1, indent=3, sort_keys=True)
+    json.dump(mut_s1, mutation_data_s1, indent=3, sort_keys=True)
+    json.dump(cnd_s4, copy_number_data_s4, indent=3, sort_keys=True)
+    json.dump(mut_s4, mutation_data_s4, indent=3, sort_keys=True)
+    copy_number_data_s1.close()
+    mutation_data_s1.close()
+    copy_number_data_s4.close()
+    mutation_data_s4.close()
 
     drug_data = open(config['output']['output_d'], 'w')
     i = 0
@@ -140,7 +322,6 @@ def run(config=None):
         cln = data_therapy['CCLE Cell Line Name'][i]
         d_name = data_therapy['Compound'][i]
         target = data_therapy['Target'][i]
-        # dose = data_therapy['Doses'][i]
         drug_add = {cln: {d_name: {'type': 'inhibitor', 'target': target}}}
         if cln in drug:
             new_drug = {d_name: {'type': 'inhibitor', 'target': target}}
