@@ -127,11 +127,12 @@ def run(config=None):
                 if len(mutcna_MUT_cln_data) != 0:
                     mutcna_MUT_cln_data_node = mutcna_MUT_cln_data[mutcna_MUT_cln_data.index.str.contains(name)]
                     if len(mutcna_MUT_cln_data_node) != 0:
+                        set_trace()
                         k = 0
                         for k in range(len(mutcna_MUT_cln_data_node.index)):
                             chk_list = mutcna_MUT_cln_data_node.index[k]
+
                             L_G_list = LOF_GOF_s1[LOF_GOF_s1['Description'] == chk_list]['Loss or Gain']
-                            set_trace()
                             if L_G_list == 'Gain':
                                 L_G = 'GOF'
                             elif L_G_list == 'Loss':
