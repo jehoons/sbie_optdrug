@@ -97,19 +97,21 @@ def run(config=None):
             mutcna_DEL_cln_data = mutcna_DEL_cln[mutcna_DEL_cln == 1]
             if len(cnd_s1) == 0:
                 cnd_s1 = cnd_add_s1
-            if len(mut_s1) == 0:
-                mut_s1 = mut_add_s1
             elif len(cnd_s1) != 0:
                 cnd_s1 = dict(cnd_s1.items() + cnd_add_s1.items())
+
+            if len(mut_s1) == 0:
+                mut_s1 = mut_add_s1
             elif len(mut_s1) != 0:
                 mut_s1 = dict(mut_s1.items() + mut_add_s1.items())
 
             if len(cnd_s4) == 0:
                 cnd_s4 = cnd_add_s4
-            if len(mut_s4) == 0:
-                mut_s4 = mut_add_s4
             elif len(cnd_s4) != 0:
                 cnd_s4 = dict(cnd_s4.items() + cnd_add_s4.items())
+
+            if len(mut_s4) == 0:
+                mut_s4 = mut_add_s4
             elif len(mut_s4) != 0:
                 mut_s4 = dict(mut_s4.items() + mut_add_s4.items())
 
@@ -124,14 +126,14 @@ def run(config=None):
                 node_data_mut_add_s1 = {name: {'function': ''}}
                 node_data_cnv_add_s4 = {name: {'function': ''}}
                 node_data_mut_add_s4 = {name: {'function': ''}}
-                if len(mutcna_MUT_cln_data) != 0:
+                if len(mutcna_MUT_cln_data) > 0:
                     mutcna_MUT_cln_data_node = mutcna_MUT_cln_data[mutcna_MUT_cln_data.index.str.contains(name)]
-                    if len(mutcna_MUT_cln_data_node) != 0:
+                    set_trace()
+                    if len(mutcna_MUT_cln_data_node) > 0:
                         set_trace()
                         k = 0
                         for k in range(len(mutcna_MUT_cln_data_node.index)):
                             chk_list = mutcna_MUT_cln_data_node.index[k]
-
                             L_G_list = LOF_GOF_s1[LOF_GOF_s1['Description'] == chk_list]['Loss or Gain']
                             if L_G_list == 'Gain':
                                 L_G = 'GOF'
@@ -140,7 +142,7 @@ def run(config=None):
                             if len(node_data_mut_s1) == 0:
                                 node_data_mut_add_s1[name]['function'] = L_G
                                 node_data_mut_s1 = node_data_mut_add_s1
-                            elif len(node_data_mut_s1) != 0:
+                            elif len(node_data_mut_s1) > 0:
                                 node_data_mut_add_s1[name]['function'] = L_G
                                 node_data_mut_s1 = dict(node_data_mut_s1.items() + node_data_mut_add_s1.items())
 
@@ -181,12 +183,13 @@ def run(config=None):
                             if len(node_data_mut_s4) == 0:
                                 node_data_mut_add_s1[name]['function'] = L_G
                                 node_data_mut_s1 = node_data_mut_add_s1
-                            elif len(node_data_mut_s4) != 0:
+                            elif len(node_data_mut_s4) > 0:
                                 node_data_mut_add_s4[name]['function'] = L_G
                                 node_data_mut_s4 = dict(node_data_mut_s4.items() + node_data_mut_add_s4.items())
-                if len(mutcna_AMP_cln_data) != 0:
+                            k += 1
+                if len(mutcna_AMP_cln_data) > 0:
                     mutcna_AMP_cln_data_node = mutcna_AMP_cln_data[mutcna_AMP_cln_data.index.str.contains(name)]
-                    if len(mutcna_AMP_cln_data_node) != 0:
+                    if len(mutcna_AMP_cln_data_node) > 0:
                         k = 0
                         for k in range(len(mutcna_AMP_cln_data_node.index)):
                             chk_list = mutcna_AMP_cln_data_node.index[k]
@@ -198,7 +201,7 @@ def run(config=None):
                             if len(node_data_cnv_s1) == 0:
                                 node_data_cnv_add_s1[name]['function'] = L_G
                                 node_data_cnv_s1 = node_data_cnv_add_s1
-                            elif len(node_data_mut_s1) != 0:
+                            elif len(node_data_mut_s1) > 0:
                                 node_data_cnv_add_s1[name]['function'] = L_G
                                 node_data_cnv_s1 = dict(node_data_cnv_s1.items() + node_data_cnv_add_s1.items())
 
@@ -239,12 +242,13 @@ def run(config=None):
                             if len(node_data_cnv_s4) == 0:
                                 node_data_cnv_add_s1[name]['function'] = L_G
                                 node_data_cnv_s1 = node_data_cnv_add_s1
-                            elif len(node_data_mut_s4) != 0:
+                            elif len(node_data_mut_s4) > 0:
                                 node_data_cnv_add_s4[name]['function'] = L_G
                                 node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
-                if len(mutcna_DEL_cln_data) != 0:
+                            k += 1
+                if len(mutcna_DEL_cln_data) > 0:
                     mutcna_DEL_cln_data_node = mutcna_DEL_cln_data[mutcna_DEL_cln_data.index.str.contains(name)]
-                    if len(mutcna_DEL_cln_data_node) != 0:
+                    if len(mutcna_DEL_cln_data_node) > 0:
                         k = 0
                         for k in range(len(mutcna_DEL_cln_data_node.index)):
                             chk_list = mutcna_DEL_cln_data_node.index[k]
@@ -256,7 +260,7 @@ def run(config=None):
                             if len(node_data_cnv_s1) == 0:
                                 node_data_cnv_add_s1[name]['function'] = L_G
                                 node_data_cnv_s1 = node_data_cnv_add_s1
-                            elif len(node_data_cnv_s1) != 0:
+                            elif len(node_data_cnv_s1) > 0:
                                 node_data_cnv_add_s1[name]['function'] = L_G
                                 node_data_cnv_s1 = dict(node_data_cnv_s1.items() + node_data_cnv_add_s1.items())
 
@@ -297,9 +301,10 @@ def run(config=None):
                             if len(node_data_cnv_s4) == 0:
                                 node_data_cnv_add_s1[name]['function'] = L_G
                                 node_data_cnv_s1 = node_data_cnv_add_s1
-                            elif len(node_data_cnv_s4) != 0:
+                            elif len(node_data_cnv_s4) > 0:
                                 node_data_cnv_add_s4[name]['function'] = L_G
                                 node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
+                            k += 1
                 j += 1
             cnd_s1[cln] = node_data_cnv_s1
             mut_s1[cln] = node_data_mut_s1
