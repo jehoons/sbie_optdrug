@@ -128,9 +128,7 @@ def run(config=None):
                 node_data_mut_add_s4 = {name: {'function': ''}}
                 if len(mutcna_MUT_cln_data) > 0:
                     mutcna_MUT_cln_data_node = mutcna_MUT_cln_data[mutcna_MUT_cln_data.index.str.contains(name)]
-                    set_trace()
                     if len(mutcna_MUT_cln_data_node) > 0:
-                        set_trace()
                         k = 0
                         for k in range(len(mutcna_MUT_cln_data_node.index)):
                             chk_list = mutcna_MUT_cln_data_node.index[k]
@@ -364,7 +362,7 @@ def run(config=None):
                                         #else:
                                             #L_G = 'GOF'
                             else:
-                                L_G = 'GOF'
+                                L_G = 'LOF'
                             if len(node_data_cnv_s4) == 0:
                                 node_data_cnv_add_s4[name]['function'] = L_G
                                 node_data_cnv_s4 = node_data_cnv_add_s4
@@ -386,7 +384,7 @@ def run(config=None):
     mutation_data_s1.close()
     copy_number_data_s4.close()
     mutation_data_s4.close()
-
+    set_trace()
     drug_data = open(config['output']['output_d'], 'w')
     i = 0
     drug = {}
