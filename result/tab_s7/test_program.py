@@ -25,11 +25,19 @@ def test_1(with_small, force):
     
     program.run_a(config=default_config, force=force)
     
+def test_2(with_small, force):
+
     program.run_b(config=default_config, force=force)
     
+def test_3(with_small, force):
+
     program.run_b_plot(config=default_config, force=force)
     
+def test_4(with_small, force):
+
     program.run_c(config=default_config, force=force)    
+
+def test_5(with_small, force):
 
     program.run_d(config=default_config, force=force)
 
@@ -40,3 +48,5 @@ def test_1(with_small, force):
     #     program.run(default_config)
     # assert check_outputs(default_config)
     # program.run(default_config)
+
+

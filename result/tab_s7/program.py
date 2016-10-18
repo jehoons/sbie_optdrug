@@ -152,20 +152,20 @@ def run_c(config=None, force=False):
             outfile, indent=4)
 
 
+if not exists('engine.pyx'):
+    data = tab_s7.load_a()        
+    model = "\n".join( data['equation'].values.tolist() )
+    attr_cy.build(model)
+    
+
+# --- 
+import pyximport; pyximport.install()
+import engine
 def myengine(config): 
     samples = config['parameters']['samples']
     steps = config['parameters']['steps']
     on_states = config['parameters']['on_states'] 
     off_states = config['parameters']['off_states']
-
-    if not exists('engine.pyx'):
-        data = tab_s7.load_a()        
-        model = "\n".join( data['equation'].values.tolist() )
-        attr_cy.build(model)
-
-    import pyximport; pyximport.install()
-
-    import engine
 
     result = engine.main(samples=samples, steps=steps, debug=False, \
         progress=False, on_states=on_states, off_states=off_states)
@@ -176,6 +176,7 @@ def myengine(config):
         }
 
     return result
+# ---
 
 
 def run_d(config=None, force=False): 
@@ -189,10 +190,8 @@ def run_d(config=None, force=False):
     import time 
     from multiprocessing import Pool    
     p = Pool(60)    
-    
     scanning_result = p.map(myengine, data['configs'])
     
     with open(outputfile, 'w') as fileout:
         json.dump({'scanning_results': scanning_result}, fileout, indent=1)
 
-        
