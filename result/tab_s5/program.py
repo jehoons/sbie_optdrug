@@ -135,9 +135,9 @@ def run(config=None):
                         for k in range(len(mutcna_MUT_cln_data_node.index)):
                             chk_list = mutcna_MUT_cln_data_node.index[k]
                             L_G_list = LOF_GOF_s1[LOF_GOF_s1['Description'] == chk_list]['Loss or Gain']
-                            if L_G_list == 'Gain':
+                            if L_G_list.item() == 'Gain':
                                 L_G = 'GOF'
-                            elif L_G_list == 'Loss':
+                            elif L_G_list.item() == 'Loss':
                                 L_G = 'LOF'
                             if len(node_data_mut_s1) == 0:
                                 node_data_mut_add_s1[name]['function'] = L_G
@@ -159,30 +159,52 @@ def run(config=None):
                                 if 'UNKNOWN' in mut_list['CATEGORY']:
                                     if 'Oncogene' in mut_list['CATEGORY']:
                                         if 'Tumor suppressor gene' in mut_list['CATEGORY']:
-                                            L_G = 'GOF'
+                                            L_G = 'Onco_Supp'
+                                            #L_G = GOF
                                         else:
-                                            L_G = 'GOF'
+                                            if chk_list.find('-AS') > -1:
+                                                L_G = 'Onco_LOF'
+                                            else:
+                                                L_G = 'Onco_GOF'
+                                            #L_G = GOF
                                     else:
                                         if 'Tumor suppressor gene' in mut_list['CATEGORY']:
-                                            L_G = 'LOF'
-                                        else:
-                                            L_G = 'GOF'
+                                            if chk_list.find('-AS') > -1:
+                                                L_G = 'Supp_LOF'
+                                            else:
+                                                L_G = 'Supp_GOF'
+                                            #L_G = 'LOF'
+                                        else: # unknown = Onco
+                                            if chk_list.find('-AS') > -1:
+                                                L_G = 'Onco_LOF'
+                                            else:
+                                                L_G = 'Onco_GOF'
+                                            #L_G = 'GOF'
                                 else:
                                     if 'Oncogene' in mut_list['CATEGORY']:
                                         if 'Tumor suppressor gene' in mut_list['CATEGORY']:
-                                            L_G = 'GOF'
+                                            L_G = 'Onco_Supp'
+                                            #L_G = 'GOF'
                                         else:
-                                            L_G = 'GOF'
+                                            if chk_list.find('-AS') > -1:
+                                                L_G = 'Onco_LOF'
+                                            else:
+                                                L_G = 'Onco_GOF'
+                                            #L_G = 'GOF'
                                     else:
                                         if 'Tumor suppressor gene' in mut_list['CATEGORY']:
-                                            L_G = 'LOF'
-                                        else:
-                                            L_G = 'GOF'
+                                            if chk_list.find('-AS') > -1:
+                                                L_G = 'Supp_LOF'
+                                            else:
+                                                L_G = 'Supp_GOF'
+                                            #L_G = 'LOF'
+                                        #else:
+                                            #L_G = 'GOF'
                             else:
                                 L_G = 'GOF'
                             if len(node_data_mut_s4) == 0:
-                                node_data_mut_add_s1[name]['function'] = L_G
-                                node_data_mut_s1 = node_data_mut_add_s1
+                                node_data_mut_add_s4[name]['function'] = L_G
+                                node_data_mut_s4 = node_data_mut_add_s4
                             elif len(node_data_mut_s4) > 0:
                                 node_data_mut_add_s4[name]['function'] = L_G
                                 node_data_mut_s4 = dict(node_data_mut_s4.items() + node_data_mut_add_s4.items())
@@ -194,68 +216,9 @@ def run(config=None):
                         for k in range(len(mutcna_AMP_cln_data_node.index)):
                             chk_list = mutcna_AMP_cln_data_node.index[k]
                             L_G_list = LOF_GOF_s1[LOF_GOF_s1['Description'] == chk_list]['Loss or Gain']
-                            if L_G_list == 'Gain':
+                            if L_G_list.item() == 'Gain':
                                 L_G = 'GOF'
-                            elif L_G_list == 'Loss':
-                                L_G = 'LOF'
-                            if len(node_data_cnv_s1) == 0:
-                                node_data_cnv_add_s1[name]['function'] = L_G
-                                node_data_cnv_s1 = node_data_cnv_add_s1
-                            elif len(node_data_mut_s1) > 0:
-                                node_data_cnv_add_s1[name]['function'] = L_G
-                                node_data_cnv_s1 = dict(node_data_cnv_s1.items() + node_data_cnv_add_s1.items())
-
-                            chk_list_name = chk_list[0:chk_list.find('_')]
-                            if chk_list_name.find('.') > -1:
-                                chk_list_name = chk_list_name[0:chk_list_name.find('.')]
-                            if chk_list_name.find('-') > -1:
-                                if chk_list_name.find('-') < chk_list_name.find(name):
-                                    chk_list_name = chk_list_name[chk_list_name.find(name):]
-                                else:
-                                    chk_list_name = chk_list_name[chk_list_name.find(name):chk_list_name.find('-')]
-                            mut_list = LOF_GOF_s4[LOF_GOF_s4['ID'] == chk_list_name]
-                            if len(mut_list) > 0:
-                                if 'UNKNOWN' in mut_list['CATEGORY']:
-                                    if 'Oncogene' in mut_list['CATEGORY']:
-                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
-                                            L_G = 'GOF'
-                                        else:
-                                            L_G = 'GOF'
-                                    else:
-                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
-                                            L_G = 'LOF'
-                                        else:
-                                            L_G = 'GOF'
-                                else:
-                                    if 'Oncogene' in mut_list['CATEGORY']:
-                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
-                                            L_G = 'GOF'
-                                        else:
-                                            L_G = 'GOF'
-                                    else:
-                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
-                                            L_G = 'LOF'
-                                        else:
-                                            L_G = 'GOF'
-                            else:
-                                a = 'GOF'
-                            if len(node_data_cnv_s4) == 0:
-                                node_data_cnv_add_s1[name]['function'] = L_G
-                                node_data_cnv_s1 = node_data_cnv_add_s1
-                            elif len(node_data_mut_s4) > 0:
-                                node_data_cnv_add_s4[name]['function'] = L_G
-                                node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
-                            k += 1
-                if len(mutcna_DEL_cln_data) > 0:
-                    mutcna_DEL_cln_data_node = mutcna_DEL_cln_data[mutcna_DEL_cln_data.index.str.contains(name)]
-                    if len(mutcna_DEL_cln_data_node) > 0:
-                        k = 0
-                        for k in range(len(mutcna_DEL_cln_data_node.index)):
-                            chk_list = mutcna_DEL_cln_data_node.index[k]
-                            L_G_list = LOF_GOF_s1[LOF_GOF_s1['Description'] == chk_list]['Loss or Gain']
-                            if L_G_list == 'Loss':
-                                L_G = 'GOF'
-                            elif L_G_list == 'Gain':
+                            elif L_G_list.item() == 'Loss':
                                 L_G = 'LOF'
                             if len(node_data_cnv_s1) == 0:
                                 node_data_cnv_add_s1[name]['function'] = L_G
@@ -277,30 +240,134 @@ def run(config=None):
                                 if 'UNKNOWN' in mut_list['CATEGORY']:
                                     if 'Oncogene' in mut_list['CATEGORY']:
                                         if 'Tumor suppressor gene' in mut_list['CATEGORY']:
-                                            L_G = 'GOF'
+                                            L_G = 'Onco_Supp'
+                                            #L_G = GOF
                                         else:
-                                            L_G = 'GOF'
+                                            if chk_list.find('-AS') > -1:
+                                                L_G = 'Onco_LOF'
+                                            else:
+                                                L_G = 'Onco_GOF'
+                                            #L_G = GOF
                                     else:
                                         if 'Tumor suppressor gene' in mut_list['CATEGORY']:
-                                            L_G = 'LOF'
-                                        else:
-                                            L_G = 'GOF'
+                                            if chk_list.find('-AS') > -1:
+                                                L_G = 'Supp_LOF'
+                                            else:
+                                                L_G = 'Supp_GOF'
+                                            #L_G = 'LOF'
+                                        else: # unknown = Onco
+                                            if chk_list.find('-AS') > -1:
+                                                L_G = 'Onco_LOF'
+                                            else:
+                                                L_G = 'Onco_GOF'
+                                            #L_G = 'GOF'
                                 else:
                                     if 'Oncogene' in mut_list['CATEGORY']:
                                         if 'Tumor suppressor gene' in mut_list['CATEGORY']:
-                                            L_G = 'GOF'
+                                            L_G = 'Onco_Supp'
+                                            #L_G = 'GOF'
                                         else:
-                                            L_G = 'GOF'
+                                            if chk_list.find('-AS') > -1:
+                                                L_G = 'Onco_LOF'
+                                            else:
+                                                L_G = 'Onco_GOF'
+                                            #L_G = 'GOF'
                                     else:
                                         if 'Tumor suppressor gene' in mut_list['CATEGORY']:
-                                            L_G = 'LOF'
-                                        else:
-                                            L_G = 'GOF'
+                                            if chk_list.find('-AS') > -1:
+                                                L_G = 'Supp_LOF'
+                                            else:
+                                                L_G = 'Supp_GOF'
+                                            #L_G = 'LOF'
+                                        #else:
+                                            #L_G = 'GOF'
                             else:
-                                a = 'GOF'
+                                L_G = 'GOF'
                             if len(node_data_cnv_s4) == 0:
+                                node_data_cnv_add_s4[name]['function'] = L_G
+                                node_data_cnv_s4 = node_data_cnv_add_s4
+                            elif len(node_data_cnv_s4) > 0:
+                                node_data_cnv_add_s4[name]['function'] = L_G
+                                node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
+                            k += 1
+                if len(mutcna_DEL_cln_data) > 0:
+                    mutcna_DEL_cln_data_node = mutcna_DEL_cln_data[mutcna_DEL_cln_data.index.str.contains(name)]
+                    if len(mutcna_DEL_cln_data_node) > 0:
+                        k = 0
+                        for k in range(len(mutcna_DEL_cln_data_node.index)):
+                            chk_list = mutcna_DEL_cln_data_node.index[k]
+                            L_G_list = LOF_GOF_s1[LOF_GOF_s1['Description'] == chk_list]['Loss or Gain']
+                            if L_G_list.item() == 'Loss':
+                                L_G = 'GOF'
+                            elif L_G_list.item() == 'Gain':
+                                L_G = 'LOF'
+                            if len(node_data_cnv_s1) == 0:
                                 node_data_cnv_add_s1[name]['function'] = L_G
                                 node_data_cnv_s1 = node_data_cnv_add_s1
+                            elif len(node_data_cnv_s1) > 0:
+
+                                node_data_cnv_add_s1[name]['function'] = L_G
+                                node_data_cnv_s1 = dict(node_data_cnv_s1.items() + node_data_cnv_add_s1.items())
+
+                            chk_list_name = chk_list[0:chk_list.find('_')]
+                            if chk_list_name.find('.') > -1:
+                                chk_list_name = chk_list_name[0:chk_list_name.find('.')]
+                            if chk_list_name.find('-') > -1:
+                                if chk_list_name.find('-') < chk_list_name.find(name):
+                                    chk_list_name = chk_list_name[chk_list_name.find(name):]
+                                else:
+                                    chk_list_name = chk_list_name[chk_list_name.find(name):chk_list_name.find('-')]
+                            mut_list = LOF_GOF_s4[LOF_GOF_s4['ID'] == chk_list_name]
+                            if len(mut_list) > 0:
+                                if 'UNKNOWN' in mut_list['CATEGORY']:
+                                    if 'Oncogene' in mut_list['CATEGORY']:
+                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                            L_G = 'Onco_Supp'
+                                            #L_G = GOF
+                                        else:
+                                            if chk_list.find('-AS') > -1:
+                                                L_G = 'Onco_LOF'
+                                            else:
+                                                L_G = 'Onco_GOF'
+                                            #L_G = GOF
+                                    else:
+                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                            if chk_list.find('-AS') > -1:
+                                                L_G = 'Supp_LOF'
+                                            else:
+                                                L_G = 'Supp_GOF'
+                                            #L_G = 'LOF'
+                                        else: # unknown = Onco
+                                            if chk_list.find('-AS') > -1:
+                                                L_G = 'Onco_LOF'
+                                            else:
+                                                L_G = 'Onco_GOF'
+                                            #L_G = 'GOF'
+                                else:
+                                    if 'Oncogene' in mut_list['CATEGORY']:
+                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                            L_G = 'Onco_Supp'
+                                            #L_G = 'GOF'
+                                        else:
+                                            if chk_list.find('-AS') > -1:
+                                                L_G = 'Onco_LOF'
+                                            else:
+                                                L_G = 'Onco_GOF'
+                                            #L_G = 'GOF'
+                                    else:
+                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                            if chk_list.find('-AS') > -1:
+                                                L_G = 'Supp_LOF'
+                                            else:
+                                                L_G = 'Supp_GOF'
+                                            #L_G = 'LOF'
+                                        #else:
+                                            #L_G = 'GOF'
+                            else:
+                                L_G = 'GOF'
+                            if len(node_data_cnv_s4) == 0:
+                                node_data_cnv_add_s4[name]['function'] = L_G
+                                node_data_cnv_s4 = node_data_cnv_add_s4
                             elif len(node_data_cnv_s4) > 0:
                                 node_data_cnv_add_s4[name]['function'] = L_G
                                 node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
