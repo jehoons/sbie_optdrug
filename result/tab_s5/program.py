@@ -25,15 +25,11 @@ inputfile_e = join(dirname(__file__), '..','tab_s4','TABLE_S4A_MUTGENES.CSV')
 inputfile_f = join(dirname(__file__), '..','tab_s4','TABLE_S4C_TUMORSUPPRESSORS_AND_ONCOGENES.CSV')
 
 """ results """
-outputfile_a = join(dirname(__file__), 'TABLE.S5A.COPYNUMVAR_data_s1.json')
-outputfile_b = join(dirname(__file__), 'TABLE.S5A.COPYNUMVAR_data_s4.json')
+outputfile_a = join(dirname(__file__), 'TABLE.S5A.COPYNUMVAR_data_s1_1.json')
+outputfile_b = join(dirname(__file__), 'TABLE.S5A.COPYNUMVAR_data_s4_1.json')
 outputfile_c = join(dirname(__file__), 'TABLE.S5B.MUTATION_data_s1.json')
-outputfile_d = join(dirname(__file__), 'TABLE.S5B.MUTATION_data_s4.json')
+outputfile_d = join(dirname(__file__), 'TABLE.S5B.MUTATION_data_s4_1.json')
 outputfile_e = join(dirname(__file__), 'TABLE.S5C.DRUG_data.json')
-# outputfile_a : GOF,LOF일 때 GOF, LOF 넣는거로 만들기
-# outputfile_b : table_s4d에 node과 같은 gene name을 찾아서 gene name, fucntion list 만들고
-# 길이가 1이거나 1이상이지만 function 모두 same 이면 그 function 적용
-# 아닌 경우는 생각해보기
 
 config = {
     'program': 'template',
@@ -141,8 +137,16 @@ def run(config=None):
                                 node_data_mut_add_s1[name]['function'] = L_G
                                 node_data_mut_s1 = node_data_mut_add_s1
                             elif len(node_data_mut_s1) > 0:
-                                node_data_mut_add_s1[name]['function'] = L_G
-                                node_data_mut_s1 = dict(node_data_mut_s1.items() + node_data_mut_add_s1.items())
+                                if node_data_mut_add_s1[name]['function'] == '':
+                                    node_data_mut_add_s1[name]['function'] = L_G
+                                    node_data_mut_s1 = dict(node_data_mut_s1.items() + node_data_mut_add_s1.items())
+                                else:
+                                    if L_G == node_data_mut_add_s1[name]['function']:
+                                        node_data_mut_add_s1[name]['function'] = L_G
+                                        node_data_mut_s1 = dict(node_data_mut_s1.items() + node_data_mut_add_s1.items())
+                                    elif L_G != node_data_mut_add_s1[name]['function']:
+                                        node_data_mut_add_s1[name]['function'] = 'GOFLOF'
+                                        node_data_mut_s1 = dict(node_data_mut_s1.items() + node_data_mut_add_s1.items())
 
                             chk_list_name = chk_list[0:chk_list.find('_')]
                             if chk_list_name.find('.') > -1:
@@ -199,13 +203,24 @@ def run(config=None):
                                         #else:
                                             #L_G = 'GOF'
                             else:
-                                L_G = 'GOF'
+                                if chk_list.find('-AS') > -1:
+                                    L_G = 'LOF'
+                                else:
+                                    L_G = 'GOF'
                             if len(node_data_mut_s4) == 0:
                                 node_data_mut_add_s4[name]['function'] = L_G
                                 node_data_mut_s4 = node_data_mut_add_s4
                             elif len(node_data_mut_s4) > 0:
-                                node_data_mut_add_s4[name]['function'] = L_G
-                                node_data_mut_s4 = dict(node_data_mut_s4.items() + node_data_mut_add_s4.items())
+                                if node_data_mut_add_s4[name]['function'] == '':
+                                    node_data_mut_add_s4[name]['function'] = L_G
+                                    node_data_mut_s4 = dict(node_data_mut_s4.items() + node_data_mut_add_s4.items())
+                                else:
+                                    if L_G == node_data_mut_add_s4[name]['function']:
+                                        node_data_mut_add_s4[name]['function'] = L_G
+                                        node_data_mut_s4 = dict(node_data_mut_s4.items() + node_data_mut_add_s4.items())
+                                    elif L_G != node_data_mut_add_s4[name]['function']:
+                                        node_data_mut_add_s4[name]['function'] = 'GOFLOF'
+                                        node_data_mut_s4 = dict(node_data_mut_s4.items() + node_data_mut_add_s4.items())
                             k += 1
                 if len(mutcna_AMP_cln_data) > 0:
                     mutcna_AMP_cln_data_node = mutcna_AMP_cln_data[mutcna_AMP_cln_data.index.str.contains(name)]
@@ -222,8 +237,16 @@ def run(config=None):
                                 node_data_cnv_add_s1[name]['function'] = L_G
                                 node_data_cnv_s1 = node_data_cnv_add_s1
                             elif len(node_data_cnv_s1) > 0:
-                                node_data_cnv_add_s1[name]['function'] = L_G
-                                node_data_cnv_s1 = dict(node_data_cnv_s1.items() + node_data_cnv_add_s1.items())
+                                if node_data_cnv_add_s1[name]['function'] == '':
+                                    node_data_cnv_add_s1[name]['function'] = L_G
+                                    node_data_cnv_s1 = dict(node_data_cnv_s1.items() + node_data_cnv_add_s1.items())
+                                else:
+                                    if L_G == node_data_cnv_add_s1[name]['function']:
+                                        node_data_cnv_add_s1[name]['function'] = L_G
+                                        node_data_cnv_s1 = dict(node_data_cnv_s1.items() + node_data_cnv_add_s1.items())
+                                    elif L_G != node_data_cnv_add_s1[name]['function']:
+                                        node_data_cnv_add_s1[name]['function'] = 'GOFLOF'
+                                        node_data_cnv_s1 = dict(node_data_cnv_s1.items() + node_data_cnv_add_s1.items())
 
                             chk_list_name = chk_list[0:chk_list.find('_')]
                             if chk_list_name.find('.') > -1:
@@ -280,13 +303,24 @@ def run(config=None):
                                         #else:
                                             #L_G = 'GOF'
                             else:
-                                L_G = 'GOF'
+                                if chk_list.find('-AS') > -1:
+                                    L_G = 'LOF'
+                                else:
+                                    L_G = 'GOF'
                             if len(node_data_cnv_s4) == 0:
                                 node_data_cnv_add_s4[name]['function'] = L_G
                                 node_data_cnv_s4 = node_data_cnv_add_s4
                             elif len(node_data_cnv_s4) > 0:
-                                node_data_cnv_add_s4[name]['function'] = L_G
-                                node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
+                                if node_data_cnv_add_s4[name]['function'] == '':
+                                    node_data_cnv_add_s4[name]['function'] = L_G
+                                    node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
+                                else:
+                                    if L_G == node_data_cnv_add_s4[name]['function']:
+                                        node_data_cnv_add_s4[name]['function'] = L_G
+                                        node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
+                                    elif L_G != node_data_cnv_add_s4[name]['function']:
+                                        node_data_cnv_add_s4[name]['function'] = 'GOFLOF'
+                                        node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
                             k += 1
                 if len(mutcna_DEL_cln_data) > 0:
                     mutcna_DEL_cln_data_node = mutcna_DEL_cln_data[mutcna_DEL_cln_data.index.str.contains(name)]
@@ -300,12 +334,27 @@ def run(config=None):
                             elif L_G_list.item() == 'Gain':
                                 L_G = 'LOF'
                             if len(node_data_cnv_s1) == 0:
-                                node_data_cnv_add_s1[name]['function'] = L_G
-                                node_data_cnv_s1 = node_data_cnv_add_s1
+                                if node_data_cnv_add_s1[name]['function'] == '':
+                                    node_data_cnv_add_s1[name]['function'] = L_G
+                                    node_data_cnv_s1 = dict(node_data_cnv_s1.items() + node_data_cnv_add_s1.items())
+                                else:
+                                    if L_G == node_data_cnv_add_s1[name]['function']:
+                                        node_data_cnv_add_s1[name]['function'] = L_G
+                                        node_data_cnv_s1 = dict(node_data_cnv_s1.items() + node_data_cnv_add_s1.items())
+                                    elif L_G != node_data_cnv_add_s1[name]['function']:
+                                        node_data_cnv_add_s1[name]['function'] = 'GOFLOF'
+                                        node_data_cnv_s1 = dict(node_data_cnv_s1.items() + node_data_cnv_add_s1.items())
                             elif len(node_data_cnv_s1) > 0:
-
-                                node_data_cnv_add_s1[name]['function'] = L_G
-                                node_data_cnv_s1 = dict(node_data_cnv_s1.items() + node_data_cnv_add_s1.items())
+                                if node_data_cnv_add_s1[name]['function'] == '':
+                                    node_data_cnv_add_s1[name]['function'] = L_G
+                                    node_data_cnv_s1 = dict(node_data_cnv_s1.items() + node_data_cnv_add_s1.items())
+                                else:
+                                    if L_G == node_data_cnv_add_s1[name]['function']:
+                                        node_data_cnv_add_s1[name]['function'] = L_G
+                                        node_data_cnv_s1 = dict(node_data_cnv_s1.items() + node_data_cnv_add_s1.items())
+                                    elif L_G != node_data_cnv_add_s1[name]['function']:
+                                        node_data_cnv_add_s1[name]['function'] = 'GOFLOF'
+                                        node_data_cnv_s1 = dict(node_data_cnv_s1.items() + node_data_cnv_add_s1.items())
 
                             chk_list_name = chk_list[0:chk_list.find('_')]
                             if chk_list_name.find('.') > -1:
@@ -362,13 +411,32 @@ def run(config=None):
                                         #else:
                                             #L_G = 'GOF'
                             else:
-                                L_G = 'LOF'
+                                if chk_list.find('-AS') > -1:
+                                    L_G = 'GOF'
+                                else:
+                                    L_G = 'LOF'
                             if len(node_data_cnv_s4) == 0:
-                                node_data_cnv_add_s4[name]['function'] = L_G
-                                node_data_cnv_s4 = node_data_cnv_add_s4
+                                if node_data_cnv_add_s4[name]['function'] == '':
+                                    node_data_cnv_add_s4[name]['function'] = L_G
+                                    node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
+                                else:
+                                    if L_G == node_data_cnv_add_s4[name]['function']:
+                                        node_data_cnv_add_s4[name]['function'] = L_G
+                                        node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
+                                    elif L_G != node_data_cnv_add_s4[name]['function']:
+                                        node_data_cnv_add_s4[name]['function'] = 'GOFLOF'
+                                        node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
                             elif len(node_data_cnv_s4) > 0:
-                                node_data_cnv_add_s4[name]['function'] = L_G
-                                node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
+                                if node_data_cnv_add_s4[name]['function'] == '':
+                                    node_data_cnv_add_s4[name]['function'] = L_G
+                                    node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
+                                else:
+                                    if L_G == node_data_cnv_add_s4[name]['function']:
+                                        node_data_cnv_add_s4[name]['function'] = L_G
+                                        node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
+                                    elif L_G != node_data_cnv_add_s4[name]['function']:
+                                        node_data_cnv_add_s4[name]['function'] = 'GOFLOF'
+                                        node_data_cnv_s4 = dict(node_data_cnv_s4.items() + node_data_cnv_add_s4.items())
                             k += 1
                 j += 1
             cnd_s1[cln] = node_data_cnv_s1
