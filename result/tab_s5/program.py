@@ -25,10 +25,10 @@ inputfile_e = join(dirname(__file__), '..','tab_s4','TABLE_S4A_MUTGENES.CSV')
 inputfile_f = join(dirname(__file__), '..','tab_s4','TABLE_S4C_TUMORSUPPRESSORS_AND_ONCOGENES.CSV')
 
 """ results """
-outputfile_a = join(dirname(__file__), 'TABLE.S5A.COPYNUMVAR_data_s1_1.json')
-outputfile_b = join(dirname(__file__), 'TABLE.S5A.COPYNUMVAR_data_s4_1.json')
+outputfile_a = join(dirname(__file__), 'TABLE.S5A.COPYNUMVAR_data_s1.json')
+outputfile_b = join(dirname(__file__), 'TABLE.S5A.COPYNUMVAR_data_s4.json')
 outputfile_c = join(dirname(__file__), 'TABLE.S5B.MUTATION_data_s1.json')
-outputfile_d = join(dirname(__file__), 'TABLE.S5B.MUTATION_data_s4_1.json')
+outputfile_d = join(dirname(__file__), 'TABLE.S5B.MUTATION_data_s4.json')
 outputfile_e = join(dirname(__file__), 'TABLE.S5C.DRUG_data.json')
 
 config = {
