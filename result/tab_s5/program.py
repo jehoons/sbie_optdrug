@@ -158,9 +158,10 @@ def run(config=None):
                                     chk_list_name = chk_list_name[chk_list_name.find(name):chk_list_name.find('-')]
                             mut_list = LOF_GOF_s4[LOF_GOF_s4['ID']==chk_list_name]
                             if len(mut_list) > 0:
-                                if 'UNKNOWN' in mut_list['CATEGORY']:
-                                    if 'Oncogene' in mut_list['CATEGORY']:
-                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                temp = dict(mut_list['CATEGORY']).values()
+                                if 'UNKNOWN' in temp:
+                                    if 'Oncogene' in temp:
+                                        if 'Tumor suppressor gene' in temp:
                                             L_G = 'Onco_Supp'
                                             #L_G = GOF
                                         else:
@@ -170,7 +171,7 @@ def run(config=None):
                                                 L_G = 'Onco_GOF'
                                             #L_G = GOF
                                     else:
-                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                        if 'Tumor suppressor gene' in temp:
                                             if chk_list.find('-AS') > -1:
                                                 L_G = 'Supp_LOF'
                                             else:
@@ -183,8 +184,8 @@ def run(config=None):
                                                 L_G = 'Onco_GOF'
                                             #L_G = 'GOF'
                                 else:
-                                    if 'Oncogene' in mut_list['CATEGORY']:
-                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                    if 'Oncogene' in temp:
+                                        if 'Tumor suppressor gene' in temp:
                                             L_G = 'Onco_Supp'
                                             #L_G = 'GOF'
                                         else:
@@ -194,7 +195,7 @@ def run(config=None):
                                                 L_G = 'Onco_GOF'
                                             #L_G = 'GOF'
                                     else:
-                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                        if 'Tumor suppressor gene' in temp:
                                             if chk_list.find('-AS') > -1:
                                                 L_G = 'Supp_LOF'
                                             else:
@@ -258,9 +259,10 @@ def run(config=None):
                                     chk_list_name = chk_list_name[chk_list_name.find(name):chk_list_name.find('-')]
                             mut_list = LOF_GOF_s4[LOF_GOF_s4['ID'] == chk_list_name]
                             if len(mut_list) > 0:
-                                if 'UNKNOWN' in mut_list['CATEGORY']:
-                                    if 'Oncogene' in mut_list['CATEGORY']:
-                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                temp = dict(mut_list['CATEGORY']).values()
+                                if 'UNKNOWN' in temp:
+                                    if 'Oncogene' in temp:
+                                        if 'Tumor suppressor gene' in temp:
                                             L_G = 'Onco_Supp'
                                             #L_G = GOF
                                         else:
@@ -270,7 +272,7 @@ def run(config=None):
                                                 L_G = 'Onco_GOF'
                                             #L_G = GOF
                                     else:
-                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                        if 'Tumor suppressor gene' in temp:
                                             if chk_list.find('-AS') > -1:
                                                 L_G = 'Supp_LOF'
                                             else:
@@ -283,8 +285,8 @@ def run(config=None):
                                                 L_G = 'Onco_GOF'
                                             #L_G = 'GOF'
                                 else:
-                                    if 'Oncogene' in mut_list['CATEGORY']:
-                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                    if 'Oncogene' in temp:
+                                        if 'Tumor suppressor gene' in temp:
                                             L_G = 'Onco_Supp'
                                             #L_G = 'GOF'
                                         else:
@@ -294,7 +296,7 @@ def run(config=None):
                                                 L_G = 'Onco_GOF'
                                             #L_G = 'GOF'
                                     else:
-                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                        if 'Tumor suppressor gene' in temp:
                                             if chk_list.find('-AS') > -1:
                                                 L_G = 'Supp_LOF'
                                             else:
@@ -366,9 +368,10 @@ def run(config=None):
                                     chk_list_name = chk_list_name[chk_list_name.find(name):chk_list_name.find('-')]
                             mut_list = LOF_GOF_s4[LOF_GOF_s4['ID'] == chk_list_name]
                             if len(mut_list) > 0:
-                                if 'UNKNOWN' in mut_list['CATEGORY']:
-                                    if 'Oncogene' in mut_list['CATEGORY']:
-                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                temp = dict(mut_list['CATEGORY']).values()
+                                if 'UNKNOWN' in temp:
+                                    if 'Oncogene' in temp:
+                                        if 'Tumor suppressor gene' in temp:
                                             L_G = 'Onco_Supp'
                                             #L_G = GOF
                                         else:
@@ -378,7 +381,7 @@ def run(config=None):
                                                 L_G = 'Onco_GOF'
                                             #L_G = GOF
                                     else:
-                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                        if 'Tumor suppressor gene' in temp:
                                             if chk_list.find('-AS') > -1:
                                                 L_G = 'Supp_LOF'
                                             else:
@@ -391,8 +394,8 @@ def run(config=None):
                                                 L_G = 'Onco_GOF'
                                             #L_G = 'GOF'
                                 else:
-                                    if 'Oncogene' in mut_list['CATEGORY']:
-                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                    if 'Oncogene' in temp:
+                                        if 'Tumor suppressor gene' in temp:
                                             L_G = 'Onco_Supp'
                                             #L_G = 'GOF'
                                         else:
@@ -402,7 +405,7 @@ def run(config=None):
                                                 L_G = 'Onco_GOF'
                                             #L_G = 'GOF'
                                     else:
-                                        if 'Tumor suppressor gene' in mut_list['CATEGORY']:
+                                        if 'Tumor suppressor gene' in temp:
                                             if chk_list.find('-AS') > -1:
                                                 L_G = 'Supp_LOF'
                                             else:
