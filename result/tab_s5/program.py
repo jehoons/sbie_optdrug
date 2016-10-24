@@ -118,10 +118,10 @@ def run(config=None):
             node_data_mut_s4 = {}
             for j in gene.index:
                 name = gene.loc[j, 'node_name']
-                node_data_cnv_add_s1 = {name: {'function': ''}}
-                node_data_mut_add_s1 = {name: {'function': ''}}
-                node_data_cnv_add_s4 = {name: {'function': ''}}
-                node_data_mut_add_s4 = {name: {'function': ''}}
+                node_data_cnv_add_s1 = {name: {'function': '', 'intensity': 0.5}}
+                node_data_mut_add_s1 = {name: {'function': '', 'intensity': 0.5}}
+                node_data_cnv_add_s4 = {name: {'function': '', 'intensity': 0.5}}
+                node_data_mut_add_s4 = {name: {'function': '', 'intensity': 0.5}}
                 if len(mutcna_MUT_cln_data) > 0:
                     mutcna_MUT_cln_data_node = mutcna_MUT_cln_data[mutcna_MUT_cln_data.index.str.contains(name)]
                     if len(mutcna_MUT_cln_data_node) > 0:
