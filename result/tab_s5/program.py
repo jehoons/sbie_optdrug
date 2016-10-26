@@ -444,8 +444,8 @@ def run(config=None):
     mutation_data_s1.close()
     copy_number_data_s4.close()
     mutation_data_s4.close()
-    set_trace()
-    drug_data = open(config['output']['output_d'], 'w')
+
+    drug_data = open(config['output']['output_e'], 'w')
     i = 0
     drug = {}
     for i in data_therapy['CCLE Cell Line Name'].index:
