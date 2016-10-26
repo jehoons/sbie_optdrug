@@ -164,46 +164,47 @@ def run(config=None):
                                         if 'Tumor suppressor gene' in temp:
                                             L_G = 'GOFLOF'
                                         else:
-                                            if chk_list.find('-AS') > -1:
-                                                L_G = 'Onco_LOF'
-                                            else:
-                                                L_G = 'Onco_GOF'
-                                            #L_G = GOF
+                                            #if chk_list.find('-AS') > -1:
+                                            #    L_G = 'Onco_LOF'
+                                            #else:
+                                            #    L_G = 'Onco_GOF'
+                                            L_G = 'GOF'
                                     else:
                                         if 'Tumor suppressor gene' in temp:
-                                            if chk_list.find('-AS') > -1:
-                                                L_G = 'Supp_LOF'
-                                            else:
-                                                L_G = 'Supp_GOF'
-                                            #L_G = 'LOF'
+                                            #if chk_list.find('-AS') > -1:
+                                            #    L_G = 'Supp_LOF'
+                                            #else:
+                                            #    L_G = 'Supp_GOF'
+                                            L_G = 'LOF'
                                         else: # unknown = Onco
-                                            if chk_list.find('-AS') > -1:
-                                                L_G = 'Onco_LOF'
-                                            else:
-                                                L_G = 'Onco_GOF'
-                                            #L_G = 'GOF'
+                                            #if chk_list.find('-AS') > -1:
+                                            #    L_G = 'Onco_LOF'
+                                            #else:
+                                            #    L_G = 'Onco_GOF'
+                                            L_G = 'GOF'
                                 else:
                                     if 'Oncogene' in temp:
                                         if 'Tumor suppressor gene' in temp:
                                             L_G = 'GOFLOF'
                                         else:
-                                            if chk_list.find('-AS') > -1:
-                                                L_G = 'Onco_LOF'
-                                            else:
-                                                L_G = 'Onco_GOF'
-                                            #L_G = 'GOF'
+                                            #if chk_list.find('-AS') > -1:
+                                            #    L_G = 'Onco_LOF'
+                                            #else:
+                                            #    L_G = 'Onco_GOF'
+                                            L_G = 'GOF'
                                     else:
                                         if 'Tumor suppressor gene' in temp:
-                                            if chk_list.find('-AS') > -1:
-                                                L_G = 'Supp_LOF'
-                                            else:
-                                                L_G = 'Supp_GOF'
-                                            #L_G = 'LOF'
+                                            #if chk_list.find('-AS') > -1:
+                                            #    L_G = 'Supp_LOF'
+                                            #else:
+                                            #    L_G = 'Supp_GOF'
+                                            L_G = 'LOF'
                             else:
-                                if chk_list.find('-AS') > -1:
-                                    L_G = 'LOF'
-                                else:
-                                    L_G = 'GOF'
+                                #if chk_list.find('-AS') > -1:
+                                #    L_G = 'LOF'
+                                #else:
+                                #    L_G = 'GOF'
+                                L_G = 'GOF'
                             if len(node_data_mut_s4) == 0:
                                 node_data_mut_add_s4[name]['function'] = L_G
                                 node_data_mut_s4 = node_data_mut_add_s4
@@ -261,46 +262,47 @@ def run(config=None):
                                         if 'Tumor suppressor gene' in temp:
                                             L_G = 'GOFLOF'
                                         else:
-                                            if chk_list.find('-AS') > -1:
-                                                L_G = 'Onco_LOF'
-                                            else:
-                                                L_G = 'Onco_GOF'
-                                            #L_G = GOF
+                                            # if chk_list.find('-AS') > -1:
+                                            #    L_G = 'Onco_LOF'
+                                            # else:
+                                            #    L_G = 'Onco_GOF'
+                                            L_G = 'GOF'
                                     else:
                                         if 'Tumor suppressor gene' in temp:
-                                            if chk_list.find('-AS') > -1:
-                                                L_G = 'Supp_LOF'
-                                            else:
-                                                L_G = 'Supp_GOF'
-                                            #L_G = 'LOF'
-                                        else: # unknown = Onco
-                                            if chk_list.find('-AS') > -1:
-                                                L_G = 'Onco_LOF'
-                                            else:
-                                                L_G = 'Onco_GOF'
-                                            #L_G = 'GOF'
+                                            # if chk_list.find('-AS') > -1:
+                                            #    L_G = 'Supp_LOF'
+                                            # else:
+                                            #    L_G = 'Supp_GOF'
+                                            L_G = 'LOF'
+                                        else:  # unknown = Onco
+                                            # if chk_list.find('-AS') > -1:
+                                            #    L_G = 'Onco_LOF'
+                                            # else:
+                                            #    L_G = 'Onco_GOF'
+                                            L_G = 'GOF'
                                 else:
                                     if 'Oncogene' in temp:
                                         if 'Tumor suppressor gene' in temp:
                                             L_G = 'GOFLOF'
                                         else:
-                                            if chk_list.find('-AS') > -1:
-                                                L_G = 'Onco_LOF'
-                                            else:
-                                                L_G = 'Onco_GOF'
-                                            #L_G = 'GOF'
+                                            # if chk_list.find('-AS') > -1:
+                                            #    L_G = 'Onco_LOF'
+                                            # else:
+                                            #    L_G = 'Onco_GOF'
+                                            L_G = 'GOF'
                                     else:
                                         if 'Tumor suppressor gene' in temp:
-                                            if chk_list.find('-AS') > -1:
-                                                L_G = 'Supp_LOF'
-                                            else:
-                                                L_G = 'Supp_GOF'
-                                            #L_G = 'LOF'
+                                            # if chk_list.find('-AS') > -1:
+                                            #    L_G = 'Supp_LOF'
+                                            # else:
+                                            #    L_G = 'Supp_GOF'
+                                            L_G = 'LOF'
                             else:
-                                if chk_list.find('-AS') > -1:
-                                    L_G = 'LOF'
-                                else:
-                                    L_G = 'GOF'
+                                # if chk_list.find('-AS') > -1:
+                                #    L_G = 'LOF'
+                                # else:
+                                #    L_G = 'GOF'
+                                L_G = 'GOF'
                             if len(node_data_cnv_s4) == 0:
                                 node_data_cnv_add_s4[name]['function'] = L_G
                                 node_data_cnv_s4 = node_data_cnv_add_s4
@@ -366,47 +368,47 @@ def run(config=None):
                                         if 'Tumor suppressor gene' in temp:
                                             L_G = 'GOFLOF'
                                         else:
-                                            if chk_list.find('-AS') > -1:
-                                                L_G = 'Onco_LOF'
-                                            else:
-                                                L_G = 'Onco_GOF'
-                                            #L_G = GOF
+                                            # if chk_list.find('-AS') > -1:
+                                            #    L_G = 'Onco_LOF'
+                                            # else:
+                                            #    L_G = 'Onco_GOF'
+                                            L_G = 'GOF'
                                     else:
                                         if 'Tumor suppressor gene' in temp:
-                                            if chk_list.find('-AS') > -1:
-                                                L_G = 'Supp_LOF'
-                                            else:
-                                                L_G = 'Supp_GOF'
-                                            #L_G = 'LOF'
-                                        else: # unknown = Onco
-                                            if chk_list.find('-AS') > -1:
-                                                L_G = 'Onco_LOF'
-                                            else:
-                                                L_G = 'Onco_GOF'
-                                            #L_G = 'GOF'
+                                            # if chk_list.find('-AS') > -1:
+                                            #    L_G = 'Supp_LOF'
+                                            # else:
+                                            #    L_G = 'Supp_GOF'
+                                            L_G = 'LOF'
+                                        else:  # unknown = Onco
+                                            # if chk_list.find('-AS') > -1:
+                                            #    L_G = 'Onco_LOF'
+                                            # else:
+                                            #    L_G = 'Onco_GOF'
+                                            L_G = 'GOF'
                                 else:
                                     if 'Oncogene' in temp:
                                         if 'Tumor suppressor gene' in temp:
                                             L_G = 'GOFLOF'
-                                            #L_G = 'GOF'
                                         else:
-                                            if chk_list.find('-AS') > -1:
-                                                L_G = 'Onco_LOF'
-                                            else:
-                                                L_G = 'Onco_GOF'
-                                            #L_G = 'GOF'
+                                            # if chk_list.find('-AS') > -1:
+                                            #    L_G = 'Onco_LOF'
+                                            # else:
+                                            #    L_G = 'Onco_GOF'
+                                            L_G = 'GOF'
                                     else:
                                         if 'Tumor suppressor gene' in temp:
-                                            if chk_list.find('-AS') > -1:
-                                                L_G = 'Supp_LOF'
-                                            else:
-                                                L_G = 'Supp_GOF'
-                                            #L_G = 'LOF'
+                                            # if chk_list.find('-AS') > -1:
+                                            #    L_G = 'Supp_LOF'
+                                            # else:
+                                            #    L_G = 'Supp_GOF'
+                                            L_G = 'LOF'
                             else:
-                                if chk_list.find('-AS') > -1:
-                                    L_G = 'GOF'
-                                else:
-                                    L_G = 'LOF'
+                                # if chk_list.find('-AS') > -1:
+                                #    L_G = 'LOF'
+                                # else:
+                                #    L_G = 'GOF'
+                                L_G = 'GOF'
                             if len(node_data_cnv_s4) == 0:
                                 if node_data_cnv_add_s4[name]['function'] == '':
                                     node_data_cnv_add_s4[name]['function'] = L_G
