@@ -5,18 +5,19 @@
 ### [Table S2. Extracted node names from logical network data][tab_s2]
 
 ### [Table S3. Translated model into logical functional form][tab_s3]
-`boolean2` 시뮬레이터 (또는 다른 일반적인 불린네트워크시뮬레이터)에서 네트워크를 시뮬레이션 하기 위해서는 로지컬펑션의 형태로 네트워크가 표현되어 있을 필요가 있다. 우리는 웨이트썸펑션의 형태로 주어진 네트워크 모델을 로지컬펑션의 형태로 전환하였다.
+가중치합 형태의 네트워크 모델을 논리함수형태로 전환
 
 ### [Table S4. Oncogene and Tumor suppressors][tab_s4]
-[Giordano, 2006][giordano06]에 따르면, 튜머서프레서들은 로스오브펑션 뮤테이션에 의해서 비활성화가 되고 프로토-온코진들은 게인오브펑션 뮤테이션에 의해서 활성화가 된다. 그러므로 우리는 온코진 뮤테이션은 GOF로 튜머서프레서의 뮤테이션은 LOF로 가정한다.
+* Oncogene, Tumor suppressor gene 리스트 
+* Tumor suppressor들이 LOF 변이에 의해서 비활성화가 되고 프로토-온코진들은 GOF 변이에 의해서 활성화된다고 가정할수 있음([Giordano, 2006][giordano06])
 
 ### [Table S5. Collecting Patient-specific data and chemical treatment data][tab_s5]
-뮤테이션 진익스프레션 등과 같은 환자특이적 프로화일들을 수집하고 시뮬레이션에 용이한 형태로 정리하였다.
+* 뮤테이션 진익스프레션 등과 같은 환자특이적 프로화일들을 수집, 시뮬레이션에 용이한 형태로 정리
 
 ### [Table S6. Regression analysis][tab_s6]
 
 ### [Table S7. Scanning of Fumia network][tab_s7]
-Fumia네트워크의 모든 입력, 드럭타겟의 조합에 대해서 그 어트랙터베이신을 구한다.
+Fumia네트워크의 모든 입력 및 드럭타겟 조합에 대해서 어트랙터베이신 계산 
 
 ## Materials and Methods
 [BooleanNet Simulator][boolean2-sim] is used as simulation engine used in this research. Fumia Network is used as backbone network for this research. We used drug-dose response from CCLE and GDSC database.
