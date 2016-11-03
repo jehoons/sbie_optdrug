@@ -19,8 +19,11 @@
 ### [Table S7. Scanning of Fumia network][tab_s7]
 Fumia네트워크의 모든 입력 및 드럭타겟 조합에 대해서 어트랙터베이신 계산 
 
-## Materials and Methods
-[BooleanNet Simulator][boolean2-sim] is used as simulation engine used in this research. Fumia Network is used as backbone network for this research. We used drug-dose response from CCLE and GDSC database.
+### [Table S8. ???][tab_s8]
+여기에 테이블 제목 및 설명추가 
+
+### [Table S9. ???][tab_s9]
+유전자변이를 근사하는 알고리즘 개발
 
 [giordano06]: http://www.nature.com/onc/journal/v25/n38/full/1209721a.html
 [boolean2-sim]: https://scfbm.biomedcentral.com/articles/10.1186/1751-0473-3-16
@@ -31,5 +34,6 @@ Fumia네트워크의 모든 입력 및 드럭타겟 조합에 대해서 어트�
 [tab_s5]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s5
 [tab_s6]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s6
 [tab_s7]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s7
-
+[tab_s8]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s8
+[tab_s9]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s9
 
