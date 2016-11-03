@@ -17,14 +17,13 @@ rawfiles = filelist.gdsc_v50['raw']
 
 
 def cell_lines():
-# ipdb> print (data.head())
 #   CELL_LINE_NAME  COSMIC_ID
 # 0             SR   905965.0
 # 1          STC-1  1299060.0
 # 2       STS-0421  1299061.0
 # 3         SU8686  1240218.0
 # 4        CAL-120   906826.0
-# ipdb>
+
     data = pd.read_csv( rawfiles['gdsc_cell_lines_w5'] )
 
     return data
@@ -185,7 +184,8 @@ def drug_sensitivity_raw_data():
 #        'CELL_LINE_NAME', 'DRUG_ID', 'MAX_CONC', 'FOLD_DILUTION', 'raw_max',
 #        'raw2', 'raw3', 'raw4', 'raw5', 'raw6', 'raw7', 'raw8', 'raw9',
 #        'control1', 'control2', 'control3', 'control4', 'control5', ...
-#        'control46', 'control47', 'control48', 'blank1', 'blank2', 'blank3', #        'blank28', 'blank29', 'blank30', 'blank31', 'blank32'], dtype=object)
+#        'control46', 'control47', 'control48', 'blank1', 'blank2', 'blank3', 
+#        'blank28', 'blank29', 'blank30', 'blank31', 'blank32'], dtype=object)
     data = pd.read_csv( rawfiles['gdsc_drug_sensitivity_raw_data_w5'] )
     set_trace()
     return data

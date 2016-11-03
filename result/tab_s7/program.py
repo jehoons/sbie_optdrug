@@ -22,13 +22,22 @@ from boolean3 import Model
 from boolean3_addon import attractor
 
 
+if not exists('engine.pyx'):
+    data = tab_s7.load_a()        
+    model = "\n".join( data['equation'].values.tolist() )
+    attr_cy.build(model)
+
+import pyximport; pyximport.install()
+import engine
+
+
 def getconfig():
     "return config object"
     return tab_s7.config
 
 
 def run_a(config=None, force=False):    
-    "Prepare equation file"    
+    "푸미아네트워크 이큐에이션을 준비한다."
     if exists(config['output']['a']) and force==False: 
         return
 
@@ -68,7 +77,7 @@ def run_a(config=None, force=False):
 
 
 def run_b(config=None, force=False):
-    "Compute basin size of the model"
+    "모델의 베이신크기를 계산."
     outputfile = config['output']['b']
     if exists(outputfile) and force==False: 
         return
@@ -109,7 +118,8 @@ def run_b_plot(config=None, force=False):
 
 
 def run_c(config=None, force=False):
-    "generate input combinations"
+    "입력의 조합들을 생성한다. 두개의 노드를 동시에 타겟할 수 있다고 가정하였다. 타겟을 하지 않은 \
+    조건을 포함하였다."
     from itertools import combinations,product
     from copy import deepcopy
 
@@ -126,7 +136,9 @@ def run_c(config=None, force=False):
     combi1 = [c for c in combinations(free_nodes, 1)]
     combi2 = [c for c in combinations(free_nodes, 2)]
     combi3 = [c for c in combinations(free_nodes, 3)]
+    
     combi = combi1 + combi2 + [()]
+    
     table = list(product([False, True], repeat=len(input_nodes)))
     
     config_list = []
@@ -152,15 +164,6 @@ def run_c(config=None, force=False):
             outfile, indent=4)
 
 
-if not exists('engine.pyx'):
-    data = tab_s7.load_a()        
-    model = "\n".join( data['equation'].values.tolist() )
-    attr_cy.build(model)
-    
-
-# --- 
-import pyximport; pyximport.install()
-import engine
 def myengine(config): 
     samples = config['parameters']['samples']
     steps = config['parameters']['steps']
@@ -176,7 +179,6 @@ def myengine(config):
         }
 
     return result
-# ---
 
 
 def run_d(config=None, force=False): 

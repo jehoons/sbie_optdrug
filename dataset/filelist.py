@@ -13,10 +13,10 @@ import sbie_optdrug
 
 dir_material = abspath(dirname(sbie_optdrug.__file__)+'/dataset/material')
 
-if not exists(dir_material):
-    print('missing directory:', dir_material)
-    print('material should be provided to program.')
-    assert False
+# if not exists(dir_material):
+#     print('missing directory:', dir_material)
+#     print('material should be provided to program.')
+#     assert False
 
 # ccle source data:
 ccle_gex = join(dir_material,
