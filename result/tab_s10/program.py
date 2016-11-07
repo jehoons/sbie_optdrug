@@ -15,17 +15,16 @@ import sbie_optdrug
 from sbie_optdrug.dataset import ccle
 from termutil import progressbar
 
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-#from sbie_optdrug import boolean2
-import random
+#import matplotlib
+#matplotlib.use('Agg')
+#import matplotlib.pyplot as plt
+#import random
 
-from boolean3_addon import attr_cy
-import numpy as np
+#from boolean3_addon import attr_cy
+#import numpy as np
 
-from boolean3 import Model
-from boolean3_addon import attractor
+#from boolean3 import Model
+#from boolean3_addon import attractor
 
 """ requirements """
 inputfile_a = join(dirname(__file__), '..','tab_s2','TABLE.S2.NODE-NAME.CSV')
@@ -85,13 +84,89 @@ def run(config=None):
     input_condi = json.load(open(config['input']['input_h'], 'rb'))
     attractor_result = json.load(open(config['input']['input_i'], 'rb'))
 
+    #apoptotic, characterized by active caspases
+    #proliferative, in which cyclins are activated along the cell cycle in the correct sequence;
+    #quiescent, with cyclins inactive or activated in a wrong sequence.In terms of such phenotypes
+
+    input_node = input_condi['configs'][0]['parameters']['input_nodes']
+    label = attractor_result['scanning_results'][0]['labels']
+    i = 0
+    for i in range(len(label)):
+        label_node = label[i]
+        if label_node == 'S_Caspase8':
+            apop_1 = i
+        elif label_node == 'S_Caspase9':
+            apop_2 = i
+        elif label_node == 'S_CycA':
+            pro_qui_1 = i
+        elif label_node == 'S_CycB':
+            pro_qui_2 = i
+        elif label_node == 'S_CycC':
+            pro_qui_3 = i
+        elif label_node == 'S_CycD':
+            pro_qui_4 = i
+
+    i = 0
+    for i in range(len(attractor_result['scanning_results'])):
+        off_state = input_condi['configs'][i]['parameters']['off_states']
+        on_state = input_condi['configs'][i]['parameters']['on_states']
+        if len(off_state) > 0 :
+            j = 0
+            for j in range(len(off_state)):
+                off_state_node = off_state[j]
+                if off_state_node in input_node:
+                    off_state_input = off_state_node #put in list
+                else:
+                    off_state_else = off_state_node #putin list
+                j += 1
+        if len(on_state) > 0 :
+            j = 0
+            for j in range(len(on_state)):
+                on_state_node = on_state[j]
+                if on_state_node in input_node:
+                    on_state_input = on_state_node #putin list
+                else:
+                    on_state_else = on_state_node #putin list
+                j += 1
+
+        attractor = attractor_result['scanning_results'][i]['attractors']
+        state_key = attractor_result['scanning_results'][i]['state_key']
+        if len(attractor) > 0 :
+            for j in attractor.keys():
+                att = attractor[j]
+                if att['type'] == 'point':
+                    att_state = state_key[j]
+                    if (att_state[apop_1] == 1) & (att_state[apop_2] == 1):
+                        phenotype = {'phenotype': 'apoptotic'}
+                    elif (att_state[pro_qui_1] == 1) & (att_state[pro_qui_2] == 1) & (att_state[pro_qui_3] == 1) & (att_state[pro_qui_4] == 1):
+                        phenotype = {'phenotype': 'proliferative'}
+                    elif (att_state[pro_qui_1] == 0) & (att_state[pro_qui_2] == 0) & (att_state[pro_qui_3] == 0) & (att_state[pro_qui_4] == 0):
+                        phenotype = {'phenotype': 'quiescent'}
+                    att_new = att+phenotype #merge two list
+                    att_point = {j: att_new} #putin list
+                elif att['type'] == 'cyclic':
+                    k = 0
+                    for k in range(len(att['value'])):
+                        att_cycle_value = att['value'][k]
+                        att_cycle_state = state_key[att_cycle_value]
+                        if (att_state[apop_1] == 1) & (att_state[apop_2] == 1):
+                            phenotype = {'phenotype': 'apoptotic'}
+                        elif (att_state[pro_qui_1] == 1) & (att_state[pro_qui_2] == 1) & (att_state[pro_qui_3] == 1) & (
+                            att_state[pro_qui_4] == 1):
+                            phenotype = {'phenotype': 'proliferative'}
+                        elif (att_state[pro_qui_1] == 0) & (att_state[pro_qui_2] == 0) & (att_state[pro_qui_3] == 0) & (
+                            att_state[pro_qui_4] == 0):
+                            phenotype = {'phenotype': 'quiescent'}
+                        att_new = att + phenotype  # merge two list
+                        k += 1
+                    att_cycle = {j: att} #putin list
+        #off_state_input,off_state_else,on_state_input,on_state_else,att_point,att_cycle merge한 파일 만들기
+
+
+        print(0)
+
+
     set_trace()
 
-
-
-
-    print(0)
-
-
     #with open(config['output']['a'], 'w') as fobj:
-        #fobj.write('hello')
+    #    fobj.write('hello')
