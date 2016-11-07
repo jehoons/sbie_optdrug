@@ -1,4 +1,4 @@
 ### Table S8
-Result of probability simulation
+Probability simulation result
 * (a)
 
