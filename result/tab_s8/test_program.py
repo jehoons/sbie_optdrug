@@ -29,9 +29,9 @@ def test(with_small, force):
     assert check_outputs(default_config)
 
 
-def test_1():
+#def test_1():
 
 
-    from sbie_optdrug.dataset import ccle
+    #from sbie_optdrug.dataset import ccle
 
     # set_trace()
