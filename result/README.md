@@ -1,8 +1,10 @@
 ## Results
 
 ### [Table S1. Extracted data from therapy data and MUTCNA][tab_s1]
+CCLE data에서 네트워크와 일치하는 데이터와 cell line이 large intestine인 데이터를 추출함
 
 ### [Table S2. Extracted node names from logical network data][tab_s2]
+원래 fumia network 수식에서 네트워크의 노드 이름 추출함
 
 ### [Table S3. Translated model into logical functional form][tab_s3]
 가중치합 형태의 네트워크 모델을 논리함수형태로 전환
@@ -20,10 +22,13 @@
 Fumia네트워크의 모든 입력 및 드럭타겟 조합에 대해서 어트랙터베이신 계산 
 
 ### [Table S8. ???][tab_s8]
-여기에 테이블 제목 및 설명추가 
+Probabilistic한 방법을 사용한 분석 방법 개발 
 
 ### [Table S9. ???][tab_s9]
 유전자변이를 근사하는 알고리즘 개발
+
+### [Table S10. ???][tab_s10]
+Deterministic하게 얻은 어트랙터 결과 분석 및 환자 profile을 반영한 simulation 결과
 
 [giordano06]: http://www.nature.com/onc/journal/v25/n38/full/1209721a.html
 [boolean2-sim]: https://scfbm.biomedcentral.com/articles/10.1186/1751-0473-3-16
@@ -36,4 +41,5 @@ Fumia네트워크의 모든 입력 및 드럭타겟 조합에 대해서 어트�
 [tab_s7]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s7
 [tab_s8]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s8
 [tab_s9]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s9
+[tab_s10]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s10
 
