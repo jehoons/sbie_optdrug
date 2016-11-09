@@ -39,7 +39,7 @@ inputfile_i = join(dirname(__file__), '..','tab_s7','TABLE_S7D_SCANNING_RESULT.j
 
 """ results """
 outputfile_a = join(dirname(__file__), 'TABLE_S8A_total_attractor_input_condition.json')
-#outputfile_b = join(dirname(__file__), 'TABLE.S8B_total_attractor_input_condition.csv')
+outputfile_b = join(dirname(__file__), 'TABLE.S8B_total_attractor_input_condition.csv')
 #outputfile_c = join(dirname(__file__), 'TABLE.S8B.MUTATION_data_s1.json')
 #outputfile_d = join(dirname(__file__), 'TABLE.S8B.MUTATION_data_s4.json')
 #outputfile_e = join(dirname(__file__), 'TABLE.S8C.DRUG_data.json')
@@ -90,7 +90,6 @@ def run(config=None):
     #quiescent, with cyclins inactive or activated in a wrong sequence.In terms of such phenotypes
 
     input_nodes = input_condi['configs'][0]['parameters']['input_nodes']
-    input_nodes.append('S_Gli')
     label = attractor_result['scanning_results'][0]['labels']
     i = 0
     for i in range(len(label)):
@@ -110,10 +109,9 @@ def run(config=None):
     i = 0
     total_attractor = pd.DataFrame([], columns=['Input_GFs', 'Input_Gli', 'Input_Hypoxia', 'Input_Mutagen',
                                                'Input_Nutrients', 'Input_TNFalpha', 'Perturbation1', 'Perturbation2',
-                                               'Apoptosis', 'Proliferation', 'Quiescent',
-                                                'Attractor'])
-    set_trace()
-    total_data = {}
+                                               'Apoptosis', 'Proliferation', 'Quiescent', 'Apoptosis-proliferation',
+                                                'Total', 'Attractor'])
+
     for i in range(len(attractor_result['scanning_results'])):
         progressbar.update(i, len(attractor_result['scanning_results']))
         off_state = input_condi['configs'][i]['parameters']['off_states']
@@ -122,10 +120,6 @@ def run(config=None):
             total_attractor.loc[i, 'Input_GFs'] = 0
         elif 'S_GFs' in on_state:
             total_attractor.loc[i, 'Input_GFs'] = 1
-        if 'S_Gli' in off_state:
-            total_attractor.loc[i, 'Input_Gli'] = 0
-        elif 'S_Gli' in on_state:
-            total_attractor.loc[i, 'Input_Gli'] = 1
         if 'S_Hypoxia' in off_state:
             total_attractor.loc[i, 'Input_Hypoxia'] = 0
         elif 'S_Hypoxia' in on_state:
@@ -171,7 +165,12 @@ def run(config=None):
                     att_condi.loc[k, 'Ratio'] = att['ratio']
                     att_condi.loc[k, 'State_key'] = att_state
                     if att_state[apop] == '1':
-                        att_condi.loc[k, 'Phenotype'] = 'Apoptosis'
+                        if (att_state[pro_qui_1] == '1') | (att_state[pro_qui_2] == '1') | (
+                                    att_state[pro_qui_3] == '1') | (att_state[pro_qui_4] == '1'):
+                            att_condi.loc[k, 'Phenotype'] = 'Apoptosis-Proliferation'
+                        elif (att_state[pro_qui_1] == '0') & (att_state[pro_qui_2] == '0') & (
+                        att_state[pro_qui_3] == '0') & (att_state[pro_qui_4] == '0'):
+                            att_condi.loc[k, 'Phenotype'] = 'Apoptosis'
                     elif (att_state[pro_qui_1] == '1') | (att_state[pro_qui_2] == '1') | (
                         att_state[pro_qui_3] == '1') | (att_state[pro_qui_4] == '1'):
                         att_condi.loc[k, 'Phenotype'] = 'Proliferation'
@@ -184,38 +183,63 @@ def run(config=None):
                     ii = 0
                     att_condi.loc[k, 'Attractor_No'] = t
                     att_condi.loc[k, 'Type'] = att_type
-                    att_condi.loc[k, 'Ratio'] = att['ratio']
+                    len_cycle = len(att['value'])
                     for ii in range(len(att['value'])):
                         att_cycle_value = att['value'][ii]
                         att_cycle_state = state_key[att_cycle_value]
                         att_condi.loc[k, 'Value'] = att_cycle_value
                         att_condi.loc[k, 'State_key'] = att_cycle_state
+                        att_condi.loc[k, 'Ratio'] = att['ratio']/len_cycle
                         if att_cycle_state[apop] == '1':
                             att_condi.loc[k, 'Phenotype'] = 'Apoptosis'
-                        elif (att_cycle_state[pro_qui_1] == '1') | (att_cycle_state[pro_qui_2] == '1') | (
-                            att_cycle_state[pro_qui_3] == '1') | (att_cycle_state[pro_qui_4] == '1'):
+                            # if (att_state[pro_qui_1] == '1') | (att_state[pro_qui_2] == '1') | (
+                            #             att_state[pro_qui_3] == '1') | (att_state[pro_qui_4] == '1'):
+                            #     att_condi.loc[k, 'Phenotype'] = 'Apoptosis-Proliferation'
+                            # elif (att_state[pro_qui_1] == '0') & (att_state[pro_qui_2] == '0') & (
+                            #             att_state[pro_qui_3] == '0') & (att_state[pro_qui_4] == '0'):
+                            #     att_condi.loc[k, 'Phenotype'] = 'Apoptosis'
+                        if ((att_cycle_state[pro_qui_1] == '1') | (att_cycle_state[pro_qui_2] == '1') | (
+                            att_cycle_state[pro_qui_3] == '1') | (att_cycle_state[pro_qui_4] == '1')):
                             att_condi.loc[k, 'Phenotype'] = 'Proliferation'
-                        elif (att_cycle_state[pro_qui_1] == 0) & (att_cycle_state[pro_qui_2] == 0) & (
-                            att_cycle_state[pro_qui_3] == 0) & (att_cycle_state[pro_qui_4] == 0):
+                        elif ((att_cycle_state[pro_qui_1] == '0') & (att_cycle_state[pro_qui_2] == '0') & (
+                            att_cycle_state[pro_qui_3] == '0') & (att_cycle_state[pro_qui_4] == '0')):
                             att_condi.loc[k, 'Phenotype'] = 'Quiescent'
                         ii += 1
                         k += 1
 
-            att_condi_po = att_condi[att_condi['Type'] == 'point']
-            att_condi_cyc = att_condi[att_condi['Type'] == 'cyclic']
-            att_condi_po_apo = att_condi_po[att_condi_po['Phenotype'] == 'Apoptosis']
-            att_condi_po_pro = att_condi_po[att_condi_po['Phenotype'] == 'Proliferation']
-            att_condi_po_qui = att_condi_po[att_condi_po['Phenotype'] == 'Quiescent']
-            po_apo_basin = sum(att_condi_po_apo['Ratio'])
-            po_pro_basin = sum(att_condi_po_pro['Ratio'])
-            po_qui_basin = sum(att_condi_po_qui['Ratio'])
-            j = 0
-            if len(att_condi_cyc) > 0:
-            for j in range(len(att_condi_cyc)):
-                att_no = att_condi_cyc.loc[j, 'Attractor_No']
-                att_ratio = att_condi_cyc.loc[j, 'Ratio']
-                att_phe = att_condi_cyc.loc[j, 'Phenotype']
-                if len(att_no) > 0:
+            att_condi_apo = att_condi[att_condi['Phenotype'] == 'Apoptosis']
+            att_condi_apopro = att_condi[att_condi['Phenotype'] == 'Apoptosis-Proliferation']
+            att_condi_pro = att_condi[att_condi['Phenotype'] == 'Proliferation']
+            att_condi_qui = att_condi[att_condi['Phenotype'] == 'Quiescent']
+            total_basin = sum(att_condi['Ratio'])
+            if total_basin != 0:
+                apo_basin = sum(att_condi_apo['Ratio'])/total_basin
+                apopro_basin = sum(att_condi_apopro['Ratio'])/total_basin
+                pro_basin = sum(att_condi_pro['Ratio'])/total_basin
+                qui_basin = sum(att_condi_qui['Ratio'])/total_basin
+            total_attractor.loc[i,'Apoptosis'] = apo_basin
+            total_attractor.loc[i, 'Proliferation'] = pro_basin
+            total_attractor.loc[i, 'Quiescent'] = qui_basin
+            total_attractor.loc[i, 'Apoptosis-proliferation'] = apopro_basin
+            total_attractor.loc[i, 'Total'] = total_basin
+        i += 1
+    total_attractor.to_csv(config['output_b'], index=False)
+    set_trace()
+
+
+            # j = 0
+            # if len(att_condi_cyc) > 0:
+            #     for j in range(len(att_condi_cyc)):
+            #         att_no = att_condi_cyc.loc[j, 'Attractor_No']
+            #         if len(att_no) > 0:
+            #             att_ratio = att_condi_cyc.loc[j, 'Ratio']
+            #             att_phe = att_condi_cyc.loc[j, 'Phenotype']
+            #         elif len(att_no) == 0:
+            #             if len(att_condi_cyc.loc[j-1, 'Attractor_No']) > 0:
+            #                 if att_phe != att_condi_cyc.loc[j-1, 'Phenotype']:
+            #                     print(0)
+            #         j += 1
+
 
 
 
