@@ -39,7 +39,7 @@ inputfile_i = join(dirname(__file__), '..','tab_s7','TABLE_S7D_SCANNING_RESULT.j
 
 """ results """
 outputfile_a = join(dirname(__file__), 'TABLE_S8A_total_attractor_input_condition.json')
-#outputfile_b = join(dirname(__file__), 'TABLE.S8A.COPYNUMVAR_data_s4.json')
+#outputfile_b = join(dirname(__file__), 'TABLE.S8B_total_attractor_input_condition.csv')
 #outputfile_c = join(dirname(__file__), 'TABLE.S8B.MUTATION_data_s1.json')
 #outputfile_d = join(dirname(__file__), 'TABLE.S8B.MUTATION_data_s4.json')
 #outputfile_e = join(dirname(__file__), 'TABLE.S8C.DRUG_data.json')
@@ -84,12 +84,13 @@ def run(config=None):
     input_condi = json.load(open(config['input']['input_h'], 'rb'))
     attractor_result = json.load(open(config['input']['input_i'], 'rb'))
 
-    total_attractor_data = open(config['output']['output_a'], 'w')
+    #total_attractor_data = open(config['output']['output_a'], 'w')
     #apoptotic, characterized by active caspases
     #proliferative, in which cyclins are activated along the cell cycle in the correct sequence;
     #quiescent, with cyclins inactive or activated in a wrong sequence.In terms of such phenotypes
 
     input_nodes = input_condi['configs'][0]['parameters']['input_nodes']
+    input_nodes.append('S_Gli')
     label = attractor_result['scanning_results'][0]['labels']
     i = 0
     for i in range(len(label)):
@@ -107,108 +108,215 @@ def run(config=None):
         i += 1
 
     i = 0
+    total_attractor = pd.DataFrame([], columns=['Input_GFs', 'Input_Gli', 'Input_Hypoxia', 'Input_Mutagen',
+                                               'Input_Nutrients', 'Input_TNFalpha', 'Perturbation1', 'Perturbation2',
+                                               'Apoptosis', 'Proliferation', 'Quiescent',
+                                                'Attractor'])
+    set_trace()
     total_data = {}
     for i in range(len(attractor_result['scanning_results'])):
         progressbar.update(i, len(attractor_result['scanning_results']))
         off_state = input_condi['configs'][i]['parameters']['off_states']
         on_state = input_condi['configs'][i]['parameters']['on_states']
-        input_state = {'on': {}, 'off': {}}
-        ano_state = {'on': {}, 'off': {}}
-        if len(off_state) > 0 :
-            j = 0
-            input_off = {}
-            ano_off = {}
-            for j in range(len(off_state)):
-                off_state_node = off_state[j]
-                if off_state_node in input_nodes:
-                    if len(input_off) == 0:
-                        input_off = [off_state_node]
-                    elif len(input_off) != 0:
-                        input_off.append(off_state_node)
+        if 'S_GFs' in off_state:
+            total_attractor.loc[i, 'Input_GFs'] = 0
+        elif 'S_GFs' in on_state:
+            total_attractor.loc[i, 'Input_GFs'] = 1
+        if 'S_Gli' in off_state:
+            total_attractor.loc[i, 'Input_Gli'] = 0
+        elif 'S_Gli' in on_state:
+            total_attractor.loc[i, 'Input_Gli'] = 1
+        if 'S_Hypoxia' in off_state:
+            total_attractor.loc[i, 'Input_Hypoxia'] = 0
+        elif 'S_Hypoxia' in on_state:
+            total_attractor.loc[i, 'Input_Hypoxia'] = 1
+        if 'S_Mutagen' in off_state:
+            total_attractor.loc[i, 'Input_Mutagen'] = 0
+        elif 'S_Mutagen' in on_state:
+            total_attractor.loc[i, 'Input_Mutagen'] = 1
+        if 'S_Nutrients' in off_state:
+            total_attractor.loc[i, 'Input_Nutrients'] = 0
+        elif 'S_Nutrients' in on_state:
+            total_attractor.loc[i, 'Input_Nutrients'] = 1
+        if 'S_TNFalpha' in off_state:
+            total_attractor.loc[i, 'Input_TNFalpha'] = 0
+        elif 'S_TNFalpha' in on_state:
+            total_attractor.loc[i, 'Input_TNFalpha'] = 1
+        total_input = on_state
+        total_input.extend(off_state)
+        j = 0
+        ano_input = {}
+        for j in range(len(total_input)):
+            one_input = total_input[j]
+            if not (one_input in input_nodes):
+                if len(ano_input) == 0:
+                    total_attractor.loc[i, 'Perturbation1'] = one_input
+                    ano_input = [one_input]
                 else:
-                    if len(ano_off) == 0:
-                        ano_off = [off_state_node]
-                    elif len(ano_off) != 0:
-                        ano_off.append(off_state_node)
-                j += 1
-            input_state['off'] = input_off
-            ano_state['off'] = ano_off
-
-        if len(on_state) > 0 :
-            j = 0
-            input_on = {}
-            ano_on = {}
-            for j in range(len(on_state)):
-                on_state_node = on_state[j]
-                if on_state_node in input_nodes:
-                    if len(input_on) == 0:
-                        input_on = [on_state_node]
-                    elif len(input_state) != 0:
-                        input_on.append(on_state_node)
-                else:
-                    if len(ano_on) == 0:
-                        ano_on = [on_state_node]
-                    elif len(ano_on) != 0:
-                        ano_on.append(on_state_node)
-                j += 1
-            input_state['on'] = input_on
-            ano_state['on'] = ano_on
-
+                    total_attractor.loc[i, 'Perturbation2'] = one_input
+            j += 1
         attractor = attractor_result['scanning_results'][i]['attractors']
         state_key = attractor_result['scanning_results'][i]['state_key']
-        if len(attractor) > 0 :
-            att_condi = {}
-            for j in attractor.keys():
-                att = attractor[j]
-                phenotype = {'phenotype': {}}
-                att = dict(att.items() + phenotype.items())
-                if att['type'] == 'point':
-                    att_state = state_key[j]
+        if len(attractor) > 0:
+            att_condi = pd.DataFrame([], columns=['Attractor_No', 'Value', 'Type', 'State_key', 'Ratio', 'Phenotype'])
+            k = 0
+            for t in attractor.keys():
+                att = attractor[t]
+                att_type = att['type']
+                if att_type == 'point':
+                    att_state = state_key[t]
+                    att_condi.loc[k, 'Attractor_No'] = t
+                    att_condi.loc[k, 'Value'] = att['value']
+                    att_condi.loc[k, 'Type'] = att_type
+                    att_condi.loc[k, 'Ratio'] = att['ratio']
+                    att_condi.loc[k, 'State_key'] = att_state
                     if att_state[apop] == '1':
-                        att['phenotype'] = 'apoptosis'
-                    elif (att_state[pro_qui_1] == '1') | (att_state[pro_qui_2] == '1') | (att_state[pro_qui_3] == '1') | (att_state[pro_qui_4] == '1'):
-                        att['phenotype'] = 'proliferation'
-                    elif (att_state[pro_qui_1] == '0') & (att_state[pro_qui_2] == '0') & (att_state[pro_qui_3] == '0') & (att_state[pro_qui_4] == '0'):
-                        att['phenotype'] = 'quiescent'
-                    att_put_in = {j: att}
+                        att_condi.loc[k, 'Phenotype'] = 'Apoptosis'
+                    elif (att_state[pro_qui_1] == '1') | (att_state[pro_qui_2] == '1') | (
+                        att_state[pro_qui_3] == '1') | (att_state[pro_qui_4] == '1'):
+                        att_condi.loc[k, 'Phenotype'] = 'Proliferation'
+                    elif (att_state[pro_qui_1] == '0') & (att_state[pro_qui_2] == '0') & (
+                        att_state[pro_qui_3] == '0') & (att_state[pro_qui_4] == '0'):
+                        att_condi.loc[k, 'Phenotype'] = 'Quiescent'
+                    k += 1
 
-                elif att['type'] == 'cyclic':
-                    k = 0
-                    cyc_phe = []
-                    for k in range(len(att['value'])):
-                        att_cycle_value = att['value'][k]
+                elif att_type == 'cyclic':
+                    ii = 0
+                    att_condi.loc[k, 'Attractor_No'] = t
+                    att_condi.loc[k, 'Type'] = att_type
+                    att_condi.loc[k, 'Ratio'] = att['ratio']
+                    for ii in range(len(att['value'])):
+                        att_cycle_value = att['value'][ii]
                         att_cycle_state = state_key[att_cycle_value]
+                        att_condi.loc[k, 'Value'] = att_cycle_value
+                        att_condi.loc[k, 'State_key'] = att_cycle_state
                         if att_cycle_state[apop] == '1':
-                            if len(cyc_phe) == 0:
-                                cyc_phe = ['apoptosis']
-                            else:
-                                cyc_phe.append('apoptosis')
-                        elif (att_cycle_state[pro_qui_1] == '1') | (att_cycle_state[pro_qui_2] == '1') | (att_cycle_state[pro_qui_3] == '1') | (att_cycle_state[pro_qui_4] == '1'):
-                            if len(cyc_phe) == 0:
-                                cyc_phe = ['proliferation']
-                            else:
-                                cyc_phe.append('proliferation')
-                        elif (att_cycle_state[pro_qui_1] == 0) & (att_cycle_state[pro_qui_2] == 0) & (att_cycle_state[pro_qui_3] == 0) & (att_cycle_state[pro_qui_4] == 0):
-                            if len(cyc_phe) == 0:
-                                cyc_phe = ['quiescent']
-                            else:
-                                cyc_phe.append('quiescent')
+                            att_condi.loc[k, 'Phenotype'] = 'Apoptosis'
+                        elif (att_cycle_state[pro_qui_1] == '1') | (att_cycle_state[pro_qui_2] == '1') | (
+                            att_cycle_state[pro_qui_3] == '1') | (att_cycle_state[pro_qui_4] == '1'):
+                            att_condi.loc[k, 'Phenotype'] = 'Proliferation'
+                        elif (att_cycle_state[pro_qui_1] == 0) & (att_cycle_state[pro_qui_2] == 0) & (
+                            att_cycle_state[pro_qui_3] == 0) & (att_cycle_state[pro_qui_4] == 0):
+                            att_condi.loc[k, 'Phenotype'] = 'Quiescent'
+                        ii += 1
                         k += 1
-                    att['phenotype'] = cyc_phe
-                    att_put_in = {j: att}
-                if len(att_condi) == 0:
-                    att_condi = att_put_in
-                else:
-                    att_condi = dict(att_condi.items()+att_put_in.items())
-            data_attractor = {'input_node': input_state, 'node_perturbation': ano_state, 'attractor': att_condi,'attractor_state': state_key}
-        data_put_in = {i: data_attractor}
-        if len(total_data) == 0:
-            total_data = data_put_in
-        else:
-            total_data = dict(total_data.items()+data_put_in.items())
-        i += 1
-    json.dump(total_data, total_attractor_data, indent=3, sort_keys=True)
-    total_attractor_data.close()
+
+            att_condi_po = att_condi[att_condi['Type'] == 'point']
+            att_condi_cyc = att_condi[att_condi['Type'] == 'cyclic']
+            att_condi_po_apo = att_condi_po[att_condi_po['Phenotype'] == 'Apoptosis']
+            att_condi_po_pro = att_condi_po[att_condi_po['Phenotype'] == 'Proliferation']
+            att_condi_po_qui = att_condi_po[att_condi_po['Phenotype'] == 'Quiescent']
+            po_apo_basin = sum(att_condi_po_apo['Ratio'])
+            po_pro_basin = sum(att_condi_po_pro['Ratio'])
+            po_qui_basin = sum(att_condi_po_qui['Ratio'])
+            j = 0
+            if len(att_condi_cyc) > 0:
+            for j in range(len(att_condi_cyc)):
+                att_no = att_condi_cyc.loc[j, 'Attractor_No']
+                att_ratio = att_condi_cyc.loc[j, 'Ratio']
+                att_phe = att_condi_cyc.loc[j, 'Phenotype']
+                if len(att_no) > 0:
+
+
+
+    #     input_state = {'on': {}, 'off': {}}
+    #     ano_state = {'on': {}, 'off': {}}
+    #     if len(off_state) > 0 :
+    #         j = 0
+    #         input_off = {}
+    #         ano_off = {}
+    #         for j in range(len(off_state)):
+    #             off_state_node = off_state[j]
+    #             if off_state_node in input_nodes:
+    #                 if len(input_off) == 0:
+    #                     input_off = [off_state_node]
+    #                 elif len(input_off) != 0:
+    #                     input_off.append(off_state_node)
+    #             else:
+    #                 if len(ano_off) == 0:
+    #                     ano_off = [off_state_node]
+    #                 elif len(ano_off) != 0:
+    #                     ano_off.append(off_state_node)
+    #             j += 1
+    #         input_state['off'] = input_off
+    #         ano_state['off'] = ano_off
+    #
+    #     if len(on_state) > 0 :
+    #         j = 0
+    #         input_on = {}
+    #         ano_on = {}
+    #         for j in range(len(on_state)):
+    #             on_state_node = on_state[j]
+    #             if on_state_node in input_nodes:
+    #                 if len(input_on) == 0:
+    #                     input_on = [on_state_node]
+    #                 elif len(input_state) != 0:
+    #                     input_on.append(on_state_node)
+    #             else:
+    #                 if len(ano_on) == 0:
+    #                     ano_on = [on_state_node]
+    #                 elif len(ano_on) != 0:
+    #                     ano_on.append(on_state_node)
+    #             j += 1
+    #         input_state['on'] = input_on
+    #         ano_state['on'] = ano_on
+    #
+    #     attractor = attractor_result['scanning_results'][i]['attractors']
+    #     state_key = attractor_result['scanning_results'][i]['state_key']
+    #     if len(attractor) > 0 :
+    #         att_condi = {}
+    #         for j in attractor.keys():
+    #             #progressbar.update(i, len(attractor.keys()))
+    #             att = attractor[j]
+    #             phenotype = {'phenotype': {}}
+    #             att = dict(att.items() + phenotype.items())
+    #             if att['type'] == 'point':
+    #                 att_state = state_key[j]
+    #                 if att_state[apop] == '1':
+    #                     att['phenotype'] = 'apoptosis'
+    #                 elif (att_state[pro_qui_1] == '1') | (att_state[pro_qui_2] == '1') | (att_state[pro_qui_3] == '1') | (att_state[pro_qui_4] == '1'):
+    #                     att['phenotype'] = 'proliferation'
+    #                 elif (att_state[pro_qui_1] == '0') & (att_state[pro_qui_2] == '0') & (att_state[pro_qui_3] == '0') & (att_state[pro_qui_4] == '0'):
+    #                     att['phenotype'] = 'quiescent'
+    #                 att_put_in = {j: att}
+    #
+    #             elif att['type'] == 'cyclic':
+    #                 k = 0
+    #                 cyc_phe = []
+    #                 for k in range(len(att['value'])):
+    #                     att_cycle_value = att['value'][k]
+    #                     att_cycle_state = state_key[att_cycle_value]
+    #                     if att_cycle_state[apop] == '1':
+    #                         if len(cyc_phe) == 0:
+    #                             cyc_phe = ['apoptosis']
+    #                         else:
+    #                             cyc_phe.append('apoptosis')
+    #                     elif (att_cycle_state[pro_qui_1] == '1') | (att_cycle_state[pro_qui_2] == '1') | (att_cycle_state[pro_qui_3] == '1') | (att_cycle_state[pro_qui_4] == '1'):
+    #                         if len(cyc_phe) == 0:
+    #                             cyc_phe = ['proliferation']
+    #                         else:
+    #                             cyc_phe.append('proliferation')
+    #                     elif (att_cycle_state[pro_qui_1] == 0) & (att_cycle_state[pro_qui_2] == 0) & (att_cycle_state[pro_qui_3] == 0) & (att_cycle_state[pro_qui_4] == 0):
+    #                         if len(cyc_phe) == 0:
+    #                             cyc_phe = ['quiescent']
+    #                         else:
+    #                             cyc_phe.append('quiescent')
+    #                     k += 1
+    #                 att['phenotype'] = cyc_phe
+    #                 att_put_in = {j: att}
+    #             if len(att_condi) == 0:
+    #                 att_condi = att_put_in
+    #             else:
+    #                 att_condi = dict(att_condi.items()+att_put_in.items())
+    #         data_attractor = {'input_node': input_state, 'node_perturbation': ano_state, 'attractor': att_condi,'attractor_state': state_key}
+    #     data_put_in = {i: data_attractor}
+    #     if len(total_data) == 0:
+    #         total_data = data_put_in
+    #     else:
+    #         total_data = dict(total_data.items()+data_put_in.items())
+    #     i += 1
+    # json.dump(total_data, total_attractor_data, indent=3, sort_keys=True)
+    # total_attractor_data.close()
 
 
     #with open(config['output']['a'], 'w') as fobj:
