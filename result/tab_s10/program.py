@@ -59,7 +59,7 @@ config = {
         },
     'output': {
         'output_a': outputfile_a,
-        #'output_b': outputfile_b,
+        'output_b': outputfile_b,
         #'output_c': outputfile_c,
         #'output_d': outputfile_d,
         #'output_e': outputfile_e
@@ -165,12 +165,13 @@ def run(config=None):
                     att_condi.loc[k, 'Ratio'] = att['ratio']
                     att_condi.loc[k, 'State_key'] = att_state
                     if att_state[apop] == '1':
-                        if (att_state[pro_qui_1] == '1') | (att_state[pro_qui_2] == '1') | (
-                                    att_state[pro_qui_3] == '1') | (att_state[pro_qui_4] == '1'):
-                            att_condi.loc[k, 'Phenotype'] = 'Apoptosis-Proliferation'
-                        elif (att_state[pro_qui_1] == '0') & (att_state[pro_qui_2] == '0') & (
-                        att_state[pro_qui_3] == '0') & (att_state[pro_qui_4] == '0'):
-                            att_condi.loc[k, 'Phenotype'] = 'Apoptosis'
+                        att_condi.loc[k, 'Phenotype'] = 'Apoptosis'
+                        # if (att_state[pro_qui_1] == '1') | (att_state[pro_qui_2] == '1') | (
+                        #             att_state[pro_qui_3] == '1') | (att_state[pro_qui_4] == '1'):
+                        #     att_condi.loc[k, 'Phenotype'] = 'Apoptosis-Proliferation'
+                        # elif (att_state[pro_qui_1] == '0') & (att_state[pro_qui_2] == '0') & (
+                        # att_state[pro_qui_3] == '0') & (att_state[pro_qui_4] == '0'):
+                        #     att_condi.loc[k, 'Phenotype'] = 'Apoptosis'
                     elif (att_state[pro_qui_1] == '1') | (att_state[pro_qui_2] == '1') | (
                         att_state[pro_qui_3] == '1') | (att_state[pro_qui_4] == '1'):
                         att_condi.loc[k, 'Phenotype'] = 'Proliferation'
@@ -208,22 +209,22 @@ def run(config=None):
                         k += 1
 
             att_condi_apo = att_condi[att_condi['Phenotype'] == 'Apoptosis']
-            att_condi_apopro = att_condi[att_condi['Phenotype'] == 'Apoptosis-Proliferation']
+            #att_condi_apopro = att_condi[att_condi['Phenotype'] == 'Apoptosis-Proliferation']
             att_condi_pro = att_condi[att_condi['Phenotype'] == 'Proliferation']
             att_condi_qui = att_condi[att_condi['Phenotype'] == 'Quiescent']
             total_basin = sum(att_condi['Ratio'])
             if total_basin != 0:
                 apo_basin = sum(att_condi_apo['Ratio'])/total_basin
-                apopro_basin = sum(att_condi_apopro['Ratio'])/total_basin
+                #apopro_basin = sum(att_condi_apopro['Ratio'])/total_basin
                 pro_basin = sum(att_condi_pro['Ratio'])/total_basin
                 qui_basin = sum(att_condi_qui['Ratio'])/total_basin
             total_attractor.loc[i,'Apoptosis'] = apo_basin
             total_attractor.loc[i, 'Proliferation'] = pro_basin
             total_attractor.loc[i, 'Quiescent'] = qui_basin
-            total_attractor.loc[i, 'Apoptosis-proliferation'] = apopro_basin
+            #total_attractor.loc[i, 'Apoptosis-proliferation'] = apopro_basin
             total_attractor.loc[i, 'Total'] = total_basin
         i += 1
-    total_attractor.to_csv(config['output_b'], index=False)
+    total_attractor.to_csv(config['output']['output_b'], index=False)
     set_trace()
 
 
