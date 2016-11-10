@@ -107,10 +107,10 @@ def run(config=None):
         i += 1
 
     i = 0
-    total_attractor = pd.DataFrame([], columns=['Input_GFs', 'Input_Gli', 'Input_Hypoxia', 'Input_Mutagen',
+    total_attractor = pd.DataFrame([], columns=['Input_GFs', 'Input_Hypoxia', 'Input_Mutagen',
                                                'Input_Nutrients', 'Input_TNFalpha', 'Perturbation1', 'Perturbation2',
-                                               'Apoptosis', 'Proliferation', 'Quiescent', 'Apoptosis-proliferation',
-                                                'Total', 'Attractor'])
+                                               'Apoptosis', 'Proliferation', 'Quiescent',
+                                                'Total'])
 
     for i in range(len(attractor_result['scanning_results'])):
         progressbar.update(i, len(attractor_result['scanning_results']))
