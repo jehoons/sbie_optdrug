@@ -15,6 +15,7 @@ import sbie_optdrug
 from sbie_optdrug.dataset import ccle
 from termutil import progressbar
 import ternary
+import math
 
 #import matplotlib
 #matplotlib.use('Agg')
@@ -111,7 +112,7 @@ def run(config=None):
     total_attractor = pd.DataFrame([], columns=['Input_GFs', 'Input_Hypoxia', 'Input_Mutagen',
                                                'Input_Nutrients', 'Input_TNFalpha', 'Perturbation1', 'Perturbation2',
                                                'Apoptosis', 'Proliferation', 'Quiescent',
-                                                'Total'])
+                                                'Total', 'Distance'])
 
     for i in range(len(attractor_result['scanning_results'])):
         progressbar.update(i, len(attractor_result['scanning_results']))
@@ -216,6 +217,7 @@ def run(config=None):
             att_condi_pro = att_condi[att_condi['Phenotype'] == 'Proliferation']
             att_condi_qui = att_condi[att_condi['Phenotype'] == 'Quiescent']
             apo_basin_b = sum(att_condi_apo['Ratio'])
+            #apopro_basin_b = sum(att_condi_apopro['Ratio'])
             pro_basin_b = sum(att_condi_pro['Ratio'])
             qui_basin_b = sum(att_condi_qui['Ratio'])
             basin_sum = apo_basin_b + pro_basin_b + qui_basin_b
@@ -223,22 +225,44 @@ def run(config=None):
             if total_basin != 0:
                 if total_basin == basin_sum:
                     apo_basin = apo_basin_b/total_basin
-                    #apopro_basin = sum(att_condi_apopro['Ratio'])/total_basin
+                    #apopro_basin = apopro_basin_b/total_basin
                     pro_basin = pro_basin_b/total_basin
                     qui_basin = qui_basin_b/total_basin
-            total_attractor.loc[i,'Apoptosis'] = apo_basin
-            total_attractor.loc[i, 'Proliferation'] = pro_basin
-            total_attractor.loc[i, 'Quiescent'] = qui_basin
-            #total_attractor.loc[i, 'Apoptosis-proliferation'] = apopro_basin
+                total_attractor.loc[i,'Apoptosis'] = apo_basin
+                total_attractor.loc[i, 'Proliferation'] = pro_basin
+                total_attractor.loc[i, 'Quiescent'] = qui_basin
+                #total_attractor.loc[i, 'Apoptosis-proliferation'] = apopro_basin
+            else:
+                total_attractor.loc[i, 'Apoptosis'] = 0
+                total_attractor.loc[i, 'Proliferation'] = 0
+                total_attractor.loc[i, 'Quiescent'] = 0
+                #total_attractor.loc[i, 'Apoptosis-proliferation'] = 0
+            total_attractor.loc[i, 'Distance'] = math.sqrt(math.pow(1-apo_basin,2)+math.pow(pro_basin,2)+math.pow(qui_basin,2))
 
         i += 1
     total_attractor.to_csv(config['output']['output_b'], index=False)
 
+    set_trace()
+
     simulation_data = total_attractor
+
+    no_pert = simulation_data[
+        (str(simulation_data['Perturbation1']) == 'nan') & (str(simulation_data['Perturbation2']) == 'nan')]
+    no_pert_Gli = simulation_data[
+        (str(simulation_data['Perturbation1']) == 'S_Gli') & (str(simulation_data['Perturbation2']) == 'nan')]
+    no_pert_total = no_pert
+    no_pert_total.append(no_pert_Gli)
 
     benign_1 = simulation_data[(simulation_data['Input_GFs'] == 0) & (simulation_data['Input_Hypoxia'] == 0) & (
     simulation_data['Input_Mutagen'] == 0) &
                                (simulation_data['Input_Nutrients'] == 1) & (simulation_data['Input_TNFalpha'] == 0)]
+    benign_no1 = benign_1[(str(benign_1['Perturbation1']) == 'nan') & (str(benign_1['Perturbation2']) == 'nan')]
+    benign_no1_loc = [benign_no1['Quiescent'], benign_no1['Proliferation'], benign_no1['Apoptosis']]
+    benign_Gli1 = benign_1[(str(benign_1['Perturbation1']) == 'S_Gli') & (str(benign_1['Perturbation2']) == 'nan')]
+    benign_Gli1_loc = [benign_Gli1['Quiescent'], benign_Gli1['Proliferation'], benign_Gli1['Apoptosis']]
+    benign_no_total1_loc = benign_no1_loc
+    benign_no_total1_loc.append(benign_Gli1_loc)
+
     benign_2 = simulation_data[(simulation_data['Input_GFs'] == 0) & (simulation_data['Input_Hypoxia'] == 0) & (
     simulation_data['Input_Mutagen'] == 0) &
                                (simulation_data['Input_Nutrients'] == 1) & (simulation_data['Input_TNFalpha'] == 1)]
@@ -261,10 +285,10 @@ def run(config=None):
     malig_4 = simulation_data[(simulation_data['Input_GFs'] == 1) & (simulation_data['Input_Hypoxia'] == 1) & (
     simulation_data['Input_Mutagen'] == 1) &
                               (simulation_data['Input_Nutrients'] == 0) & (simulation_data['Input_TNFalpha'] == 1)]
-    # no_pert = simulation_data[(str(simulation_data['Perturbation1']) == 'nan')&(str(simulation_data['Perturbation2']) == 'nan')]
-    # no_pert1 = simulation_data[(str(simulation_data['Perturbation1']) == 'S_Gli')&(str(simulation_data['Perturbation2']) == 'nan')]
+
     i = 0
     no_pert = {}
+    ben_pert_no_tot = {}
     for i in range(len(simulation_data)):
         progressbar.update(i, len(simulation_data))
         sim_data = simulation_data.iloc[i]
@@ -278,37 +302,47 @@ def run(config=None):
                 elif len(no_pert) > 0:
                     no_pert.append(no_pert_data)
         if (input_condi[1] == 0) & (input_condi[2] == 0) & (input_condi[3] == 1):
+            if str(sim_data['Perturbation1']) == 'nan' | (str(sim_data['Perturbation1']) == 'S_Gli'):
+                if str(sim_data['Perturbation2']) == 'nan':
+                    ben_pert_no_total = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                    if len(ben_pert_no_total) == 0:
+                        ben_pert_no_tot = [ben_pert_no_total]
+                    elif len(ben_pert_no_total) > 0:
+                        ben_pert_no_tot.append(ben_pert_no_total)
             if (input_condi[0] == 0) & (input_condi[4] == 0):
-                if str(sim_data['Perturbation1']) == 'nan':
+                if str(sim_data['Perturbation1']) == 'nan' | (str(sim_data['Perturbation1']) == 'S_Gli'):
                     if str(sim_data['Perturbation2']) == 'nan':
                         ben_pert_no1 = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
             elif (input_condi[0] == 0) & (input_condi[4] == 1):
-                if str(sim_data['Perturbation1']) == 'nan':
+                if str(sim_data['Perturbation1']) == 'nan'| (str(sim_data['Perturbation1']) == 'S_Gli'):
                     if str(sim_data['Perturbation2']) == 'nan':
                         ben_pert_no2 = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
             elif (input_condi[0] == 1) & (input_condi[4] == 0):
-                if str(sim_data['Perturbation1']) == 'nan':
+                if str(sim_data['Perturbation1']) == 'nan' | (str(sim_data['Perturbation1']) == 'S_Gli'):
                     if str(sim_data['Perturbation2']) == 'nan':
                         ben_pert_no3 = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
             elif (input_condi[0] == 1) & (input_condi[4] == 1):
-                if str(sim_data['Perturbation1']) == 'nan':
+                if str(sim_data['Perturbation1']) == 'nan' | (str(sim_data['Perturbation1']) == 'S_Gli'):
                     if str(sim_data['Perturbation2']) == 'nan':
                         ben_pert_no4 = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
         elif (input_condi[1] == 1) & (input_condi[2] == 1) & (input_condi[3] == 0):
+            if str(sim_data['Perturbation1']) == 'nan' | (str(sim_data['Perturbation1']) == 'S_Gli'):
+                if str(sim_data['Perturbation2']) == 'nan':
+                    malig_pert_no_total = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
             if (input_condi[0] == 0) & (input_condi[4] == 0):
-                if str(sim_data['Perturbation1']) == 'nan':
+                if str(sim_data['Perturbation1']) == 'nan'| (str(sim_data['Perturbation1']) == 'S_Gli'):
                     if str(sim_data['Perturbation2']) == 'nan':
                         malig_pert_no1 = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
             elif (input_condi[0] == 0) & (input_condi[4] == 1):
-                if str(sim_data['Perturbation1']) == 'nan':
+                if str(sim_data['Perturbation1']) == 'nan' | (str(sim_data['Perturbation1']) == 'S_Gli'):
                     if str(sim_data['Perturbation2']) == 'nan':
                         malig_pert_no2 = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
             elif (input_condi[0] == 1) & (input_condi[4] == 0):
-                if str(sim_data['Perturbation1']) == 'nan':
+                if str(sim_data['Perturbation1']) == 'nan' | (str(sim_data['Perturbation1']) == 'S_Gli'):
                     if str(sim_data['Perturbation2']) == 'nan':
                         malig_pert_no3 = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
             elif (input_condi[0] == 1) & (input_condi[4] == 1):
-                if str(sim_data['Perturbation1']) == 'nan':
+                if str(sim_data['Perturbation1']) == 'nan' | (str(sim_data['Perturbation1']) == 'S_Gli'):
                     if str(sim_data['Perturbation2']) == 'nan':
                         malig_pert_no4 = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
 
