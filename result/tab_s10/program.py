@@ -228,235 +228,470 @@ def run(config=None):
                     #apopro_basin = apopro_basin_b/total_basin
                     pro_basin = pro_basin_b/total_basin
                     qui_basin = qui_basin_b/total_basin
-                total_attractor.loc[i,'Apoptosis'] = apo_basin
-                total_attractor.loc[i, 'Proliferation'] = pro_basin
-                total_attractor.loc[i, 'Quiescent'] = qui_basin
-                #total_attractor.loc[i, 'Apoptosis-proliferation'] = apopro_basin
             else:
-                total_attractor.loc[i, 'Apoptosis'] = 0
-                total_attractor.loc[i, 'Proliferation'] = 0
-                total_attractor.loc[i, 'Quiescent'] = 0
-                #total_attractor.loc[i, 'Apoptosis-proliferation'] = 0
+                apo_basin = apo_basin_b
+                # apopro_basin = apopro_basin_b
+                pro_basin = pro_basin_b
+                qui_basin = qui_basin_b
+            total_attractor.loc[i, 'Apoptosis'] = apo_basin
+            total_attractor.loc[i, 'Proliferation'] = pro_basin
+            total_attractor.loc[i, 'Quiescent'] = qui_basin
+            # total_attractor.loc[i, 'Apoptosis-proliferation'] = apopro_basin
             total_attractor.loc[i, 'Distance'] = math.sqrt(math.pow(1-apo_basin,2)+math.pow(pro_basin,2)+math.pow(qui_basin,2))
 
         i += 1
     total_attractor.to_csv(config['output']['output_b'], index=False)
 
-    set_trace()
-
     simulation_data = total_attractor
-
-    no_pert = simulation_data[
-        (str(simulation_data['Perturbation1']) == 'nan') & (str(simulation_data['Perturbation2']) == 'nan')]
-    no_pert_Gli = simulation_data[
-        (str(simulation_data['Perturbation1']) == 'S_Gli') & (str(simulation_data['Perturbation2']) == 'nan')]
-    no_pert_total = no_pert
-    no_pert_total.append(no_pert_Gli)
-
-    benign_1 = simulation_data[(simulation_data['Input_GFs'] == 0) & (simulation_data['Input_Hypoxia'] == 0) & (
-    simulation_data['Input_Mutagen'] == 0) &
-                               (simulation_data['Input_Nutrients'] == 1) & (simulation_data['Input_TNFalpha'] == 0)]
-    benign_no1 = benign_1[(str(benign_1['Perturbation1']) == 'nan') & (str(benign_1['Perturbation2']) == 'nan')]
-    benign_no1_loc = [benign_no1['Quiescent'], benign_no1['Proliferation'], benign_no1['Apoptosis']]
-    benign_Gli1 = benign_1[(str(benign_1['Perturbation1']) == 'S_Gli') & (str(benign_1['Perturbation2']) == 'nan')]
-    benign_Gli1_loc = [benign_Gli1['Quiescent'], benign_Gli1['Proliferation'], benign_Gli1['Apoptosis']]
-    benign_no_total1_loc = benign_no1_loc
-    benign_no_total1_loc.append(benign_Gli1_loc)
-
-    benign_2 = simulation_data[(simulation_data['Input_GFs'] == 0) & (simulation_data['Input_Hypoxia'] == 0) & (
-    simulation_data['Input_Mutagen'] == 0) &
-                               (simulation_data['Input_Nutrients'] == 1) & (simulation_data['Input_TNFalpha'] == 1)]
-    benign_3 = simulation_data[(simulation_data['Input_GFs'] == 1) & (simulation_data['Input_Hypoxia'] == 0) & (
-    simulation_data['Input_Mutagen'] == 0) &
-                               (simulation_data['Input_Nutrients'] == 1) & (simulation_data['Input_TNFalpha'] == 0)]
-    benign_4 = simulation_data[(simulation_data['Input_GFs'] == 1) & (simulation_data['Input_Hypoxia'] == 0) & (
-    simulation_data['Input_Mutagen'] == 0) &
-                               (simulation_data['Input_Nutrients'] == 1) & (simulation_data['Input_TNFalpha'] == 1)]
-
-    malig_1 = simulation_data[(simulation_data['Input_GFs'] == 0) & (simulation_data['Input_Hypoxia'] == 1) & (
-    simulation_data['Input_Mutagen'] == 1) &
-                              (simulation_data['Input_Nutrients'] == 0) & (simulation_data['Input_TNFalpha'] == 0)]
-    malig_2 = simulation_data[(simulation_data['Input_GFs'] == 0) & (simulation_data['Input_Hypoxia'] == 1) & (
-    simulation_data['Input_Mutagen'] == 1) &
-                              (simulation_data['Input_Nutrients'] == 0) & (simulation_data['Input_TNFalpha'] == 1)]
-    malig_3 = simulation_data[(simulation_data['Input_GFs'] == 1) & (simulation_data['Input_Hypoxia'] == 1) & (
-    simulation_data['Input_Mutagen'] == 1) &
-                              (simulation_data['Input_Nutrients'] == 0) & (simulation_data['Input_TNFalpha'] == 0)]
-    malig_4 = simulation_data[(simulation_data['Input_GFs'] == 1) & (simulation_data['Input_Hypoxia'] == 1) & (
-    simulation_data['Input_Mutagen'] == 1) &
-                              (simulation_data['Input_Nutrients'] == 0) & (simulation_data['Input_TNFalpha'] == 1)]
 
     i = 0
     no_pert = {}
-    ben_pert_no_tot = {}
+    sing_pert = {}
+    doub_pert = {}
+    ben_no_pert_1 = {}
+    ben_sing_pert_1 = {}
+    ben_doub_pert_1 = {}
+    ben_no_pert_2 = {}
+    ben_sing_pert_2 = {}
+    ben_doub_pert_2 = {}
+    ben_no_pert_3 = {}
+    ben_sing_pert_3 = {}
+    ben_doub_pert_3 = {}
+    ben_no_pert_4 = {}
+    ben_sing_pert_4 = {}
+    ben_doub_pert_4 = {}
+    mal_no_pert_1 = {}
+    mal_sing_pert_1 = {}
+    mal_doub_pert_1 = {}
+    mal_no_pert_2 = {}
+    mal_sing_pert_2 = {}
+    mal_doub_pert_2 = {}
+    mal_no_pert_3 = {}
+    mal_sing_pert_3 = {}
+    mal_doub_pert_3 = {}
+    mal_no_pert_4 = {}
+    mal_sing_pert_4 = {}
+    mal_doub_pert_4 = {}
+
     for i in range(len(simulation_data)):
         progressbar.update(i, len(simulation_data))
         sim_data = simulation_data.iloc[i]
         input_condi = [sim_data['Input_GFs'], sim_data['Input_Hypoxia'], sim_data['Input_Mutagen'],
                        sim_data['Input_Nutrients'], sim_data['Input_TNFalpha']]
-        if (str(sim_data['Perturbation1']) == 'nan') | (str(sim_data['Perturbation1']) == 'S_Gli'):
-            if str(sim_data['Perturbation2']) == 'nan':
+        if ((str(sim_data['Perturbation1']) == 'nan') | (str(sim_data['Perturbation1']) == 'S_Gli')):
+            if (str(sim_data['Perturbation2']) == 'nan'):
                 no_pert_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
                 if len(no_pert) == 0:
                     no_pert = [no_pert_data]
                 elif len(no_pert) > 0:
                     no_pert.append(no_pert_data)
+        if ((str(sim_data['Perturbation1']) != 'nan') & (str(sim_data['Perturbation1']) != 'S_Gli')):
+            if (str(sim_data['Perturbation2']) == 'nan'):
+                sing_pert_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                if len(sing_pert) == 0:
+                    sing_pert = [sing_pert_data]
+                elif len(sing_pert) > 0:
+                    sing_pert.append(sing_pert_data)
+            elif (str(sim_data['Perturbation2']) != 'nan'):
+                doub_pert_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                if len(doub_pert) == 0:
+                    doub_pert = [doub_pert_data]
+                elif len(doub_pert) > 0:
+                    doub_pert.append(doub_pert_data)
+
         if (input_condi[1] == 0) & (input_condi[2] == 0) & (input_condi[3] == 1):
-            if str(sim_data['Perturbation1']) == 'nan' | (str(sim_data['Perturbation1']) == 'S_Gli'):
-                if str(sim_data['Perturbation2']) == 'nan':
-                    ben_pert_no_total = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
-                    if len(ben_pert_no_total) == 0:
-                        ben_pert_no_tot = [ben_pert_no_total]
-                    elif len(ben_pert_no_total) > 0:
-                        ben_pert_no_tot.append(ben_pert_no_total)
             if (input_condi[0] == 0) & (input_condi[4] == 0):
-                if str(sim_data['Perturbation1']) == 'nan' | (str(sim_data['Perturbation1']) == 'S_Gli'):
-                    if str(sim_data['Perturbation2']) == 'nan':
-                        ben_pert_no1 = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
-            elif (input_condi[0] == 0) & (input_condi[4] == 1):
-                if str(sim_data['Perturbation1']) == 'nan'| (str(sim_data['Perturbation1']) == 'S_Gli'):
-                    if str(sim_data['Perturbation2']) == 'nan':
-                        ben_pert_no2 = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
-            elif (input_condi[0] == 1) & (input_condi[4] == 0):
-                if str(sim_data['Perturbation1']) == 'nan' | (str(sim_data['Perturbation1']) == 'S_Gli'):
-                    if str(sim_data['Perturbation2']) == 'nan':
-                        ben_pert_no3 = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
-            elif (input_condi[0] == 1) & (input_condi[4] == 1):
-                if str(sim_data['Perturbation1']) == 'nan' | (str(sim_data['Perturbation1']) == 'S_Gli'):
-                    if str(sim_data['Perturbation2']) == 'nan':
-                        ben_pert_no4 = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                if ((str(sim_data['Perturbation1']) == 'nan') | (str(sim_data['Perturbation1']) == 'S_Gli')):
+                    if (str(sim_data['Perturbation2']) == 'nan'):
+                        ben_no_pert_1_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(ben_no_pert_1) == 0:
+                            ben_no_pert_1 = [ben_no_pert_1_data]
+                        elif len(ben_no_pert_1) > 0:
+                            ben_no_pert_1.append(ben_no_pert_1_data)
+                if ((str(sim_data['Perturbation1']) != 'nan') & (str(sim_data['Perturbation1']) != 'S_Gli')):
+                    if (str(sim_data['Perturbation2']) == 'nan'):
+                        ben_sing_pert_1_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(ben_sing_pert_1) == 0:
+                            ben_sing_pert_1 = [ben_sing_pert_1_data]
+                        elif len(ben_sing_pert_1) > 0:
+                            ben_sing_pert_1.append(ben_sing_pert_1_data)
+                    elif (str(sim_data['Perturbation2']) != 'nan'):
+                        ben_doub_pert_1_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(ben_doub_pert_1) == 0:
+                            ben_doub_pert_1 = [ben_doub_pert_1_data]
+                        elif len(ben_doub_pert_1) > 0:
+                            ben_doub_pert_1.append(ben_doub_pert_1_data)
+            if (input_condi[0] == 0) & (input_condi[4] == 1):
+                if ((str(sim_data['Perturbation1']) == 'nan') | (str(sim_data['Perturbation1']) == 'S_Gli')):
+                    if (str(sim_data['Perturbation2']) == 'nan'):
+                        ben_no_pert_2_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(ben_no_pert_2) == 0:
+                            ben_no_pert_2 = [ben_no_pert_2_data]
+                        elif len(ben_no_pert_2) > 0:
+                            ben_no_pert_2.append(ben_no_pert_2_data)
+                if ((str(sim_data['Perturbation1']) != 'nan') & (str(sim_data['Perturbation1']) != 'S_Gli')):
+                    if (str(sim_data['Perturbation2']) == 'nan'):
+                        ben_sing_pert_2_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(ben_sing_pert_2) == 0:
+                            ben_sing_pert_2 = [ben_sing_pert_2_data]
+                        elif len(ben_sing_pert_2) > 0:
+                            ben_sing_pert_2.append(ben_sing_pert_2_data)
+                    elif (str(sim_data['Perturbation2']) != 'nan'):
+                        ben_doub_pert_2_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(ben_doub_pert_2) == 0:
+                            ben_doub_pert_2 = [ben_doub_pert_2_data]
+                        elif len(ben_doub_pert_2) > 0:
+                            ben_doub_pert_2.append(ben_doub_pert_2_data)
+            if (input_condi[0] == 1) & (input_condi[4] == 0):
+                if ((str(sim_data['Perturbation1']) == 'nan') | (str(sim_data['Perturbation1']) == 'S_Gli')):
+                    if (str(sim_data['Perturbation2']) == 'nan'):
+                        ben_no_pert_3_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(ben_no_pert_3) == 0:
+                            ben_no_pert_3 = [ben_no_pert_3_data]
+                        elif len(ben_no_pert_3) > 0:
+                            ben_no_pert_3.append(ben_no_pert_3_data)
+                if ((str(sim_data['Perturbation1']) != 'nan') & (str(sim_data['Perturbation1']) != 'S_Gli')):
+                    if (str(sim_data['Perturbation2']) == 'nan'):
+                        ben_sing_pert_3_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(ben_sing_pert_3) == 0:
+                            ben_sing_pert_3 = [ben_sing_pert_3_data]
+                        elif len(ben_sing_pert_3) > 0:
+                            ben_sing_pert_3.append(ben_sing_pert_3_data)
+                    elif (str(sim_data['Perturbation2']) != 'nan'):
+                        ben_doub_pert_3_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(ben_doub_pert_3) == 0:
+                            ben_doub_pert_3 = [ben_doub_pert_3_data]
+                        elif len(ben_doub_pert_3) > 0:
+                            ben_doub_pert_3.append(ben_doub_pert_3_data)
+            if (input_condi[0] == 1) & (input_condi[4] == 1):
+                if ((str(sim_data['Perturbation1']) == 'nan') | (str(sim_data['Perturbation1']) == 'S_Gli')):
+                    if (str(sim_data['Perturbation2']) == 'nan'):
+                        ben_no_pert_4_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(ben_no_pert_4) == 0:
+                            ben_no_pert_4 = [ben_no_pert_4_data]
+                        elif len(ben_no_pert_4) > 0:
+                            ben_no_pert_4.append(ben_no_pert_4_data)
+                if ((str(sim_data['Perturbation1']) != 'nan') & (str(sim_data['Perturbation1']) != 'S_Gli')):
+                    if (str(sim_data['Perturbation2']) == 'nan'):
+                        ben_sing_pert_4_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(ben_sing_pert_4) == 0:
+                            ben_sing_pert_4 = [ben_sing_pert_4_data]
+                        elif len(ben_sing_pert_4) > 0:
+                            ben_sing_pert_4.append(ben_sing_pert_4_data)
+                    elif (str(sim_data['Perturbation2']) != 'nan'):
+                        ben_doub_pert_4_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(ben_doub_pert_4) == 0:
+                            ben_doub_pert_4 = [ben_doub_pert_4_data]
+                        elif len(ben_doub_pert_4) > 0:
+                            ben_doub_pert_4.append(ben_doub_pert_4_data)
+
         elif (input_condi[1] == 1) & (input_condi[2] == 1) & (input_condi[3] == 0):
-            if str(sim_data['Perturbation1']) == 'nan' | (str(sim_data['Perturbation1']) == 'S_Gli'):
-                if str(sim_data['Perturbation2']) == 'nan':
-                    malig_pert_no_total = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
             if (input_condi[0] == 0) & (input_condi[4] == 0):
-                if str(sim_data['Perturbation1']) == 'nan'| (str(sim_data['Perturbation1']) == 'S_Gli'):
-                    if str(sim_data['Perturbation2']) == 'nan':
-                        malig_pert_no1 = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
-            elif (input_condi[0] == 0) & (input_condi[4] == 1):
-                if str(sim_data['Perturbation1']) == 'nan' | (str(sim_data['Perturbation1']) == 'S_Gli'):
-                    if str(sim_data['Perturbation2']) == 'nan':
-                        malig_pert_no2 = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
-            elif (input_condi[0] == 1) & (input_condi[4] == 0):
-                if str(sim_data['Perturbation1']) == 'nan' | (str(sim_data['Perturbation1']) == 'S_Gli'):
-                    if str(sim_data['Perturbation2']) == 'nan':
-                        malig_pert_no3 = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
-            elif (input_condi[0] == 1) & (input_condi[4] == 1):
-                if str(sim_data['Perturbation1']) == 'nan' | (str(sim_data['Perturbation1']) == 'S_Gli'):
-                    if str(sim_data['Perturbation2']) == 'nan':
-                        malig_pert_no4 = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                if ((str(sim_data['Perturbation1']) == 'nan') | (str(sim_data['Perturbation1']) == 'S_Gli')):
+                    if (str(sim_data['Perturbation2']) == 'nan'):
+                        mal_no_pert_1_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(mal_no_pert_1) == 0:
+                            mal_no_pert_1 = [mal_no_pert_1_data]
+                        elif len(mal_no_pert_1) > 0:
+                            mal_no_pert_1.append(mal_no_pert_1_data)
+                if ((str(sim_data['Perturbation1']) != 'nan') & (str(sim_data['Perturbation1']) != 'S_Gli')):
+                    if (str(sim_data['Perturbation2']) == 'nan'):
+                        mal_sing_pert_1_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(mal_sing_pert_1) == 0:
+                            mal_sing_pert_1 = [mal_sing_pert_1_data]
+                        elif len(mal_sing_pert_1) > 0:
+                            mal_sing_pert_1.append(mal_sing_pert_1_data)
+                    elif (str(sim_data['Perturbation2']) != 'nan'):
+                        mal_doub_pert_1_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(mal_doub_pert_1) == 0:
+                            mal_doub_pert_1 = [mal_doub_pert_1_data]
+                        elif len(mal_doub_pert_1) > 0:
+                            mal_doub_pert_1.append(mal_doub_pert_1_data)
+            if (input_condi[0] == 0) & (input_condi[4] == 1):
+                if ((str(sim_data['Perturbation1']) == 'nan') | (str(sim_data['Perturbation1']) == 'S_Gli')):
+                    if (str(sim_data['Perturbation2']) == 'nan'):
+                        mal_no_pert_2_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(mal_no_pert_2) == 0:
+                            mal_no_pert_2 = [mal_no_pert_2_data]
+                        elif len(mal_no_pert_2) > 0:
+                            mal_no_pert_2.append(mal_no_pert_2_data)
+                if ((str(sim_data['Perturbation1']) != 'nan') & (str(sim_data['Perturbation1']) != 'S_Gli')):
+                    if (str(sim_data['Perturbation2']) == 'nan'):
+                        mal_sing_pert_2_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(mal_sing_pert_2) == 0:
+                            mal_sing_pert_2 = [mal_sing_pert_2_data]
+                        elif len(mal_sing_pert_2) > 0:
+                            mal_sing_pert_2.append(mal_sing_pert_2_data)
+                    elif (str(sim_data['Perturbation2']) != 'nan'):
+                        mal_doub_pert_2_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(mal_doub_pert_2) == 0:
+                            mal_doub_pert_2 = [mal_doub_pert_2_data]
+                        elif len(mal_doub_pert_2) > 0:
+                            mal_doub_pert_2.append(mal_doub_pert_2_data)
+            if (input_condi[0] == 1) & (input_condi[4] == 0):
+                if ((str(sim_data['Perturbation1']) == 'nan') | (str(sim_data['Perturbation1']) == 'S_Gli')):
+                    if (str(sim_data['Perturbation2']) == 'nan'):
+                        mal_no_pert_3_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(mal_no_pert_3) == 0:
+                            mal_no_pert_3 = [mal_no_pert_3_data]
+                        elif len(mal_no_pert_3) > 0:
+                            mal_no_pert_3.append(mal_no_pert_3_data)
+                if ((str(sim_data['Perturbation1']) != 'nan') & (str(sim_data['Perturbation1']) != 'S_Gli')):
+                    if (str(sim_data['Perturbation2']) == 'nan'):
+                        mal_sing_pert_3_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(mal_sing_pert_3) == 0:
+                            mal_sing_pert_3 = [mal_sing_pert_3_data]
+                        elif len(mal_sing_pert_3) > 0:
+                            mal_sing_pert_3.append(mal_sing_pert_3_data)
+                    elif (str(sim_data['Perturbation2']) != 'nan'):
+                        mal_doub_pert_3_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(mal_doub_pert_3) == 0:
+                            mal_doub_pert_3 = [mal_doub_pert_3_data]
+                        elif len(mal_doub_pert_3) > 0:
+                            mal_doub_pert_3.append(mal_doub_pert_3_data)
+            if (input_condi[0] == 1) & (input_condi[4] == 1):
+                if ((str(sim_data['Perturbation1']) == 'nan') | (str(sim_data['Perturbation1']) == 'S_Gli')):
+                    if (str(sim_data['Perturbation2']) == 'nan'):
+                        mal_no_pert_4_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(mal_no_pert_4) == 0:
+                            mal_no_pert_4 = [mal_no_pert_4_data]
+                        elif len(mal_no_pert_4) > 0:
+                            mal_no_pert_4.append(mal_no_pert_4_data)
+                if ((str(sim_data['Perturbation1']) != 'nan') & (str(sim_data['Perturbation1']) != 'S_Gli')):
+                    if (str(sim_data['Perturbation2']) == 'nan'):
+                        mal_sing_pert_4_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(mal_sing_pert_4) == 0:
+                            mal_sing_pert_4 = [mal_sing_pert_4_data]
+                        elif len(mal_sing_pert_4) > 0:
+                            mal_sing_pert_4.append(mal_sing_pert_4_data)
+                    elif (str(sim_data['Perturbation2']) != 'nan'):
+                        mal_doub_pert_4_data = [sim_data['Quiescent'], sim_data['Proliferation'], sim_data['Apoptosis']]
+                        if len(mal_doub_pert_4) == 0:
+                            mal_doub_pert_4 = [mal_doub_pert_4_data]
+                        elif len(mal_doub_pert_4) > 0:
+                            mal_doub_pert_4.append(mal_doub_pert_4_data)
+        i += 1
 
     scale = 1
-    figure, bengign_no_per = ternary.figure(scale=scale)
-
-    bengign_no_per.boundary(linewidth=2.0)
-    bengign_no_per.gridlines(color="blue", multiple=0.05)
-
+    figure, total_plot = ternary.figure(scale=scale)
+    total_plot.boundary(linewidth=2.0)
+    total_plot.gridlines(color="blue", multiple=0.05)
     fontsize = 20
-    bengign_no_per.set_title("Benign tumor with no perturbation", fontsize=fontsize)
-    bengign_no_per.left_axis_label("Quiescent", fontsize=15)
-    bengign_no_per.right_axis_label("Apoptosis", fontsize=15)
-    bengign_no_per.bottom_axis_label("Proliferation", fontsize=15)
+    total_plot.set_title("Total Distribution", fontsize=fontsize)
+    total_plot.left_axis_label("Quiescent", fontsize=15)
+    total_plot.right_axis_label("Apoptosis", fontsize=15)
+    total_plot.bottom_axis_label("Proliferation", fontsize=15)
+    total_plot.scatter(no_pert, marker='s', color='blue', label="No perturbation")
+    total_plot.scatter(sing_pert, marker='s', color='red', label="Single perturbation")
+    total_plot.scatter(doub_pert, marker='s', color='blue', label="Double perturbation")
+    total_plot.ticks(axis="lbr", multiple=0.1, linewidth=1)
+    total_plot.legend()
+    figure.savefig('Total distribution.png')
 
-    bengign_no_per.scatter([ben_pert_no1, ben_pert_no2, ben_pert_no3, ben_pert_no4], marker='s', color='red',
-                           label="Red Squares")
-    bengign_no_per.ticks(axis="lbr", multiple=0.1, linewidth=1)
-    bengign_no_per.legend()
-    figure.savefig('Benign_with_no_perturbation.png')
-    # bengign_no_per.show()
+    figure, ben_no_pert = ternary.figure(scale=scale)
+    ben_no_pert.boundary(linewidth=2.0)
+    ben_no_pert.gridlines(color="blue", multiple=0.05)
+    ben_no_pert.set_title("Beign tumor cell with no perturbation", fontsize=fontsize)
+    ben_no_pert.left_axis_label("Quiescent", fontsize=15)
+    ben_no_pert.right_axis_label("Apoptosis", fontsize=15)
+    ben_no_pert.bottom_axis_label("Proliferation", fontsize=15)
+    ben_no_pert.scatter(ben_no_pert_1, marker='s', color='blue', label="GFs = 0, TNFalpha = 0")
+    ben_no_pert.scatter(ben_no_pert_2, marker='s', color='red', label="GFs = 0, TNFalpha = 1")
+    ben_no_pert.scatter(ben_no_pert_3, marker='s', color='blue', label="GFs = 1, TNFalpha = 0")
+    ben_no_pert.scatter(ben_no_pert_4, marker='s', color='blue', label="GFs = 1, TNFalpha = 1")
+    ben_no_pert.ticks(axis="lbr", multiple=0.1, linewidth=1)
+    ben_no_pert.legend()
+    figure.savefig('Benign tumor cell with no perturbation.png')
 
+    figure, ben_sing_pert = ternary.figure(scale=scale)
+    ben_sing_pert.boundary(linewidth=2.0)
+    ben_sing_pert.gridlines(color="blue", multiple=0.05)
+    ben_sing_pert.set_title("Beign tumor cell with single perturbation", fontsize=fontsize)
+    ben_sing_pert.left_axis_label("Quiescent", fontsize=15)
+    ben_sing_pert.right_axis_label("Apoptosis", fontsize=15)
+    ben_sing_pert.bottom_axis_label("Proliferation", fontsize=15)
+    ben_sing_pert.scatter(ben_sing_pert_1, marker='s', color='blue', label="GFs = 0, TNFalpha = 0")
+    ben_sing_pert.scatter(ben_sing_pert_2, marker='s', color='red', label="GFs = 0, TNFalpha = 1")
+    ben_sing_pert.scatter(ben_sing_pert_3, marker='s', color='blue', label="GFs = 1, TNFalpha = 0")
+    ben_sing_pert.scatter(ben_sing_pert_4, marker='s', color='blue', label="GFs = 1, TNFalpha = 1")
+    ben_sing_pert.ticks(axis="lbr", multiple=0.1, linewidth=1)
+    ben_sing_pert.legend()
+    figure.savefig('Benign tumor cell with single perturbation.png')
 
-    figure, malig_no_per = ternary.figure(scale=scale)
+    figure, ben_doub_pert = ternary.figure(scale=scale)
+    ben_doub_pert.boundary(linewidth=2.0)
+    ben_doub_pert.gridlines(color="blue", multiple=0.05)
+    ben_doub_pert.set_title("Beign tumor cell with double perturbation", fontsize=fontsize)
+    ben_doub_pert.left_axis_label("Quiescent", fontsize=15)
+    ben_doub_pert.right_axis_label("Apoptosis", fontsize=15)
+    ben_doub_pert.bottom_axis_label("Proliferation", fontsize=15)
+    ben_doub_pert.scatter(ben_doub_pert_1, marker='s', color='blue', label="GFs = 0, TNFalpha = 0")
+    ben_doub_pert.scatter(ben_doub_pert_2, marker='s', color='red', label="GFs = 0, TNFalpha = 1")
+    ben_doub_pert.scatter(ben_doub_pert_3, marker='s', color='blue', label="GFs = 1, TNFalpha = 0")
+    ben_doub_pert.scatter(ben_doub_pert_4, marker='s', color='blue', label="GFs = 1, TNFalpha = 1")
+    ben_doub_pert.ticks(axis="lbr", multiple=0.1, linewidth=1)
+    ben_doub_pert.legend()
+    figure.savefig('Benign tumor cell with double perturbation.png')
 
-    malig_no_per.boundary(linewidth=2.0)
-    malig_no_per.gridlines(color="blue", multiple=0.05)
+    figure, mal_no_pert = ternary.figure(scale=scale)
+    mal_no_pert.boundary(linewidth=2.0)
+    mal_no_pert.gridlines(color="blue", multiple=0.05)
+    mal_no_pert.set_title("Malignt tumor cell with no perturbation", fontsize=fontsize)
+    mal_no_pert.left_axis_label("Quiescent", fontsize=15)
+    mal_no_pert.right_axis_label("Apoptosis", fontsize=15)
+    mal_no_pert.bottom_axis_label("Proliferation", fontsize=15)
+    mal_no_pert.scatter(mal_no_pert_1, marker='s', color='blue', label="GFs = 0, TNFalpha = 0")
+    mal_no_pert.scatter(mal_no_pert_2, marker='s', color='red', label="GFs = 0, TNFalpha = 1")
+    mal_no_pert.scatter(mal_no_pert_3, marker='s', color='blue', label="GFs = 1, TNFalpha = 0")
+    mal_no_pert.scatter(mal_no_pert_4, marker='s', color='blue', label="GFs = 1, TNFalpha = 1")
+    mal_no_pert.ticks(axis="lbr", multiple=0.1, linewidth=1)
+    mal_no_pert.legend()
+    figure.savefig('Malignt tumor cell with no perturbation.png')
 
-    fontsize = 20
-    malig_no_per.set_title("Malignant tumor with no perturbation", fontsize=fontsize)
-    malig_no_per.left_axis_label("Quiescent", fontsize=15)
-    malig_no_per.right_axis_label("Apoptosis", fontsize=15)
-    malig_no_per.bottom_axis_label("Proliferation", fontsize=15)
+    figure, mal_sing_pert = ternary.figure(scale=scale)
+    mal_sing_pert.boundary(linewidth=2.0)
+    mal_sing_pert.gridlines(color="blue", multiple=0.05)
+    mal_sing_pert.set_title("Malignt tumor cell with single perturbation", fontsize=fontsize)
+    mal_sing_pert.left_axis_label("Quiescent", fontsize=15)
+    mal_sing_pert.right_axis_label("Apoptosis", fontsize=15)
+    mal_sing_pert.bottom_axis_label("Proliferation", fontsize=15)
+    mal_sing_pert.scatter(mal_sing_pert_1, marker='s', color='blue', label="GFs = 0, TNFalpha = 0")
+    mal_sing_pert.scatter(mal_sing_pert_2, marker='s', color='red', label="GFs = 0, TNFalpha = 1")
+    mal_sing_pert.scatter(mal_sing_pert_3, marker='s', color='blue', label="GFs = 1, TNFalpha = 0")
+    mal_sing_pert.scatter(mal_sing_pert_4, marker='s', color='blue', label="GFs = 1, TNFalpha = 1")
+    mal_sing_pert.ticks(axis="lbr", multiple=0.1, linewidth=1)
+    mal_sing_pert.legend()
+    figure.savefig('Malignt tumor cell with single perturbation.png')
 
-    malig_no_per.scatter([malig_pert_no1, malig_pert_no2, malig_pert_no3, malig_pert_no4], marker='s', color='red',
-                         label="Red Squares")
-    malig_no_per.ticks(axis="lbr", multiple=0.1, linewidth=1)
-    malig_no_per.legend()
-    figure.savefig('Malignant_with_no_perturbation.png')
+    figure, mal_doub_pert = ternary.figure(scale=scale)
+    mal_doub_pert.boundary(linewidth=2.0)
+    mal_doub_pert.gridlines(color="blue", multiple=0.05)
+    mal_doub_pert.set_title("Malignt tumor cell with double perturbation", fontsize=fontsize)
+    mal_doub_pert.left_axis_label("Quiescent", fontsize=15)
+    mal_doub_pert.right_axis_label("Apoptosis", fontsize=15)
+    mal_doub_pert.bottom_axis_label("Proliferation", fontsize=15)
+    mal_doub_pert.scatter(mal_doub_pert_1, marker='s', color='blue', label="GFs = 0, TNFalpha = 0")
+    mal_doub_pert.scatter(mal_doub_pert_2, marker='s', color='red', label="GFs = 0, TNFalpha = 1")
+    mal_doub_pert.scatter(mal_doub_pert_3, marker='s', color='blue', label="GFs = 1, TNFalpha = 0")
+    mal_doub_pert.scatter(mal_doub_pert_4, marker='s', color='blue', label="GFs = 1, TNFalpha = 1")
+    mal_doub_pert.ticks(axis="lbr", multiple=0.1, linewidth=1)
+    mal_doub_pert.legend()
+    figure.savefig('Malignt tumor cell with double perturbation.png')
 
-    figure, bengign_per = ternary.figure(scale=scale)
+    figure, ben_1_plot = ternary.figure(scale=scale)
+    ben_1_plot.boundary(linewidth=2.0)
+    ben_1_plot.gridlines(color="blue", multiple=0.05)
+    ben_1_plot.set_title("Benign Distribution (GFs = 0. TNFalpha = 0)", fontsize=fontsize)
+    ben_1_plot.left_axis_label("Quiescent", fontsize=15)
+    ben_1_plot.right_axis_label("Apoptosis", fontsize=15)
+    ben_1_plot.bottom_axis_label("Proliferation", fontsize=15)
+    ben_1_plot.scatter(ben_no_pert_1, marker='s', color='blue', label="No perturbation")
+    ben_1_plot.scatter(ben_sing_pert_1, marker='s', color='red', label="Single perturbation")
+    ben_1_plot.scatter(ben_doub_pert_1, marker='s', color='blue', label="Double perturbation")
+    ben_1_plot.ticks(axis="lbr", multiple=0.1, linewidth=1)
+    ben_1_plot.legend()
+    figure.savefig('Benign Distribution (GFs = 0. TNFalpha = 0).png')
 
-    ben_drug1_data = simulation_data.iloc[17979]
-    ben_drug1 = [ben_drug1_data['Quiescent'], ben_drug1_data['Proliferation'], ben_drug1_data['Apoptosis']]
+    figure, ben_2_plot = ternary.figure(scale=scale)
+    ben_2_plot.boundary(linewidth=2.0)
+    ben_2_plot.gridlines(color="blue", multiple=0.05)
+    ben_2_plot.set_title("Benign Distribution (GFs = 0. TNFalpha = 1)", fontsize=fontsize)
+    ben_2_plot.left_axis_label("Quiescent", fontsize=15)
+    ben_2_plot.right_axis_label("Apoptosis", fontsize=15)
+    ben_2_plot.bottom_axis_label("Proliferation", fontsize=15)
+    ben_2_plot.scatter(ben_no_pert_2, marker='s', color='blue', label="No perturbation")
+    ben_2_plot.scatter(ben_sing_pert_2, marker='s', color='red', label="Single perturbation")
+    ben_2_plot.scatter(ben_doub_pert_2, marker='s', color='blue', label="Double perturbation")
+    ben_2_plot.ticks(axis="lbr", multiple=0.1, linewidth=1)
+    ben_2_plot.legend()
+    figure.savefig('Benign Distribution (GFs = 0. TNFalpha = 1).png')
 
-    ben_drug2_data = simulation_data.iloc[17375]
-    ben_drug2 = [ben_drug2_data['Quiescent'], ben_drug2_data['Proliferation'], ben_drug2_data['Apoptosis']]
+    figure, ben_3_plot = ternary.figure(scale=scale)
+    ben_3_plot.boundary(linewidth=2.0)
+    ben_3_plot.gridlines(color="blue", multiple=0.05)
+    ben_3_plot.set_title("Benign Distribution (GFs = 1. TNFalpha = 0)", fontsize=fontsize)
+    ben_3_plot.left_axis_label("Quiescent", fontsize=15)
+    ben_3_plot.right_axis_label("Apoptosis", fontsize=15)
+    ben_3_plot.bottom_axis_label("Proliferation", fontsize=15)
+    ben_3_plot.scatter(ben_no_pert_3, marker='s', color='blue', label="No perturbation")
+    ben_3_plot.scatter(ben_sing_pert_3, marker='s', color='red', label="Single perturbation")
+    ben_3_plot.scatter(ben_doub_pert_3, marker='s', color='blue', label="Double perturbation")
+    ben_3_plot.ticks(axis="lbr", multiple=0.1, linewidth=1)
+    ben_3_plot.legend()
+    figure.savefig('Benign Distribution (GFs = 1. TNFalpha = 0).png')
 
-    ben_drug3_data = simulation_data.iloc[17943]
-    ben_drug3 = [ben_drug3_data['Quiescent'], ben_drug3_data['Proliferation'], ben_drug3_data['Apoptosis']]
+    figure, ben_4_plot = ternary.figure(scale=scale)
+    ben_4_plot.boundary(linewidth=2.0)
+    ben_4_plot.gridlines(color="blue", multiple=0.05)
+    ben_4_plot.set_title("Benign Distribution (GFs = 1. TNFalpha = 1)", fontsize=fontsize)
+    ben_4_plot.left_axis_label("Quiescent", fontsize=15)
+    ben_4_plot.right_axis_label("Apoptosis", fontsize=15)
+    ben_4_plot.bottom_axis_label("Proliferation", fontsize=15)
+    ben_4_plot.scatter(ben_no_pert_4, marker='s', color='blue', label="No perturbation")
+    ben_4_plot.scatter(ben_sing_pert_4, marker='s', color='red', label="Single perturbation")
+    ben_4_plot.scatter(ben_doub_pert_4, marker='s', color='blue', label="Double perturbation")
+    ben_4_plot.ticks(axis="lbr", multiple=0.1, linewidth=1)
+    ben_4_plot.legend()
+    figure.savefig('Benign Distribution (GFs = 1. TNFalpha = 1).png')
 
-    bengign_per.boundary(linewidth=2.0)
-    bengign_per.gridlines(color="blue", multiple=0.05)
+    figure, mal_1_plot = ternary.figure(scale=scale)
+    mal_1_plot.boundary(linewidth=2.0)
+    mal_1_plot.gridlines(color="blue", multiple=0.05)
+    mal_1_plot.set_title("Malignant Distribution (GFs = 0. TNFalpha = 0)", fontsize=fontsize)
+    mal_1_plot.left_axis_label("Quiescent", fontsize=15)
+    mal_1_plot.right_axis_label("Apoptosis", fontsize=15)
+    mal_1_plot.bottom_axis_label("Proliferation", fontsize=15)
+    mal_1_plot.scatter(mal_no_pert_1, marker='s', color='blue', label="No perturbation")
+    mal_1_plot.scatter(mal_sing_pert_1, marker='s', color='red', label="Single perturbation")
+    mal_1_plot.scatter(mal_doub_pert_1, marker='s', color='blue', label="Double perturbation")
+    mal_1_plot.ticks(axis="lbr", multiple=0.1, linewidth=1)
+    mal_1_plot.legend()
+    figure.savefig('Malignant Distribution (GFs = 0. TNFalpha = 0).png')
 
-    fontsize = 20
-    bengign_per.set_title("Benign tumor with perturbation", fontsize=fontsize)
-    bengign_per.left_axis_label("Quiescent", fontsize=15)
-    bengign_per.right_axis_label("Apoptosis", fontsize=15)
-    bengign_per.bottom_axis_label("Proliferation", fontsize=15)
+    figure, mal_2_plot = ternary.figure(scale=scale)
+    mal_2_plot.boundary(linewidth=2.0)
+    mal_2_plot.gridlines(color="blue", multiple=0.05)
+    mal_2_plot.set_title("Malignant Distribution (GFs = 0. TNFalpha = 1)", fontsize=fontsize)
+    mal_2_plot.left_axis_label("Quiescent", fontsize=15)
+    mal_2_plot.right_axis_label("Apoptosis", fontsize=15)
+    mal_2_plot.bottom_axis_label("Proliferation", fontsize=15)
+    mal_2_plot.scatter(mal_no_pert_2, marker='s', color='blue', label="No perturbation")
+    mal_2_plot.scatter(mal_sing_pert_2, marker='s', color='red', label="Single perturbation")
+    mal_2_plot.scatter(mal_doub_pert_2, marker='s', color='blue', label="Double perturbation")
+    mal_2_plot.ticks(axis="lbr", multiple=0.1, linewidth=1)
+    mal_2_plot.legend()
+    figure.savefig('Malignant Distribution (GFs = 0. TNFalpha = 1).png')
 
-    bengign_per.line(ben_pert_no1, ben_drug1, linewidth=3., marker='s', color='green')
-    bengign_per.line(ben_pert_no1, ben_drug2, linewidth=3., marker='s', color='red', linestyle=":")
-    bengign_per.line(ben_pert_no1, ben_drug3, linewidth=3., marker='s', color='blue', linestyle=":")
-    bengign_per.ticks(axis="lbr", multiple=0.1, linewidth=1)
-    bengign_per.legend()
-    figure.savefig('Benign_with_perturbation.png')
-    # bengign_per.show()
+    figure, mal_3_plot = ternary.figure(scale=scale)
+    mal_3_plot.boundary(linewidth=2.0)
+    mal_3_plot.gridlines(color="blue", multiple=0.05)
+    mal_3_plot.set_title("Malignant Distribution (GFs = 1. TNFalpha = 0)", fontsize=fontsize)
+    mal_3_plot.left_axis_label("Quiescent", fontsize=15)
+    mal_3_plot.right_axis_label("Apoptosis", fontsize=15)
+    mal_3_plot.bottom_axis_label("Proliferation", fontsize=15)
+    mal_3_plot.scatter(mal_no_pert_3, marker='s', color='blue', label="No perturbation")
+    mal_3_plot.scatter(mal_sing_pert_3, marker='s', color='red', label="Single perturbation")
+    mal_3_plot.scatter(mal_doub_pert_3, marker='s', color='blue', label="Double perturbation")
+    mal_3_plot.ticks(axis="lbr", multiple=0.1, linewidth=1)
+    mal_3_plot.legend()
+    figure.savefig('Malignant Distribution (GFs = 1. TNFalpha = 0).png')
 
-    figure, malig_per = ternary.figure(scale=scale)
+    figure, mal_4_plot = ternary.figure(scale=scale)
+    mal_4_plot.boundary(linewidth=2.0)
+    mal_4_plot.gridlines(color="blue", multiple=0.05)
+    mal_4_plot.set_title("Malignant Distribution (GFs = 1. TNFalpha = 1)", fontsize=fontsize)
+    mal_4_plot.left_axis_label("Quiescent", fontsize=15)
+    mal_4_plot.right_axis_label("Apoptosis", fontsize=15)
+    mal_4_plot.bottom_axis_label("Proliferation", fontsize=15)
+    mal_4_plot.scatter(mal_no_pert_4, marker='s', color='blue', label="No perturbation")
+    mal_4_plot.scatter(mal_sing_pert_4, marker='s', color='red', label="Single perturbation")
+    mal_4_plot.scatter(mal_doub_pert_4, marker='s', color='blue', label="Double perturbation")
+    mal_4_plot.ticks(axis="lbr", multiple=0.1, linewidth=1)
+    mal_4_plot.legend()
+    figure.savefig('Malignant Distribution (GFs = 1. TNFalpha = 1).png')
+    mal_4_plot.show()
 
-    malig_drug1_data = simulation_data.iloc[72374]
-    malig_drug1 = [malig_drug1_data['Quiescent'], malig_drug1_data['Proliferation'], malig_drug1_data['Apoptosis']]
-
-    malig_drug2_data = simulation_data.iloc[105891]
-    malig_drug2 = [malig_drug2_data['Quiescent'], malig_drug2_data['Proliferation'], malig_drug2_data['Apoptosis']]
-
-    malig_drug3_data = simulation_data.iloc[106926]
-    malig_drug3 = [malig_drug3_data['Quiescent'], malig_drug3_data['Proliferation'], malig_drug3_data['Apoptosis']]
-
-    malig_per.boundary(linewidth=2.0)
-    malig_per.gridlines(color="blue", multiple=0.05)
-
-    fontsize = 20
-    malig_per.set_title("Malignant tumor with perturbation", fontsize=fontsize)
-    malig_per.left_axis_label("Quiescent", fontsize=15)
-    malig_per.right_axis_label("Apoptosis", fontsize=15)
-    malig_per.bottom_axis_label("Proliferation", fontsize=15)
-
-    malig_per.scatter([malig_pert_no1, malig_drug1], marker='D', color='green')
-    malig_per.line(malig_pert_no1, malig_drug2, linewidth=3., marker='s', color='red', linestyle=":")
-    malig_per.line(malig_pert_no1, malig_drug3, linewidth=3., marker='s', color='blue', linestyle=":")
-    malig_per.ticks(axis="lbr", multiple=0.1, linewidth=1)
-    malig_per.legend()
-    figure.savefig('Malignant_with_perturbation.png')
-    # malig_per.show()
-
-    scale = 1
-    figure, no_per = ternary.figure(scale=scale)
-
-    no_per.boundary(linewidth=2.0)
-    no_per.gridlines(color="blue", multiple=0.05)
-
-    fontsize = 20
-    no_per.set_title("No perturbation", fontsize=fontsize)
-    no_per.left_axis_label("Quiescent", fontsize=15)
-    no_per.right_axis_label("Apoptosis", fontsize=15)
-    no_per.bottom_axis_label("Proliferation", fontsize=15)
-
-    no_per.scatter(no_pert, marker='s', color='red', label="Red Squares")
-    no_per.ticks(axis="lbr", multiple=0.1, linewidth=1)
-    no_per.legend()
-    figure.savefig('No_perturbation.png')
-    no_per.show()
-    # malig_no_per.show()
+    set_trace()
 
     # scale = 1
     # figure, tax = ternary.figure(scale=scale)
