@@ -11,9 +11,7 @@
 ---|---|---|---|---|
 True|True|True|True|False|
 
-dominent한 크기를 가지는 *basin of attractor*를 얻을 수 있었다. 아래 그래프에서는 (모든 입력조건을 0으로 두었을때) basin of attraction 분포를 도시하였다. 특별히 큰 크기를 가지는 basin of attraction이 없다는 것을 알 수 있다.
-
-![draft_v1][draft_v1]
+dominent한 크기를 가지는 *basin of attractor*를 얻을 수 있었다.
 
 #### Table S7C,D Input combinations and simulation results
 [download](http://gofile.me/3gpVt/QgRA45O0V)
@@ -85,5 +83,3 @@ def test_hello(with_small, force):
 ```
 
 [image1]: https://www.dropbox.com/s/9yeovfo31ftfxz0/2016-10-15%2017_12_43-%EC%82%AC%EC%A7%84.png?dl=1
-
-[draft_v1]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s7/TABLE_S7B_ATTRACTORS.png
