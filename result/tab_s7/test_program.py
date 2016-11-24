@@ -21,25 +21,23 @@ def check_outputs(config):
 
     return numpy.product(exist_list)
 
-def test_1(with_small, force):
-    
+def test_a(with_small, force):    
     program.run_a(config=default_config, force=force)
     
-def test_2(with_small, force):
-
+def test_b(with_small, force):
     program.run_b(config=default_config, force=force)
     
-def test_3(with_small, force):
-
+def test_b_plot(with_small, force):
     program.run_b_plot(config=default_config, force=force)
     
-def test_4(with_small, force):
-
+def test_c(with_small, force):
     program.run_c(config=default_config, force=force)    
 
-def test_5(with_small, force):
-
+def test_d(with_small, force):
     program.run_d(config=default_config, force=force)
+
+def test_e(with_small, force):
+    program.run_e(config=default_config, force=force)    
 
 
 # def test_this(with_small, force):

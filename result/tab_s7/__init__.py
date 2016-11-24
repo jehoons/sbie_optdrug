@@ -8,7 +8,7 @@
 __all__ = []
 
 from os.path import join,dirname
-import pandas as pd 
+import pandas as pd
 import json
 
 # """ requirements """
@@ -17,18 +17,20 @@ import json
 # """ results """
 # outputfile_a = join(dirname(__file__), 'TABLE.SXX.OUTPUTDATA.CSV')
 
-OUTFILE_A = join(dirname(__file__), 'TABLE_S7A_FUMIA_PROCESSED.csv')
-OUTFILE_B = join(dirname(__file__), 'TABLE_S7B_ATTRACTORS.json')
-OUTFILE_B_PLOT = join(dirname(__file__), 'TABLE_S7B_ATTRACTORS.png')
-OUTFILE_C = join(dirname(__file__), 'TABLE_S7C_INPUT_COMBINATIONS.json')
-OUTFILE_D = join(dirname(__file__), 'TABLE_S7D_SCANNING_RESULT.json')
+# fumia simulation model - boolean network
+OUTFILE_A = join(dirname(__file__), 'untracked_Table_S7A_Fumia-processed.csv')
+OUTFILE_B = join(dirname(__file__), 'untracked_Table_S7B-Attractors.json')
+OUTFILE_B_PLOT = join(dirname(__file__), 'untracked_Table_S7B-Attractors.png')
+OUTFILE_C = join(dirname(__file__), 'untracked_Table_S7C-Input-combinations.json')
+OUTFILE_D = join(dirname(__file__), 'untracked_Table_S7D-Scanning-results.json')
+# fumia simulation model - for visualizing regulation network 
+OUTFILE_E = join(dirname(__file__), 'untracked_Table_S7E_Fumia-regulation-network.csv')
 
 config = {
-    'program': 'Table_S7',
     'parameters': {
         'samples': 10000,
-        'steps': 30, 
-        'on_states': [], 
+        'steps': 30,
+        'on_states': [],
         'off_states': [],
         'input_nodes': ['S_Mutagen', 'S_GFs', 'S_Nutrients', 'S_TNFalpha', 'S_Hypoxia']
         },
@@ -36,33 +38,37 @@ config = {
         # 'a': inputfile_a
         },
     'output': {
-        'a': OUTFILE_A, 
-        'b': OUTFILE_B, 
-        'b_plot': OUTFILE_B_PLOT, 
+        'a': OUTFILE_A,
+        'b': OUTFILE_B,
+        'b_plot': OUTFILE_B_PLOT,
         'c': OUTFILE_C,
-        'd': OUTFILE_D
+        'd': OUTFILE_D,
+        'e': OUTFILE_E
         }
     }
 
 def load_a():
     df = pd.read_csv(OUTFILE_A, names=['equation'])
-    
+
     return df
 
+
 def load_b():
-    with open(OUTFILE_B,'r') as f: 
-        jsondata = json.load(f)    
+    with open(OUTFILE_B,'r') as f:
+        jsondata = json.load(f)
 
     return jsondata
 
+
 def load_c():
-    with open(OUTFILE_C,'r') as f: 
-        jsondata = json.load(f)    
-
-    return jsondata    
-
-def load_d():
-    with open(OUTFILE_D,'r') as f: 
+    with open(OUTFILE_C,'r') as f:
         jsondata = json.load(f)
 
-    return jsondata        
+    return jsondata
+
+
+def load_d():
+    with open(OUTFILE_D,'r') as f:
+        jsondata = json.load(f)
+
+    return jsondata

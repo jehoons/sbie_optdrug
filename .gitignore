@@ -13,8 +13,8 @@
 *.JSON
 *.TXT
 material
-untracked*.*
-untracked/
+untracked_*
+untracked_*/
 tmp/
 .cache/
 __pycache__/
