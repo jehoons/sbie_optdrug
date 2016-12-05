@@ -1,5 +1,5 @@
 ### Table S2A 
-Node names are extracted from logical network data. 
+logical network data로부터 node name을 분류했다. 
 
 ### Table S2B
 * Rules for preprocessing 
