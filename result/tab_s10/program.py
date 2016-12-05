@@ -40,8 +40,7 @@ inputfile_h = join(dirname(__file__), '..','tab_s7','TABLE_S7C_INPUT_COMBINATION
 inputfile_i = join(dirname(__file__), '..','tab_s7','TABLE_S7D_SCANNING_RESULT.json')
 
 """ results """
-outputfile_a = join(dirname(__file__), 'TABLE_S8A_total_attractor_input_condition.json')
-outputfile_b = join(dirname(__file__), 'TABLE.S8B_total_attractor_input_condition.csv')
+outputfile_a = join(dirname(__file__), 'TABLE.S10B_total_attractor_input_condition.csv')
 #outputfile_c = join(dirname(__file__), 'TABLE.S8B.MUTATION_data_s1.json')
 #outputfile_d = join(dirname(__file__), 'TABLE.S8B.MUTATION_data_s4.json')
 #outputfile_e = join(dirname(__file__), 'TABLE.S8C.DRUG_data.json')
@@ -61,7 +60,7 @@ config = {
         },
     'output': {
         'output_a': outputfile_a,
-        'output_b': outputfile_b,
+        #'output_b': outputfile_b,
         #'output_c': outputfile_c,
         #'output_d': outputfile_d,
         #'output_e': outputfile_e
@@ -239,8 +238,11 @@ def run(config=None):
             # total_attractor.loc[i, 'Apoptosis-proliferation'] = apopro_basin
             total_attractor.loc[i, 'Distance'] = math.sqrt(math.pow(1-apo_basin,2)+math.pow(pro_basin,2)+math.pow(qui_basin,2))
 
+            if i == 10000:
+                set_trace()
+
         i += 1
-    total_attractor.to_csv(config['output']['output_b'], index=False)
+    total_attractor.to_csv(config['output']['output_a'], index=False)
 
     simulation_data = total_attractor
 
