@@ -35,7 +35,7 @@
 
 ### TABLE.S5A.COPYNUMVAR_data_s4.json
 
-* 
+* (a) make json file of Copy number variation data 
 
 ```json
 {
@@ -171,29 +171,29 @@
 ```json
 {
    "C2BBE1_LARGE_INTESTINE": {
-        "mutations" = {
+        "mutations" : {
             "APC": {
                 "function": "LOF", "intensity": 1.0
             }, 
             "CTNNB1": {
                 "function": "GOF", "intensity": 1.0
             }
-            "default_function": "LOF"
+            "default_function" : "LOF"
         }, 
         
-        "copynumbers" = {
+        "copynumbers" : {
             "APC": {
                 "function": "AMP", "copy_number": 10
             }, 
             "CTNNB1": {
                 "function": "DEL", "copy_number": 2
             }
-            "default_function": "LOF"
+            "default_function" : "LOF"
         }, 
 
-        drugs = {
+        "drugs" : {
             "MEKi": {
-                "type": "inhibitor", "dose": 1.0, "tau": 10, "target": "MEK"
+                "type" : "inhibitor", "dose": 1.0, "tau": 10, "target": "MEK"
             }, 
         },
     }
