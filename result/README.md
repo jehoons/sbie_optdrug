@@ -45,4 +45,5 @@ Table S10에서 얻은 결과를 이용해서 phenotype의 basin size를 ternary
 [tab_s8]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s8
 [tab_s9]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s9
 [tab_s10]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s10
+[fig_s1]: https://github.com/jehoons/sbie_optdrug/tree/master/result/fig_s1
 
