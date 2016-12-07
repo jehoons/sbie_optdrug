@@ -1,6 +1,7 @@
-### Figure S1 
+### Figure S1. Ternary plot of phenotype basin size 
+Table S10에서 얻은 결과를 이용해서 다양한 경우의 phenotype basin size를 ternary plot으로 표현함
 
-* (a) 3가지 phenotype을 그림으로 나타내기 위한 code
+* (a) 
 
 * (b) 
 
