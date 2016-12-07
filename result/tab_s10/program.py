@@ -40,7 +40,7 @@ inputfile_h = join(dirname(__file__), '..','tab_s7','TABLE_S7C_INPUT_COMBINATION
 inputfile_i = join(dirname(__file__), '..','tab_s7','TABLE_S7D_SCANNING_RESULT.json')
 
 """ results """
-outputfile_a = join(dirname(__file__), 'TABLE.S10B_total_attractor_input_condition.csv')
+outputfile_a = join(dirname(__file__), 'TABLE.S10A_total_attractor_input_condition.csv')
 #outputfile_c = join(dirname(__file__), 'TABLE.S8B.MUTATION_data_s1.json')
 #outputfile_d = join(dirname(__file__), 'TABLE.S8B.MUTATION_data_s4.json')
 #outputfile_e = join(dirname(__file__), 'TABLE.S8C.DRUG_data.json')
