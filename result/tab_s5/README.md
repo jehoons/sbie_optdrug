@@ -2,7 +2,7 @@
 
 ### TABLE.S5A.COPYNUMVAR_data_s1.json
 
-* (a) make json file of Copy number variation data
+* (a) copy number alteration 데이터를 cell line에 따라서 정리한 데이터를 json file로 정리했다. function 분류는 result/tab_s1에 (e)번 결과에 따라서 정리했다. 수정할 부분은 copy number alteration에 맞는 데이터를 채우는 것이다.
 
 ```json
 {
@@ -35,7 +35,7 @@
 
 ### TABLE.S5A.COPYNUMVAR_data_s4.json
 
-* (a) make json file of Copy number variation data 
+* (a) copy number alteration 데이터를 cell line에 따라서 정리한 데이터를 json file로 정리했다. function 분류는 result/tab_s4의 결과에 따라서 정리했다. 수정할 부분은 copy number alteration에 맞는 데이터를 채우는 것이다.
 
 ```json
 {
@@ -64,7 +64,7 @@
 
 ### TABLE.S5B.MUTATION_data_s1.json
 
-* (b) make json file of Mutation data
+* (b) mutation 데이터를 cell line에 따라서 정리한 데이터를 json file로 정리했다. function 분류는 result/tab_s1에 (e)번 결과에 따라서 정리했다.
 
 ```json
 {
@@ -103,7 +103,7 @@
 
 ### TABLE.S5B.MUTATION_data_s4.json
 
-* (b) make json file of Mutation data
+* (b) mutation 데이터를 cell line에 따라서 정리한 데이터를 json file로 정리했다. function 분류는 result/tab_s4의 결과에 따라서 정리했다.
 
 ```json
 {
@@ -138,7 +138,7 @@
 
 ### TABLE.S5C.DRUG_data.json
 
-* (c) make json file of Drug data
+* (c) drug 데이터를 cell line에 따라서 정리한 데이터를 json file로 정리했다. 추가할 데이터는 '"dose": 1.0, "tau": 10' 이런 약물의 수치적인 데이터이다.
 
 ```json
 {
@@ -167,7 +167,7 @@
       }, 
 ```
 
-앞으로 만들 json file
+앞으로 데이터 추가해서 만들 json file 예시
 ```json
 {
    "C2BBE1_LARGE_INTESTINE": {
@@ -197,11 +197,5 @@
             }, 
         },
     }
+   
 ```
-
-Patient-specific profiles (such as mutation and CNV) and drug effect information 
-are converted as JSON format as following: 
-
-
-### Table S5
-
