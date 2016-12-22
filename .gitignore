@@ -16,5 +16,5 @@ __pycache__/
 *.JSON
 *.TXT
 material
-untracked_*
+untracked*
 autogen.py
