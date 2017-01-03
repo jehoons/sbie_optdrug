@@ -7,10 +7,8 @@
 #### Table S3. Converting into logical network model from weighted sum-style model
 
 #### Table S4. List of oncogene and tumor suppressor genes
-According to ([Giordano, 2006][giordano06]), we can assume that tumor suppressors are inactivated by LOF mutations and proto-oncogenes are activated by GOF mutations.
 
-#### Table S5. Collecting Patient-specific data and chemical treatment data
-mutation, gene expression 등과 같은 환자특이적 프로화일들을 수집하고 시뮬레이션에 용이한 형태로 정리하였음
+#### Table S5. Preprocessing of patient-specific and treatment data
 
 #### Table S6. Regression analysis (Pending)
 
@@ -20,8 +18,7 @@ mutation, gene expression 등과 같은 환자특이적 프로화일들을 수�
 
 #### Table S9. How to approximate genetic mutation? (Pending)
 
-#### Table S10. Analysis deterministic simulation result
-Deterministic하게 얻은 어트랙터 결과 분석 및 환자 profile을 반영한 simulation 결과
+#### Table S10. Simulation results for deterministic boolean simulation with patient profile
 
 #### Figure S11. Various ternary plot of phenotype basin size
 Table S10에서 얻은 결과를 이용해서 phenotype의 basin size를 ternary plot을 이용해서 표현함
