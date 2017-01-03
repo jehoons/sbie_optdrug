@@ -13,6 +13,8 @@
 #### Table S6. Regression analysis (Pending)
 
 #### Table S7. Scanning of Fumia network
+(A) Fumina network model (preprocessed), (B) Basin of attraction in test mode,
+(C,D) Input combinations and simulation results, (E) Fumia regulation network (SIF file format), (F) input combinations with APC mutation, (G) scanning results with APC mutation. 
 
 #### Table S8. Test Probabilistic method (Pending)
 
