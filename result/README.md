@@ -1,4 +1,4 @@
-## Results
+### Results
 
 #### [Table S1. Extracted data from therapy data and MUTCNA][tab_s1]
 CCLE data에서 네트워크와 일치하는 데이터와 cell line이 large intestine인 데이터를 추출함
@@ -21,11 +21,9 @@ CCLE data에서 네트워크와 일치하는 데이터와 cell line이 large int
 #### [Table S7. Scanning of Fumia network][tab_s7]
 Fumia네트워크의 모든 입력 및 드럭타겟 조합에 대해서 어트랙터베이신 계산
 
-#### [Table S8. ][tab_s8]
-Probabilistic한 방법을 사용한 분석 방법 개발
+#### [Table S8. Test Probabilistic method (Pending)][tab_s8]
 
-#### [Table S9. ][tab_s9]
-유전자변이를 근사하는 알고리즘 개발
+#### [Table S9. How to approximate genetic mutation? (Pending)][tab_s9]
 
 #### [Table S10. Analysis deterministic simulation result][tab_s10]
 Deterministic하게 얻은 어트랙터 결과 분석 및 환자 profile을 반영한 simulation 결과
@@ -45,4 +43,5 @@ Table S10에서 얻은 결과를 이용해서 phenotype의 basin size를 ternary
 [tab_s8]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s8
 [tab_s9]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s9
 [tab_s10]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s10
+[tab_s11]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s11
 [fig_s1]: https://github.com/jehoons/sbie_optdrug/tree/master/result/fig_s1
