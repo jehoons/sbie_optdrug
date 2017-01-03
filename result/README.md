@@ -30,7 +30,7 @@ Probabilistic한 방법을 사용한 분석 방법 개발
 #### [Table S10. Analysis deterministic simulation result][tab_s10]
 Deterministic하게 얻은 어트랙터 결과 분석 및 환자 profile을 반영한 simulation 결과
 
-#### [Figure S11. Various ternary plot of phenotype basin size][fig_s1]
+#### [Figure S11. Various ternary plot of phenotype basin size][fig_s11]
 Table S10에서 얻은 결과를 이용해서 phenotype의 basin size를 ternary plot을 이용해서 표현함
 
 [giordano06]: http://www.nature.com/onc/journal/v25/n38/full/1209721a.html
