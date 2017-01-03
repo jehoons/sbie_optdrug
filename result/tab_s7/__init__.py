@@ -23,7 +23,7 @@ OUTFILE_B = join(dirname(__file__), 'untracked_Table_S7B-Attractors.json')
 OUTFILE_B_PLOT = join(dirname(__file__), 'untracked_Table_S7B-Attractors.png')
 OUTFILE_C = join(dirname(__file__), 'untracked_Table_S7C-Input-combinations.json')
 OUTFILE_D = join(dirname(__file__), 'untracked_Table_S7D-Scanning-results.json')
-# fumia simulation model - for visualizing regulation network 
+# fumia simulation model - for visualizing regulation network
 OUTFILE_E = join(dirname(__file__), 'untracked_Table_S7E_Fumia-regulation-network.csv')
 
 config = {
@@ -46,6 +46,11 @@ config = {
         'e': OUTFILE_E
         }
     }
+
+
+def get_config():
+    return config
+
 
 def load_a():
     df = pd.read_csv(OUTFILE_A, names=['equation'])
