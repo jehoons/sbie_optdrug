@@ -1,5 +1,7 @@
 ### Table S7. Scanning result for fumia network
+
 #### A. Fumina network model (preprocessed)
+
 #### B. Basin of attraction in test mode
 어트랙터를 계산하기에 앞서, 적절한 입력조건을 설정할 필요가 있다. 예를 들어, `Mutagenic`, `GFs`, `Nutrients`, `TNF-alpha`, `Hypoxia` 노드들에 대해서 다음과 같이 설정을 하게 되면,
 
@@ -13,7 +15,7 @@ True|True|True|True|False|
 [download](http://gofile.me/3gpVt/QgRA45O0V)
 
 ### Methods
-여기서의 분석은 새로 개발한 attr_cy 모듈을 이용하며, 사용하는 방법은 아래와 같다.
+시뮬레이션 방법은 아래와 같다:
 ```python
 from boolean3_addon import attr_cy
 import json
