@@ -1,3 +1,6 @@
+tmp/
+.cache/
+__pycache__/
 *.log
 *.tar
 *.gz
@@ -13,9 +16,5 @@
 *.JSON
 *.TXT
 material
-untracked_*
-untracked_*/
-tmp/
-.cache/
-__pycache__/
+untracked*
 autogen.py
