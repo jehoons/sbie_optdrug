@@ -20,8 +20,7 @@
 
 #### Table S10. Simulation results for deterministic boolean simulation with patient profile
 
-#### Figure S11. Various ternary plot of phenotype basin size
-Table S10에서 얻은 결과를 이용해서 phenotype의 basin size를 ternary plot을 이용해서 표현함
+#### Figure S11. Analysis with ternary plots (Dataset: Table S10)
 
 [giordano06]: http://www.nature.com/onc/journal/v25/n38/full/1209721a.html
 [boolean2-sim]: https://scfbm.biomedcentral.com/articles/10.1186/1751-0473-3-16
