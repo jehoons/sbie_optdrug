@@ -1,25 +1,20 @@
 ### Results
 
-#### [Table S1. Extracted data from therapy data and MUTCNA][tab_s1]
-CCLE data에서 네트워크와 일치하는 데이터와 cell line이 large intestine인 데이터를 추출함
+#### [Table S1. Preprocessing and filtering CCLE data for analysis of Fumia network model][tab_s1]
 
-#### [Table S2. Extracted node names from logical network data][tab_s2]
-원래 fumia network 수식에서 네트워크의 노드 이름 추출함
+#### [Table S2. Extracting node names from Fumia network model equations][tab_s2]
 
-#### [Table S3. Translated model into logical functional form][tab_s3]
-가중치합 형태의 네트워크 모델을 논리함수형태로 전환
+#### [Table S3. Converting into logical network model from weighted sum-style model][tab_s3]
 
-#### [Table S4. Oncogene and Tumor suppressors][tab_s4]
-* Oncogene, Tumor suppressor gene 리스트
-* Tumor suppressor들이 LOF 변이에 의해서 비활성화가 되고 프로토-온코진들은 GOF 변이에 의해서 활성화된다고 가정할수 있음([Giordano, 2006][giordano06])
+#### [Table S4. List of oncogene and tumor suppressor genes][tab_s4]
+According to ([Giordano, 2006][giordano06]), we can assume that tumor suppressors are inactivated by LOF mutations and proto-oncogenes are activated by GOF mutations.
 
 #### [Table S5. Collecting Patient-specific data and chemical treatment data][tab_s5]
-* 뮤테이션 진익스프레션 등과 같은 환자특이적 프로화일들을 수집, 시뮬레이션에 용이한 형태로 정리
+mutation, gene expression 등과 같은 환자특이적 프로화일들을 수집하고 시뮬레이션에 용이한 형태로 정리하였음
 
-#### [Table S6. Regression analysis][tab_s6]
+#### [Table S6. Regression analysis (Pending)][tab_s6]
 
 #### [Table S7. Scanning of Fumia network][tab_s7]
-Fumia네트워크의 모든 입력 및 드럭타겟 조합에 대해서 어트랙터베이신 계산
 
 #### [Table S8. Test Probabilistic method (Pending)][tab_s8]
 
