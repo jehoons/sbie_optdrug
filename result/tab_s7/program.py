@@ -18,12 +18,12 @@ import numpy as np
 
 from sbie_optdrug.result import tab_s3
 from sbie_optdrug.result import tab_s7
-from boolean3 import Model 
+from boolean3 import Model
 from boolean3_addon import attractor
 import pandas as pd
 
 if not exists('engine.pyx'):
-    data = tab_s7.load_a()        
+    data = tab_s7.load_a()
     model = "\n".join( data['equation'].values.tolist() )
     attr_cy.build(model)
 
@@ -36,54 +36,54 @@ def getconfig():
     return tab_s7.config
 
 
-def run_a(config=None, force=False):    
+def run_a(config=None, force=False):
     "푸미아네트워크 이큐에이션을 준비한다."
-    if exists(config['output']['a']) and force==False: 
+    if exists(config['output']['a']) and force==False:
         return
 
     data = tab_s3.load()
-    eq_list = data['equation'].values.tolist()    
+    eq_list = data['equation'].values.tolist()
 
-    node_set = set() 
-    for eq in eq_list: 
-        text2 = eq.replace('and', ' ')    
-        text2 = text2.replace('or', ' ')    
-        text2 = text2.replace('not', ' ')    
+    node_set = set()
+    for eq in eq_list:
+        text2 = eq.replace('and', ' ')
+        text2 = text2.replace('or', ' ')
+        text2 = text2.replace('not', ' ')
         text2 = text2.replace('*=', ' ')
         nodes = set(text2.split(' '))
-        node_set = node_set.union(nodes)    
-    
-    for el in ['', '0', '1', 'True', 'False']: 
-        if el in node_set: 
+        node_set = node_set.union(nodes)
+
+    for el in ['', '0', '1', 'True', 'False']:
+        if el in node_set:
             node_set.remove(el)
-    
-    datadict = {} 
-    
-    for node in node_set: 
+
+    datadict = {}
+
+    for node in node_set:
         if node == '':
-            continue 
+            continue
         data = { 'type': 'normal', 'value': None }
         datadict[node] = data
     init_list = []
-    
+
     for node in node_set:
         init_list.append('%s=Random' % node)
-    
+
     alleq = init_list + eq_list
     model_string = "\n".join(init_list + eq_list)
 
-    with open(config['output']['a'], 'w') as f: 
+    with open(config['output']['a'], 'w') as f:
         f.write(model_string)
 
     df0 = pd.DataFrame([], columns=['node'])
-    df0['node'] = list(node_set)    
+    df0['node'] = list(node_set)
     df0.to_csv('untracked_fumia_node_set.csv', index=False)
 
 
 def run_b(config=None, force=False):
     "모델의 베이신크기를 계산."
     outputfile = config['output']['b']
-    if exists(outputfile) and force==False: 
+    if exists(outputfile) and force==False:
         return
 
     data = tab_s7.load_a()
@@ -91,8 +91,8 @@ def run_b(config=None, force=False):
 
     samples = config['parameters']['samples']
     steps = config['parameters']['steps']
-    on_states = config['parameters']['on_states'] 
-    off_states = config['parameters']['off_states'] 
+    on_states = config['parameters']['on_states']
+    off_states = config['parameters']['off_states']
 
     attr_cy.build(model, on_states=on_states, off_states=off_states)
     result_data = attr_cy.run(samples=samples, steps=steps, debug=True)
@@ -103,35 +103,35 @@ def run_b(config=None, force=False):
 def run_b_plot(config=None, force=False):
     "draw figure"
     outputfile = config['output']['b_plot']
-    if exists(outputfile) and force==False: 
+    if exists(outputfile) and force==False:
         return
 
     result_data = tab_s7.load_b()
-    ratio_list = [] 
+    ratio_list = []
     labels = []
     for attrk in result_data['attractors'].keys():
         r = result_data['attractors'][attrk]['ratio']
         ratio_list.append(r)
         labels.append(attrk)
-    
+
     fig, ax = plt.subplots()
-    
+
     ax.bar(np.arange(len(ratio_list)), ratio_list)
     ax.set_xticklabels(labels)
     plt.savefig(outputfile)
 
 
 def run_c(config=None, force=False):
-    "입력의 조합들을 생성한다. 두개의 노드를 동시에 타겟할 수 있다고 가정하였다. 타겟을 하지 않은 \
-    조건을 포함하였다."
+    '''입력의 조합들을 생성한다. 두개의 노드를 동시에 타겟할 수 있다고 가정하였다.
+    타겟을 하지 않은 조건을 포함하였다.'''
     from itertools import combinations,product
     from copy import deepcopy
 
     outputfile = config['output']['c']
-    if exists(outputfile) and force==False: 
+    if exists(outputfile) and force==False:
          return
 
-    result_data = tab_s7.load_b()    
+    result_data = tab_s7.load_b()
     nodes = result_data['labels']
     input_nodes = config['parameters']['input_nodes']
 
@@ -140,38 +140,38 @@ def run_c(config=None, force=False):
     combi1 = [c for c in combinations(free_nodes, 1)]
     combi2 = [c for c in combinations(free_nodes, 2)]
     combi3 = [c for c in combinations(free_nodes, 3)]
-    
+
     combi = combi1 + combi2 + [()]
-    
+
     table = list(product([False, True], repeat=len(input_nodes)))
-    
+
     config_list = []
     for k,inp in enumerate(table):
         progressbar.update(k, len(table))
         for com in combi:
-            on_states = [] 
-            off_states = [] 
+            on_states = []
+            off_states = []
             off_states = off_states + [c for c in com]
             for i,t in enumerate(inp):
-                if t : 
-                    on_states.append( input_nodes[i] ) 
-                else: 
+                if t :
+                    on_states.append( input_nodes[i] )
+                else:
                     off_states.append( input_nodes[i] )
-            
+
             config1 = deepcopy(config)
             config1['parameters']['on_states'] = deepcopy(on_states)
             config1['parameters']['off_states'] = deepcopy(off_states)
-            config_list.append(deepcopy(config1))                       
+            config_list.append(deepcopy(config1))
 
     with open(outputfile, 'w') as outfile:
         json.dump({'configs': config_list, 'num_configs': len(config_list)},
             outfile, indent=4)
 
 
-def myengine(config): 
+def myengine(config):
     samples = config['parameters']['samples']
     steps = config['parameters']['steps']
-    on_states = config['parameters']['on_states'] 
+    on_states = config['parameters']['on_states']
     off_states = config['parameters']['off_states']
 
     result = engine.main(samples=samples, steps=steps, debug=False, \
@@ -185,17 +185,17 @@ def myengine(config):
     return result
 
 
-def run_d(config=None, force=False): 
+def run_d(config=None, force=False):
 
     outputfile = config['output']['d']
-    if exists(outputfile) and force==False: 
+    if exists(outputfile) and force==False:
          return
 
-    data = json.load(open('TABLE_S7C_INPUT_COMBINATIONS.json','r'))    
-    
-    import time 
-    from multiprocessing import Pool    
-    p = Pool(60)    
+    data = json.load(open('TABLE_S7C_INPUT_COMBINATIONS.json','r'))
+
+    import time
+    from multiprocessing import Pool
+    p = Pool(60)
     scanning_result = p.map(myengine, data['configs'])
 
     with open(outputfile, 'w') as fileout:
@@ -566,28 +566,97 @@ def run_e(config=None, force=False):
     outputfile = config['output']['e']
 
     dict_elm = mydict.split('\n')
-    mydict2 = {} 
-    for elm in dict_elm: 
-        elm = elm.strip() 
-        if elm == '': continue 
+    mydict2 = {}
+    for elm in dict_elm:
+        elm = elm.strip()
+        if elm == '': continue
         words = elm.split()
         mydict2[words[0]] = words[1]
 
-    mydict2['input'] = 'input'    
+    mydict2['input'] = 'input'
     df0 = pd.read_csv('untracked_fumia_node_set.csv')
     df1 = pd.read_csv(fumia_2013_regulation_data, index_col='ID')
 
     df1['found_in_boolnet'] = False
     for link in df1.index:
-        # 소스, 타겟이 모두 boolnet에 포함되어 있는 경우. 
-        if (df1.loc[link, 'Source'] in mydict2) and (df1.loc[link, 'Target'] in mydict2) :        
-            df1.loc[link, 'Source'] = mydict2[ df1.loc[link, 'Source'] ]       
-            df1.loc[link, 'Target'] = mydict2[ df1.loc[link, 'Target'] ] 
+        # 소스, 타겟이 모두 boolnet에 포함되어 있는 경우.
+        if (df1.loc[link, 'Source'] in mydict2) and (df1.loc[link, 'Target'] in mydict2) :
+            df1.loc[link, 'Source'] = mydict2[ df1.loc[link, 'Source'] ]
+            df1.loc[link, 'Target'] = mydict2[ df1.loc[link, 'Target'] ]
             df1.loc[link, 'found_in_boolnet'] = True
 
     df2 = df1.loc[df1['found_in_boolnet'], ['Source', 'Target', 'Type']]
     df2.reset_index(inplace=True)
     df2 = df2[['Source','Target','Type']]
     df2.to_csv(outputfile, index=False)
-    
+
     # set_trace()
+
+def run_f(config=None, force=False):
+    # run_c 에 대해서, APC 등의 변이를 추가한다.
+    from itertools import combinations,product
+    from copy import deepcopy
+
+    outputfile = config['output']['f']
+    if exists(outputfile) and force==False:
+         return
+
+    result_data = tab_s7.load_b()
+    nodes = result_data['labels']
+    input_nodes = config['parameters']['input_nodes']
+
+    free_nodes = set(nodes) - set(input_nodes)
+    free_nodes = list(set(free_nodes))
+
+    free_nodes.remove('S_GSK_3_APC')
+    free_nodes.remove('S_APC')
+
+    combi1 = [c for c in combinations(free_nodes, 1)]
+    combi2 = [c for c in combinations(free_nodes, 2)]
+    combi3 = [c for c in combinations(free_nodes, 3)]
+
+    combi = combi1 + combi2 + [()]
+
+    # input condition의 combinations 를 생성한다.
+    table = list(product([False, True], repeat=len(input_nodes)))
+
+    config_list = []
+    for k,inp in enumerate(table):
+        progressbar.update(k, len(table))
+        for com in combi:
+            on_states = []
+            off_states = ['S_GSK_3_APC', 'S_APC']
+            off_states = off_states + [c for c in com]
+            for i,t in enumerate(inp):
+                # t - 각 입력조건을 의미
+                if t :
+                    # 입력이 true 인경우, on_states에 추가
+                    on_states.append( input_nodes[i] )
+                else:
+                    # 입력이 false 인경우, off_states에 추가
+                    off_states.append( input_nodes[i] )
+
+            config1 = deepcopy(config)
+            config1['parameters']['on_states'] = deepcopy(on_states)
+            config1['parameters']['off_states'] = deepcopy(off_states)
+            config_list.append(deepcopy(config1))
+
+    with open(outputfile, 'w') as outfile:
+        json.dump({'configs': config_list, 'num_configs': len(config_list)},
+            outfile, indent=4)
+
+def run_g(config=None, force=False):
+
+    outputfile = config['output']['g']
+    if exists(outputfile) and force==False:
+         return
+
+    data = json.load(open('untracked_Table_S7F-Input-combinations-APC.json','r'))
+
+    import time
+    from multiprocessing import Pool
+    p = Pool(60)
+    scanning_result = p.map(myengine, data['configs'])
+
+    with open(outputfile, 'w') as fileout:
+        json.dump({'scanning_results': scanning_result}, fileout, indent=1)

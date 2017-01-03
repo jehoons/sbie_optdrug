@@ -1,8 +1,8 @@
 ### Table S7. Scanning of fumia network
 
-#### Table S7A. Fumina network model (preprocessed)
+#### A. Fumina network model (preprocessed)
 
-#### Table S7B. Basin of attraction in test mode
+#### B. Basin of attraction in test mode
 주의 - 어트랙터를 계산하기에 앞서, 적절한 입력조건이 설정되어야 함
 
 예를 들어, `Mutagenic`, `GFs`, `Nutrients`, `TNF-alpha`, `Hypoxia` 노드들에 대해서 다음과 같이 설정을 하게 되면,
@@ -81,5 +81,11 @@ def test_hello(with_small, force):
     }
 }
 ```
+
+#### C. Input combinations
+
+#### C. Scanning result
+
+#### E. Fumia regulation network (SIF)
 
 [image1]: https://www.dropbox.com/s/9yeovfo31ftfxz0/2016-10-15%2017_12_43-%EC%82%AC%EC%A7%84.png?dl=1
