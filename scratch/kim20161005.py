@@ -29,7 +29,7 @@ outputfile3 = join(dirname(tab_s1.__file__), 'TABLE.S1D.NUM_DRUG.CSV')
 outputfile4 = join(dirname(tab_s5.__file__), 'TABLE.S5A.COPYNUMVAR_data.json')
 outputfile5 = join(dirname(tab_s5.__file__), 'TABLE.S5B.MUTATION_data.json')
 outputfile6 = join(dirname(tab_s5.__file__), 'TABLE.S5C.DRUG_data.json')
-outputfile7 = join(dirname(tab_s10.__file__), 'TABLE.S8B_total_attractor_input_condition.csv')
+outputfile7 = join(dirname(tab_s10.__file__), 'TABLE.S10B_total_attractor_input_condition_APC.csv')
 
 config = {
     'input': inputfile,
@@ -292,29 +292,182 @@ figure, total_plot1 = ternary.figure(scale=scale)
 #total_plot1.boundary(linewidth=2.0)
 total_plot1.gridlines(color="blue", multiple=0.1)
 fontsize = 15
-total_plot1.set_title("Phenotype change when give two perturbation in TNFalpha on", fontsize=fontsize)
+total_plot1.set_title("Phenotype change when give one perturbation in TNFalpha off", fontsize=fontsize)
 total_plot1.left_axis_label("Apoptosis", fontsize=10)
 total_plot1.right_axis_label("Proliferation", fontsize=10)
 total_plot1.bottom_axis_label("Quiescent", fontsize=10)
-total_plot1.scatter(mal_doub_pert_2, alpha = 0.5, marker='s', color='blue', label = "GFs = 0, TNFalpha = 1")
-total_plot1.scatter(mal_doub_pert_4, alpha = 0.5, marker='s', color='green', label = "GFs = 1, TNFalpha = 1")
+total_plot1.scatter(ben_sing_pert_1, alpha = 0.5, marker='s', color='blue', label = "GFs = 0, TNFalpha = 0")
+total_plot1.scatter(ben_sing_pert_3, alpha = 0.5, marker='s', color='green', label = "GFs = 1, TNFalpha = 0")
 i = 0
-for i in range(len(mal_doub_pert_2)):
-    total_plot1.line(mal_no_pert_2[0], mal_doub_pert_2[i], alpha = 0.5, marker='s', color='blue', linestyle="--")
+for i in range(len(ben_sing_pert_1)):
+    total_plot1.line(ben_no_pert_1[0], ben_sing_pert_1[i], alpha = 0.5, marker='s', color='blue', linestyle="--")
     i += 1
 i = 0
-for i in range(len(mal_doub_pert_4)):
-    total_plot1.line(mal_no_pert_4[0], mal_doub_pert_4[i], alpha = 0.5, marker='s', color='green', linestyle=":")
+for i in range(len(ben_sing_pert_3)):
+    total_plot1.line(ben_no_pert_3[0], ben_sing_pert_3[i], alpha = 0.5, marker='s', color='green', linestyle=":")
     i += 1
 total_plot1.ticks(axis="lbr", multiple=0.1, linewidth=1)
 total_plot1.legend()
-total_plot1.show()
+#total_plot1.show()
 
+figure, total_plot2 = ternary.figure(scale=scale)
+#total_plot1.boundary(linewidth=2.0)
+total_plot2.gridlines(color="blue", multiple=0.1)
+fontsize = 15
+total_plot2.set_title("Phenotype change when give two perturbation in TNFalpha off", fontsize=fontsize)
+total_plot2.left_axis_label("Apoptosis", fontsize=10)
+total_plot2.right_axis_label("Proliferation", fontsize=10)
+total_plot2.bottom_axis_label("Quiescent", fontsize=10)
+total_plot2.scatter(ben_doub_pert_1, alpha = 0.5, marker='s', color='blue', label = "GFs = 0, TNFalpha = 0")
+total_plot2.scatter(ben_doub_pert_3, alpha = 0.5, marker='s', color='green', label = "GFs = 1, TNFalpha = 0")
+i = 0
+for i in range(len(ben_doub_pert_1)):
+    total_plot2.line(ben_no_pert_1[0], ben_doub_pert_1[i], alpha = 0.5, marker='s', color='blue', linestyle="--")
+    i += 1
+i = 0
+for i in range(len(ben_doub_pert_3)):
+    total_plot2.line(ben_no_pert_3[0], ben_doub_pert_3[i], alpha = 0.5, marker='s', color='green', linestyle=":")
+    i += 1
+total_plot2.ticks(axis="lbr", multiple=0.1, linewidth=1)
+total_plot2.legend()
+#total_plot2.show()
+
+figure, total_plot3 = ternary.figure(scale=scale)
+#total_plot1.boundary(linewidth=2.0)
+total_plot3.gridlines(color="blue", multiple=0.1)
+fontsize = 15
+total_plot3.set_title("Phenotype change when give one perturbation in TNFalpha on", fontsize=fontsize)
+total_plot3.left_axis_label("Apoptosis", fontsize=10)
+total_plot3.right_axis_label("Proliferation", fontsize=10)
+total_plot3.bottom_axis_label("Quiescent", fontsize=10)
+total_plot3.scatter(ben_sing_pert_2, alpha = 0.5, marker='s', color='blue', label = "GFs = 0, TNFalpha = 1")
+total_plot3.scatter(ben_sing_pert_4, alpha = 0.5, marker='s', color='green', label = "GFs = 1, TNFalpha = 1")
+i = 0
+for i in range(len(ben_sing_pert_2)):
+    total_plot3.line(ben_no_pert_2[0], ben_sing_pert_2[i], alpha = 0.5, marker='s', color='blue', linestyle="--")
+    i += 1
+i = 0
+for i in range(len(ben_sing_pert_4)):
+    total_plot3.line(ben_no_pert_4[0], ben_sing_pert_4[i], alpha = 0.5, marker='s', color='green', linestyle=":")
+    i += 1
+total_plot3.ticks(axis="lbr", multiple=0.1, linewidth=1)
+total_plot3.legend()
+#total_plot3.show()
+
+figure, total_plot4 = ternary.figure(scale=scale)
+#total_plot1.boundary(linewidth=2.0)
+total_plot4.gridlines(color="blue", multiple=0.1)
+fontsize = 15
+total_plot4.set_title("Phenotype change when give two perturbation in TNFalpha on", fontsize=fontsize)
+total_plot4.left_axis_label("Apoptosis", fontsize=10)
+total_plot4.right_axis_label("Proliferation", fontsize=10)
+total_plot4.bottom_axis_label("Quiescent", fontsize=10)
+total_plot4.scatter(ben_doub_pert_2, alpha = 0.5, marker='s', color='blue', label = "GFs = 0, TNFalpha = 1")
+total_plot4.scatter(ben_doub_pert_4, alpha = 0.5, marker='s', color='green', label = "GFs = 1, TNFalpha = 1")
+i = 0
+for i in range(len(ben_doub_pert_2)):
+    total_plot4.line(ben_no_pert_2[0], ben_doub_pert_2[i], alpha = 0.5, marker='s', color='blue', linestyle="--")
+    i += 1
+i = 0
+for i in range(len(ben_doub_pert_4)):
+    total_plot4.line(ben_no_pert_4[0], ben_doub_pert_4[i], alpha = 0.5, marker='s', color='green', linestyle=":")
+    i += 1
+total_plot4.ticks(axis="lbr", multiple=0.1, linewidth=1)
+total_plot4.legend()
+#total_plot4.show()
+
+figure, total_plot5 = ternary.figure(scale=scale)
+#total_plot1.boundary(linewidth=2.0)
+total_plot5.gridlines(color="blue", multiple=0.1)
+fontsize = 15
+total_plot5.set_title("Phenotype change when give one perturbation in TNFalpha off", fontsize=fontsize)
+total_plot5.left_axis_label("Apoptosis", fontsize=10)
+total_plot5.right_axis_label("Proliferation", fontsize=10)
+total_plot5.bottom_axis_label("Quiescent", fontsize=10)
+total_plot5.scatter(mal_sing_pert_1, alpha = 0.5, marker='s', color='blue', label = "GFs = 0, TNFalpha = 0")
+total_plot5.scatter(mal_sing_pert_3, alpha = 0.5, marker='s', color='green', label = "GFs = 1, TNFalpha = 0")
+i = 0
+for i in range(len(mal_sing_pert_1)):
+    total_plot5.line(mal_no_pert_1[0], mal_sing_pert_1[i], alpha = 0.5, marker='s', color='blue', linestyle="--")
+    i += 1
+i = 0
+for i in range(len(mal_sing_pert_3)):
+    total_plot5.line(mal_no_pert_3[0], mal_sing_pert_3[i], alpha = 0.5, marker='s', color='green', linestyle=":")
+    i += 1
+total_plot5.ticks(axis="lbr", multiple=0.1, linewidth=1)
+total_plot5.legend()
+#total_plot5.show()
+
+figure, total_plot6 = ternary.figure(scale=scale)
+#total_plot1.boundary(linewidth=2.0)
+total_plot6.gridlines(color="blue", multiple=0.1)
+fontsize = 15
+total_plot6.set_title("Phenotype change when give two perturbation in TNFalpha off", fontsize=fontsize)
+total_plot6.left_axis_label("Apoptosis", fontsize=10)
+total_plot6.right_axis_label("Proliferation", fontsize=10)
+total_plot6.bottom_axis_label("Quiescent", fontsize=10)
+total_plot6.scatter(mal_doub_pert_1, alpha = 0.5, marker='s', color='blue', label = "GFs = 0, TNFalpha = 0")
+total_plot6.scatter(mal_doub_pert_3, alpha = 0.5, marker='s', color='green', label = "GFs = 1, TNFalpha = 0")
+i = 0
+for i in range(len(mal_doub_pert_1)):
+    total_plot6.line(mal_no_pert_1[0], mal_doub_pert_1[i], alpha = 0.5, marker='s', color='blue', linestyle="--")
+    i += 1
+i = 0
+for i in range(len(mal_doub_pert_3)):
+    total_plot6.line(mal_no_pert_3[0], mal_doub_pert_3[i], alpha = 0.5, marker='s', color='green', linestyle=":")
+    i += 1
+total_plot6.ticks(axis="lbr", multiple=0.1, linewidth=1)
+total_plot6.legend()
+#total_plot6.show()
+
+figure, total_plot7 = ternary.figure(scale=scale)
+#total_plot1.boundary(linewidth=2.0)
+total_plot7.gridlines(color="blue", multiple=0.1)
+fontsize =15
+total_plot7.set_title("Phenotype change when give one perturbation in TNFalpha on", fontsize=fontsize)
+total_plot7.left_axis_label("Apoptosis", fontsize=10)
+total_plot7.right_axis_label("Proliferation", fontsize=10)
+total_plot7.bottom_axis_label("Quiescent", fontsize=10)
+total_plot7.scatter(mal_sing_pert_2, alpha = 0.5, marker='s', color='blue', label = "GFs = 0, TNFalpha = 1")
+total_plot7.scatter(mal_sing_pert_4, alpha = 0.5, marker='s', color='green', label = "GFs = 1, TNFalpha = 1")
+i = 0
+for i in range(len(mal_sing_pert_2)):
+    total_plot7.line(mal_no_pert_2[0], mal_sing_pert_2[i], alpha = 0.5, marker='s', color='blue', linestyle="--")
+    i += 1
+i = 0
+for i in range(len(mal_sing_pert_4)):
+    total_plot7.line(mal_no_pert_4[0], mal_sing_pert_4[i], alpha = 0.5, marker='s', color='green', linestyle=":")
+    i += 1
+total_plot7.ticks(axis="lbr", multiple=0.1, linewidth=1)
+total_plot7.legend()
+#total_plot7.show()
+
+figure, total_plot8 = ternary.figure(scale=scale)
+#total_plot1.boundary(linewidth=2.0)
+total_plot8.gridlines(color="blue", multiple=0.1)
+fontsize = 15
+total_plot8.set_title("Phenotype change when give two perturbation in TNFalpha on", fontsize=fontsize)
+total_plot8.left_axis_label("Apoptosis", fontsize=10)
+total_plot8.right_axis_label("Proliferation", fontsize=10)
+total_plot8.bottom_axis_label("Quiescent", fontsize=10)
+total_plot8.scatter(mal_doub_pert_2, alpha = 0.5, marker='s', color='blue', label = "GFs = 0, TNFalpha = 1")
+total_plot8.scatter(mal_doub_pert_4, alpha = 0.5, marker='s', color='green', label = "GFs = 1, TNFalpha = 1")
+i = 0
+for i in range(len(mal_doub_pert_2)):
+    total_plot8.line(mal_no_pert_2[0], mal_doub_pert_2[i], alpha = 0.5, marker='s', color='blue', linestyle="--")
+    i += 1
+i = 0
+for i in range(len(mal_doub_pert_4)):
+    total_plot8.line(mal_no_pert_4[0], mal_doub_pert_4[i], alpha = 0.5, marker='s', color='green', linestyle=":")
+    i += 1
+total_plot8.ticks(axis="lbr", multiple=0.1, linewidth=1)
+total_plot8.legend()
+total_plot8.show()
 set_trace()
 
 scale = 1
 figure, total_plot = ternary.figure(scale=scale)
-total_plot.boundary(linewidth=2.0)
+#total_plot.boundary(linewidth=2.0)
 total_plot.gridlines(color="blue", multiple=0.1)
 fontsize = 15
 total_plot.set_title("Total Distribution", fontsize=fontsize)
@@ -329,7 +482,7 @@ total_plot.legend()
 figure.savefig('Total distribution.png')
 
 figure, pert_no = ternary.figure(scale=scale)
-pert_no.boundary(linewidth=2.0)
+#pert_no.boundary(linewidth=2.0)
 pert_no.gridlines(color="blue", multiple=0.1)
 pert_no.set_title("No perturbation", fontsize=fontsize)
 pert_no.left_axis_label("Apoptosis", fontsize=10)
@@ -341,7 +494,7 @@ pert_no.legend()
 figure.savefig('No perturbation.png')
 
 figure, pert_sing = ternary.figure(scale=scale)
-pert_sing.boundary(linewidth=2.0)
+#pert_sing.boundary(linewidth=2.0)
 pert_sing.gridlines(color="blue", multiple=0.1)
 pert_sing.set_title("Single perturbation", fontsize=fontsize)
 pert_sing.left_axis_label("Apoptosis", fontsize=10)
@@ -353,7 +506,7 @@ pert_sing.legend()
 figure.savefig('Single perturbation.png')
 
 figure, pert_doub = ternary.figure(scale=scale)
-pert_doub.boundary(linewidth=2.0)
+#pert_doub.boundary(linewidth=2.0)
 pert_doub.gridlines(color="blue", multiple=0.1)
 pert_doub.set_title("Double perturbation", fontsize=fontsize)
 pert_doub.left_axis_label("Apoptosis", fontsize=10)
@@ -365,7 +518,7 @@ pert_doub.legend()
 figure.savefig('Double perturbation.png')
 
 figure, ben_no_pert = ternary.figure(scale=scale)
-ben_no_pert.boundary(linewidth=2.0)
+#ben_no_pert.boundary(linewidth=2.0)
 ben_no_pert.gridlines(color="blue", multiple=0.1)
 ben_no_pert.set_title("Beign tumor cell with no perturbation", fontsize=fontsize)
 ben_no_pert.left_axis_label("Apoptosis", fontsize=10)
@@ -380,7 +533,7 @@ ben_no_pert.legend()
 figure.savefig('Benign tumor cell with no perturbation.png')
 
 figure, ben_sing_pert = ternary.figure(scale=scale)
-ben_sing_pert.boundary(linewidth=2.0)
+#ben_sing_pert.boundary(linewidth=2.0)
 ben_sing_pert.gridlines(color="blue", multiple=0.1)
 ben_sing_pert.set_title("Beign tumor cell with single perturbation", fontsize=fontsize)
 ben_sing_pert.left_axis_label("Apoptosis", fontsize=10)
@@ -395,7 +548,7 @@ ben_sing_pert.legend()
 figure.savefig('Benign tumor cell with single perturbation.png')
 
 figure, ben_doub_pert = ternary.figure(scale=scale)
-ben_doub_pert.boundary(linewidth=2.0)
+#ben_doub_pert.boundary(linewidth=2.0)
 ben_doub_pert.gridlines(color="blue", multiple=0.1)
 ben_doub_pert.set_title("Beign tumor cell with double perturbation", fontsize=fontsize)
 ben_doub_pert.left_axis_label("Apoptosis", fontsize=10)
@@ -410,7 +563,7 @@ ben_doub_pert.legend()
 figure.savefig('Benign tumor cell with double perturbation.png')
 
 figure, mal_no_pert = ternary.figure(scale=scale)
-mal_no_pert.boundary(linewidth=2.0)
+#mal_no_pert.boundary(linewidth=2.0)
 mal_no_pert.gridlines(color="blue", multiple=0.1)
 mal_no_pert.set_title("Malignt tumor cell with no perturbation", fontsize=fontsize)
 mal_no_pert.left_axis_label("Apoptosis", fontsize=10)
@@ -425,7 +578,7 @@ mal_no_pert.legend()
 figure.savefig('Malignt tumor cell with no perturbation.png')
 
 figure, mal_sing_pert = ternary.figure(scale=scale)
-mal_sing_pert.boundary(linewidth=2.0)
+#mal_sing_pert.boundary(linewidth=2.0)
 mal_sing_pert.gridlines(color="blue", multiple=0.1)
 mal_sing_pert.set_title("Malignt tumor cell with single perturbation", fontsize=fontsize)
 mal_sing_pert.left_axis_label("Apoptosis", fontsize=10)
@@ -440,7 +593,7 @@ mal_sing_pert.legend()
 figure.savefig('Malignt tumor cell with single perturbation.png')
 
 figure, mal_doub_pert = ternary.figure(scale=scale)
-mal_doub_pert.boundary(linewidth=2.0)
+#mal_doub_pert.boundary(linewidth=2.0)
 mal_doub_pert.gridlines(color="blue", multiple=0.1)
 mal_doub_pert.set_title("Malignt tumor cell with double perturbation", fontsize=fontsize)
 mal_doub_pert.left_axis_label("Apoptosis", fontsize=10)
@@ -455,7 +608,7 @@ mal_doub_pert.legend()
 figure.savefig('Malignt tumor cell with double perturbation.png')
 
 figure, ben_1_plot = ternary.figure(scale=scale)
-ben_1_plot.boundary(linewidth=2.0)
+#ben_1_plot.boundary(linewidth=2.0)
 ben_1_plot.gridlines(color="blue", multiple=0.1)
 ben_1_plot.set_title("Benign Distribution (GFs = 0. TNFalpha = 0)", fontsize=fontsize)
 ben_1_plot.left_axis_label("Apoptosis", fontsize=10)
@@ -469,7 +622,7 @@ ben_1_plot.legend()
 figure.savefig('Benign Distribution (GFs = 0. TNFalpha = 0).png')
 
 figure, ben_2_plot = ternary.figure(scale=scale)
-ben_2_plot.boundary(linewidth=2.0)
+#ben_2_plot.boundary(linewidth=2.0)
 ben_2_plot.gridlines(color="blue", multiple=0.1)
 ben_2_plot.set_title("Benign Distribution (GFs = 0. TNFalpha = 1)", fontsize=fontsize)
 ben_2_plot.left_axis_label("Apoptosis", fontsize=10)
@@ -483,7 +636,7 @@ ben_2_plot.legend()
 figure.savefig('Benign Distribution (GFs = 0. TNFalpha = 1).png')
 
 figure, ben_3_plot = ternary.figure(scale=scale)
-ben_3_plot.boundary(linewidth=2.0)
+#ben_3_plot.boundary(linewidth=2.0)
 ben_3_plot.gridlines(color="blue", multiple=0.1)
 ben_3_plot.set_title("Benign Distribution (GFs = 1. TNFalpha = 0)", fontsize=fontsize)
 ben_3_plot.left_axis_label("Apoptosis", fontsize=10)
@@ -497,7 +650,7 @@ ben_3_plot.legend()
 figure.savefig('Benign Distribution (GFs = 1. TNFalpha = 0).png')
 
 figure, ben_4_plot = ternary.figure(scale=scale)
-ben_4_plot.boundary(linewidth=2.0)
+#ben_4_plot.boundary(linewidth=2.0)
 ben_4_plot.gridlines(color="blue", multiple=0.1)
 ben_4_plot.set_title("Benign Distribution (GFs = 1. TNFalpha = 1)", fontsize=fontsize)
 ben_4_plot.left_axis_label("Apoptosis", fontsize=10)
@@ -511,7 +664,7 @@ ben_4_plot.legend()
 figure.savefig('Benign Distribution (GFs = 1. TNFalpha = 1).png')
 
 figure, mal_1_plot = ternary.figure(scale=scale)
-mal_1_plot.boundary(linewidth=2.0)
+#mal_1_plot.boundary(linewidth=2.0)
 mal_1_plot.gridlines(color="blue", multiple=0.1)
 mal_1_plot.set_title("Malignant Distribution (GFs = 0. TNFalpha = 0)", fontsize=fontsize)
 mal_1_plot.left_axis_label("Apoptosis", fontsize=10)
@@ -525,7 +678,7 @@ mal_1_plot.legend()
 figure.savefig('Malignant Distribution (GFs = 0. TNFalpha = 0).png')
 
 figure, mal_2_plot = ternary.figure(scale=scale)
-mal_2_plot.boundary(linewidth=2.0)
+#mal_2_plot.boundary(linewidth=2.0)
 mal_2_plot.gridlines(color="blue", multiple=0.1)
 mal_2_plot.set_title("Malignant Distribution (GFs = 0. TNFalpha = 1)", fontsize=fontsize)
 mal_2_plot.left_axis_label("Apoptosis", fontsize=10)
@@ -539,7 +692,7 @@ mal_2_plot.legend()
 figure.savefig('Malignant Distribution (GFs = 0. TNFalpha = 1).png')
 
 figure, mal_3_plot = ternary.figure(scale=scale)
-mal_3_plot.boundary(linewidth=2.0)
+#mal_3_plot.boundary(linewidth=2.0)
 mal_3_plot.gridlines(color="blue", multiple=0.1)
 mal_3_plot.set_title("Malignant Distribution (GFs = 1. TNFalpha = 0)", fontsize=fontsize)
 mal_3_plot.left_axis_label("Apoptosis", fontsize=10)
@@ -553,7 +706,7 @@ mal_3_plot.legend()
 figure.savefig('Malignant Distribution (GFs = 1. TNFalpha = 0).png')
 
 figure, mal_4_plot = ternary.figure(scale=scale)
-mal_4_plot.boundary(linewidth=2.0)
+#mal_4_plot.boundary(linewidth=2.0)
 mal_4_plot.gridlines(color="blue", multiple=0.1)
 mal_4_plot.set_title("Malignant Distribution (GFs = 1. TNFalpha = 1)", fontsize=fontsize)
 mal_4_plot.left_axis_label("Apoptosis", fontsize=10)
