@@ -7,7 +7,7 @@
 
 __all__ = []
 
-from os.path import join,dirname
+from os.path import join,dirname,exists
 import pandas as pd
 import json
 
@@ -18,11 +18,49 @@ def get_workdir():
     pass 
 
 def get_savedir(): 
-    pass 
+	savedir = join(dirname(__file__), 'untracked')
+	if not exists(savedir): 
+		os.makedirs(savedir)
+
+	return savedir
+
+# hallmark = {} 
+# df_temp = pd.read_csv(HALLMARK_APOPTOSIS, skiprows=[1])
+# hallmark['APOPTOSIS'] = df_temp[['HALLMARK_APOPTOSIS']].values.tolist()
+
+# df_temp = pd.read_csv(HALLMARK_E2F_TARGETS, skiprows=[1])
+# hallmark = df_temp[['HALLMARK_E2F_TARGETS']].values.tolist()
+
+# df_temp = pd.read_csv(HALLMARK_G2M_CHECKPOINT, skiprows=[1])
+# HALLMARK_APOPTOSIS = HALLMARK_APOPTOSIS[['HALLMARK_APOPTOSIS']].values.tolist()
+
+# df_temp = pd.read_csv(HALLMARK_MITOTIC_SPINDLE, skiprows=[1])
+# HALLMARK_APOPTOSIS = HALLMARK_APOPTOSIS[['HALLMARK_APOPTOSIS']].values.tolist()
+
+# df_temp = pd.read_csv(HALLMARK_MYC_TARGETS_V1, skiprows=[1])
+# HALLMARK_APOPTOSIS = HALLMARK_APOPTOSIS[['HALLMARK_APOPTOSIS']].values.tolist()
+
+# df_temp = pd.read_csv(HALLMARK_MYC_TARGETS_V2, skiprows=[1])
+# HALLMARK_APOPTOSIS = HALLMARK_APOPTOSIS[['HALLMARK_APOPTOSIS']].values.tolist()
+
+# df_temp = pd.read_csv(HALLMARK_P53_PATHWAY, skiprows=[1])
+# HALLMARK_APOPTOSIS = HALLMARK_APOPTOSIS[['HALLMARK_APOPTOSIS']].values.tolist()
+
+# df_fumia = pd.read_csv(fumia_node_list, names=['fumia_node'])
+# HALLMARK_APOPTOSIS = HALLMARK_APOPTOSIS[['HALLMARK_APOPTOSIS']].values.tolist()
 
 config = {
     'parameters': {        
+
         },
-    'Table': {
-        'A': get_savedir() + '/Table-S11A-Fumia-nodes.txt'
+    'tables': {
+        'a': get_savedir() + '/Table-S11A-Fumia-nodes.txt', 
+        'b': get_savedir() + '/MSigDB/HALLMARK_APOPTOSIS.txt'
+		'c': get_savedir() + '/MSigDB/HALLMARK_E2F_TARGETS.txt'
+		'd': get_savedir() + '/MSigDB/HALLMARK_G2M_CHECKPOINT.txt'
+		'e': get_savedir() + '/MSigDB/HALLMARK_MITOTIC_SPINDLE.txt'
+		'f': get_savedir() + '/MSigDB/HALLMARK_MYC_TARGETS_V1.txt'
+		'g': get_savedir() + '/MSigDB/HALLMARK_MYC_TARGETS_V2.txt'
+		'h': get_savedir() + '/MSigDB/HALLMARK_P53_PATHWAY.txt'	
+    	}
     }

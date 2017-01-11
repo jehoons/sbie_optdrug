@@ -38,5 +38,4 @@ def test_1():
 	print('fumia_nodes: ', len(fumia_nodes))
 	print('intersection: ', len(fumia_nodes.intersection(hallmarks)))
 
-	set_trace()
-
+	# set_trace()
