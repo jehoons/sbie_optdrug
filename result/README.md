@@ -21,7 +21,7 @@
 
 #### [Table S10. Simulation results for deterministic boolean simulation with patient profile](https://github.com/jehoons/sbie_optdrug/tree/master/result/tab_s10)
 
-#### [Figure S11. Analysis with ternary plots (Dataset: Table S10)](https://github.com/jehoons/sbie_optdrug/tree/master/result/tab_s11)
+#### [Table S11. Analysis with ternary plots (Dataset: Table S10)](https://github.com/jehoons/sbie_optdrug/tree/master/result/tab_s11)
 
 [giordano06]: http://www.nature.com/onc/journal/v25/n38/full/1209721a.html
 [boolean2-sim]: https://scfbm.biomedcentral.com/articles/10.1186/1751-0473-3-16
