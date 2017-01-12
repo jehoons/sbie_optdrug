@@ -1,39 +1,27 @@
 ### Results
 
-#### Table S1. Preprocessing and filtering CCLE data for analysis of Fumia network model
+#### [Table S1. Preprocessing and filtering CCLE data for analysis of Fumia network model](https://github.com/jehoons/sbie_optdrug/tree/master/result/tab_s1)
 
-#### Table S2. Extracting node names from Fumia network model equations
+#### [Table S2. Extracting node names from Fumia network model equations](https://github.com/jehoons/sbie_optdrug/tree/master/result/tab_s2)
 
-#### Table S3. Converting into logical network model from weighted sum-style model
+#### [Table S3. Converting into logical network model from weighted sum-style model](https://github.com/jehoons/sbie_optdrug/tree/master/result/tab_s3)
 
-#### Table S4. List of oncogene and tumor suppressor genes
+#### [Table S4. List of oncogene and tumor suppressor genes](https://github.com/jehoons/sbie_optdrug/tree/master/result/tab_s4)
 
-#### Table S5. Preprocessing of patient-specific and treatment data
+#### [Table S5. Preprocessing of patient-specific and treatment data](https://github.com/jehoons/sbie_optdrug/tree/master/result/tab_s5)
 
-#### Table S6. Regression analysis (Pending)
+#### [Table S6. Regression analysis (Pending)](https://github.com/jehoons/sbie_optdrug/tree/master/result/tab_s6)
 
-#### Table S7. Scanning of Fumia network
+#### [Table S7. Scanning of Fumia network](https://github.com/jehoons/sbie_optdrug/tree/master/result/tab_s7)
 (**A**) Fumina network model (preprocessed), (**B**) Basin of attraction in test mode, (**C,D**) Input combinations and simulation results, (**E**) Fumia regulation network (SIF file format), (**F**) input combinations with APC mutation, (**G**) scanning results with APC mutation.
 
-#### Table S8. Test Probabilistic method (Pending)
+#### [Table S8. Test Probabilistic method (Pending)](https://github.com/jehoons/sbie_optdrug/tree/master/result/tab_s8)
 
-#### Table S9. How to approximate genetic mutation? (Pending)
+#### [Table S9. How to approximate genetic mutation? (Pending)](https://github.com/jehoons/sbie_optdrug/tree/master/result/tab_s9)
 
-#### Table S10. Simulation results for deterministic boolean simulation with patient profile
+#### [Table S10. Simulation results for deterministic boolean simulation with patient profile](https://github.com/jehoons/sbie_optdrug/tree/master/result/tab_s10)
 
-#### Figure S11. Analysis with ternary plots (Dataset: Table S10)
+#### [Figure S11. Analysis with ternary plots (Dataset: Table S10)](https://github.com/jehoons/sbie_optdrug/tree/master/result/tab_s11)
 
 [giordano06]: http://www.nature.com/onc/journal/v25/n38/full/1209721a.html
 [boolean2-sim]: https://scfbm.biomedcentral.com/articles/10.1186/1751-0473-3-16
-[tab_s1]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s1
-[tab_s2]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s2
-[tab_s3]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s3
-[tab_s4]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s4
-[tab_s5]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s5
-[tab_s6]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s6
-[tab_s7]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s7
-[tab_s8]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s8
-[tab_s9]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s9
-[tab_s10]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s10
-[tab_s11]: https://github.com/jehoons/sbie_optdrug/blob/master/result/tab_s11
-[fig_s1]: https://github.com/jehoons/sbie_optdrug/tree/master/result/fig_s1
