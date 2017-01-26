@@ -1,12 +1,12 @@
 ### Table S1. CCLE data is processed to analyze fumia network
-#### (**A**) TABLE.S1A.MUTCNA_CRC_NET.csv
+#### (**A**) Cell line, mutation, and CNV dataset are preprocessed.
 CCLE데이터셋의 Mutation과 CNV로부터 대장암관련 세포주를 추출하였고, fumia 네트워크의 노드와 관련이 있는 유전자이름 선택하였습니다. 특히 유전자이름의 경우에는 노드이름과 겹친다고해서 반드시 그 노드를 의미하는 것은 아니었기 때문에, 검색결과를 또한 반영하였습니다. 유전자이름을 검색하는데 활용한 데이터베이스는 [genenames.org](http://www.genenames.org/)입니다.
 
-#### (**B**) TABLE.S1B.THERAPY_CRC_NET.csv
-Therapy data로부터 cell line이 large intestine과 일치하고, drug의 target이 network의 node와 겹치는 데이터를 분류했다.
+#### (**B**) Drug dose response dataset is preprocessed.
+CCLE데이터셋의 dose response (therapy dataset) 테이블에서 세포주가 large intestine이고 drug의 target이 network의 node와 겹치는 경우의 record들을 필터링하였습니다.
 
-#### C. TABLE.S1C.NUM_MUTCNA.csv
-mutation-copy number variation data에서 gene name이 network의 node와 이름이 겹치는 경우의 데이터의 수를 cell line에 따라서 세었다. 단순 gene name 수는 아니고 값이 1인 즉, 켜져있는 mutation 수를 data의 종류(mutation, copy number alteration of amplification, copy number alteration of delete)에 따라서 세었다.
+#### (**C**) Data coverage
+Mutation, CNV 데이터에서 유전자이름이 네트워크의 노드와 이름이 겹치는 경우의 데이터의 수를 세포주에 따라서 카운트하였습니다. 단순히 유전자이름의 수는 아니지만, 해당 노드의 값이 1인 경우, 즉 켜져 있는 mutation 수를 data의 종류(mutation, copy number alteration of amplification, copy number alteration of delete)에 따라서 카운트 한 것입니다.
 
 CCLE cell line | CCLE mutation의 수 | CCLE CNV AMP의 수 | CCLE CNV DEL의 수 | Network mutation | Network CNV AMP | Network CNV DEL | Ratio of Mut | Ratio of CNV AMP | Ratio of CNV DEL
 ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
