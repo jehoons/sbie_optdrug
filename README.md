@@ -9,8 +9,8 @@
 프로젝트 코드를 실행하기 위해서는 다음과 같이 데이터셋 다운로드 및 패키지 설치를 하여야 합니다.
 
 #### dataset download
+우선 [material.tar.gz](http://gofile.me/3gpVt/hE0oPs0Hv)를 다운로드 한다. 그 다음에는 다음 명령을 실행한다.
 ```
-download [material.tar.gz](http://gofile.me/3gpVt/hE0oPs0Hv)
 mv material.tar.gz sbie_optdrug/dataset
 tar xvfz material.tar.gz
 ```
