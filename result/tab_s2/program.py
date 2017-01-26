@@ -7,7 +7,7 @@ import pandas as pd
 import sbie_optdrug
 from sbie_optdrug.dataset import filelist
 from sbie_optdrug.dataset import ccle
-from termutil import progressbar
+from mytermutils import progressbar
 
 """ requirements """
 inputfile = join(dirname(__file__), '..', 'tab_s3', 'TABLE.S3.LOGICAL-EQUATIONS.TXT')

@@ -18,17 +18,22 @@ tar xvfz material.tar.gz
 #### Package
 프로젝트 코드를 실행하기 위해서는 `mytermutils`, `BooleanSim` 패키지를 설치하여야 합니다.
 ```
+# install mytermutils
 git clone git@github.com:jehoons/mytermutils.git
 cd mytermutils
 python setup.py install
 cd ..
 rm -rf mytermutils
 
+# install BooleanSim
 git clone git@github.com:jehoons/BooleanSim.git
 cd BooleanSim
 python setup.py install
 cd ..
 rm -rf BooleanSim
+
+# install BooleanSim
+pip install tqdm
 ```
 
 ### Update history

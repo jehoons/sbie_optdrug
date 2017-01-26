@@ -1,10 +1,8 @@
-### Table S1. Preprocessing and filtering CCLE data for analysis of Fumia network model
+### Table S1. CCLE data is processed to analyze fumia network
+#### (**A**) TABLE.S1A.MUTCNA_CRC_NET.csv
+CCLE데이터셋의 Mutation과 CNV로부터 대장암관련 세포주를 추출하였고, fumia 네트워크의 노드와 관련이 있는 유전자이름 선택하였습니다. 특히 유전자이름의 경우에는 노드이름과 겹친다고해서 반드시 그 노드를 의미하는 것은 아니었기 때문에, 검색결과를 또한 반영하였습니다. 유전자이름을 검색하는데 활용한 데이터베이스는 [genenames.org](http://www.genenames.org/)입니다.
 
-#### A. TABLE.S1A.MUTCNA_CRC_NET.csv
-mutation-copy number variation data에서 추출된 데이터로 cell line이 large intestine과 관련이 있고, network의 node와 gene name이 일치하는 경우의 데이터들만 모았다. 특히 gene name의 경우에는 단순히 node 이름과 겹친다고 그 node를 의미하지 않기 때문에 검색 결과를 이용해서 더 세세하게 분류를 했다.
-gene name 검색한 site : (http://www.genenames.org/)
-
-#### B. TABLE.S1B.THERAPY_CRC_NET.csv
+#### (**B**) TABLE.S1B.THERAPY_CRC_NET.csv
 Therapy data로부터 cell line이 large intestine과 일치하고, drug의 target이 network의 node와 겹치는 데이터를 분류했다.
 
 #### C. TABLE.S1C.NUM_MUTCNA.csv
