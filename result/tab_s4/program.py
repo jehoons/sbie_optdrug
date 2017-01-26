@@ -28,17 +28,16 @@ from sbie_optdrug.dataset import ccle,filelist
 # inputfile_a = join(dirname(__file__), '..','tab_s2','TABLE.S2.NODE-NAME.CSV')
 
 """ results """
-outputfile_a = join(dirname(__file__), 'TABLE_S4A_MUTGENES.CSV')
-outputfile_b = join(dirname(__file__), 'TABLE_S4B_HTMLFILE_LIST.CSV')
-outputfile_c = join(dirname(__file__), 'TABLE_S4C_TUMORSUPPRESSORS_AND_ONCOGENES.CSV')
-outputfile_d = join(dirname(__file__), 'TABLE_S4D_STATISTICS.CSV')
-outputfile_d_plot = join(dirname(__file__), 'TABLE_S4D_STATISTICS.PNG')
+outputfile_a = join(dirname(__file__), 'Table-S4A-Mutated-genes.csv')
+outputfile_b = join(dirname(__file__), 'Table-S4B-HTMLFile-list.csv')
+outputfile_c = join(dirname(__file__), 'Table-S4C-Tumorsuppressors-and-oncogenes.csv')
+outputfile_d = join(dirname(__file__), 'Table-S4D-Statistics.csv')
+outputfile_d_plot = join(dirname(__file__), 'Table-S4D-Statistics.png')
 
 config = {
     'program': 'Oncogene/TumorSuppressors Downloader',
     'scratch_dir': dirname(__file__)+'/untracked',
     'input': {
-        # 'a': inputfile_a,
         },
     'output': {
         'a': outputfile_a,
@@ -51,24 +50,19 @@ config = {
 
 
 def getconfig():
-
     return config
 
 
 def addtag(pathname, addstr, prefix=True):
-
     pathdir = dirname(pathname)
     name, ext = basename(pathname).split('.')
-
     if prefix:
         return join(pathdir, '%s%s.%s' % (addstr,name,ext))
-
     else:
         return join(pathdir, '%s%s.%s' % (name,addstr,ext))
 
 
 def run_step1(config=None):
-
     """
     Here, phantomjs can be downloaded as following commands:
     wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
@@ -76,7 +70,6 @@ def run_step1(config=None):
     # APC, APC.html, TSG or Oncogene
     """
     output = config['output']['a']
-
     if not exists(output) or True :
         mutcna = ccle.mutcna()
         mutcna_names = mutcna.index.values.tolist()
@@ -92,38 +85,30 @@ def run_step1(config=None):
 
 
 def run_step2(config=None):
-
     inputfile = config['output']['a']
     output_dir = config['scratch_dir']
     output = config['output']['b']
-
     binfo_exec = dirname(__file__)+'/binfo.js'
-
     if not exists(output_dir):
         os.mkdir(output_dir)
 
     data = pd.read_csv(inputfile)
     gene_list = data['ID']
-
     df_output = pd.DataFrame([], columns=['HTML_FILE'])
-
     for i,gene in enumerate(gene_list):
         # progressbar.update(i, len(gene_list))
         outputfile = join(output_dir, gene+'.html')
         if not exists(outputfile):
-            system('phantomjs %s %s %s' % (binfo_exec, gene, outputfile))
+            system('./phantomjs %s %s %s' % (binfo_exec, gene, outputfile))
         df_output.loc[i, 'HTML_FILE'] = outputfile
 
     df_output.to_csv(output, index=False)
 
 
 def run_step3(config=None):
-
     inputfile = config['output']['b']
     outputfile = config['output']['c']
-
     data = pd.read_csv(inputfile)
-
     for i in data.index:
         # progressbar.update(i, data.shape[0])
         genefile = data.loc[i, 'HTML_FILE']
@@ -135,20 +120,17 @@ def run_step3(config=None):
 
         if exists(genefile):
             gene_found = True
-
-            with open(genefile, 'rb') as f:
+            with open(genefile, 'r') as f:
                 lines = f.readlines()
-
+            # set_trace()
             soup = BeautifulSoup("".join(lines), 'html.parser')
             tdlist = soup.find_all('td')
-
             if len(tdlist) >= 6 :
                 content_found = True
                 content = tdlist[5].get_text()
 
         content = content.replace('-- & ', '')
         content = content.replace(' & --', '')
-
         if content == 'oncogene':
             content = 'Oncogene'
         elif content == '--':
@@ -168,7 +150,6 @@ def run_step3(config=None):
 
 
 def run_step4(config=None):
-
     inputfile = config['output']['c']
     outputfile = config['output']['d']
     outputfile_plt = config['output']['d.plot']
