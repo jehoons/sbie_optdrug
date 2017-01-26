@@ -1,8 +1,2 @@
-### Table S2A 
-logical network data로부터 node name을 분류했다. 
-
-### Table S2B
-* Rules for preprocessing 
-
-### Table S2C
-* Classification of attractors
+### Table S2
+#### (**A**) Node names from fumia logical network
