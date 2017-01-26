@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 
 import sbie_optdrug
 from sbie_optdrug.dataset import ccle,filelist
-from termutil import progressbar
+# from termutil import progressbar
 
 """ requirements """
 # inputfile_a = join(dirname(__file__), '..','tab_s2','TABLE.S2.NODE-NAME.CSV')
@@ -108,7 +108,7 @@ def run_step2(config=None):
     df_output = pd.DataFrame([], columns=['HTML_FILE'])
 
     for i,gene in enumerate(gene_list):
-        progressbar.update(i, len(gene_list))
+        # progressbar.update(i, len(gene_list))
         outputfile = join(output_dir, gene+'.html')
         if not exists(outputfile):
             system('phantomjs %s %s %s' % (binfo_exec, gene, outputfile))
@@ -125,7 +125,7 @@ def run_step3(config=None):
     data = pd.read_csv(inputfile)
 
     for i in data.index:
-        progressbar.update(i, data.shape[0])
+        # progressbar.update(i, data.shape[0])
         genefile = data.loc[i, 'HTML_FILE']
         genename = basename(genefile).split('.')[0]
 
