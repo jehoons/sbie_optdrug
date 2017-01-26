@@ -40,12 +40,12 @@ def mutcna_seperately():
 
 def sampleinfo():
 
-	return pickle.load(open(filelist.processed_ccle_sampleinfo, "rb" ))
+	return pickle.load(open(filelist.processed_ccle_sampleinfo, "rb" ), encoding='latin1')
 
 
 def therapy():
 
-	return pickle.load(open(filelist.processed_ccle_therapy, "rb" ))
+	return pickle.load(open(filelist.processed_ccle_therapy, "rb" ), encoding='latin1')
 
 
 def check_intestine_cells():
