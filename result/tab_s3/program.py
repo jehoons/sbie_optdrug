@@ -14,7 +14,7 @@ from termutil import progressbar
 
 """ results """
 
-from sbie_optdrug.result import tab_s3 
+from sbie_optdrug.result import tab_s3
 
 outputfile = tab_s3.outputfilename
 
