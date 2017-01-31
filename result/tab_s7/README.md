@@ -12,6 +12,7 @@ True|True|True|True|False|
 가장 큰 크기를 가지는 *basin of attractor*가 얻어 진다.
 
 #### C and D. Input combinations and simulation results
+
 [download](http://gofile.me/3gpVt/QgRA45O0V)
 
 ### Methods
@@ -77,9 +78,11 @@ def test_hello(with_small, force):
 ![image1]
 
 #### E. Fumia regulation network (SIF)
+#### F. Input combinations with APC mutation
+#### G. Scanning result with APC mutation (with Table S7F)
 
-#### F. Input combinations - APC mutation
+#### H. Input combinations
+#### I. Scanning result with APC mutation
 
-#### G. Scanning result - with Table S7F.
 
 [image1]: https://www.dropbox.com/s/9hc801ibul8q14v/2016-10-15%2017_12_43-%EC%82%AC%EC%A7%84.png?dl=1

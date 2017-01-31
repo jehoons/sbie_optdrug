@@ -18,7 +18,7 @@ import re
 import glob
 import os
 import shutil
-from ascii import progressbar
+# from ascii import progressbar
 
 def gex(force=False):
 	print ('- processing gene expression data ...')
@@ -64,7 +64,7 @@ def mutcna(force=False):
 	pickle.dump(df_del, open(filelist.processed_ccle_mutcna_del, "wb" ))
 	ccle_mutcna_dense = {}
 	for i, cell in enumerate(df0.columns):
-		progressbar.update(i, df0.shape[1])
+		# progressbar.update(i, df0.shape[1])
 		celldata = df0[cell]
 		dic = {'MUT': [], 'DEL': [], 'AMP': []}
 		ifilt = celldata[celldata==1].index
@@ -112,7 +112,7 @@ def drug(force=False):
     files = glob.glob(join(filelist.ccle_drug_dir, '*.csv'))
     sdf_data = {}
     for i, file in enumerate(files):
-        progressbar.update(i, len(files))
+        # progressbar.update(i, len(files))
         df0 = pd.read_csv(file)
         idx = os.path.split(file)[1].split('.')[0]
         sdf_dir = join(filelist.ccle_drug_dir, 'structure', idx)

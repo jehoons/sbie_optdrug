@@ -1,14 +1,12 @@
-### Table S1. Preprocessing and filtering CCLE data for analysis of Fumia network model
+### Table S1. CCLE data is processed to analyze fumia network
+#### (**A**) Cell line, mutation, and CNV dataset are preprocessed.
+CCLE데이터셋의 Mutation과 CNV로부터 대장암관련 세포주를 추출하였고, fumia 네트워크의 노드와 관련이 있는 유전자이름 선택하였습니다. 특히 유전자이름의 경우에는 노드이름과 겹친다고해서 반드시 그 노드를 의미하는 것은 아니었기 때문에, 검색결과를 또한 반영하였습니다. 유전자이름을 검색하는데 활용한 데이터베이스는 [genenames.org](http://www.genenames.org/)입니다.
 
-#### A. TABLE.S1A.MUTCNA_CRC_NET.csv
-mutation-copy number variation data에서 추출된 데이터로 cell line이 large intestine과 관련이 있고, network의 node와 gene name이 일치하는 경우의 데이터들만 모았다. 특히 gene name의 경우에는 단순히 node 이름과 겹친다고 그 node를 의미하지 않기 때문에 검색 결과를 이용해서 더 세세하게 분류를 했다.
-gene name 검색한 site : (http://www.genenames.org/)
+#### (**B**) Drug dose response dataset is preprocessed.
+CCLE데이터셋의 dose response (therapy dataset) 테이블에서 세포주가 large intestine이고 drug의 target이 network의 node와 겹치는 경우의 record들을 필터링하였습니다.
 
-#### B. TABLE.S1B.THERAPY_CRC_NET.csv
-Therapy data로부터 cell line이 large intestine과 일치하고, drug의 target이 network의 node와 겹치는 데이터를 분류했다.
-
-#### C. TABLE.S1C.NUM_MUTCNA.csv
-mutation-copy number variation data에서 gene name이 network의 node와 이름이 겹치는 경우의 데이터의 수를 cell line에 따라서 세었다. 단순 gene name 수는 아니고 값이 1인 즉, 켜져있는 mutation 수를 data의 종류(mutation, copy number alteration of amplification, copy number alteration of delete)에 따라서 세었다.
+#### (**C**) Molecular profile coverage
+Mutation, CNV 데이터에서 유전자이름이 네트워크의 노드와 이름이 겹치는 경우의 데이터의 수를 세포주에 따라서 카운트하였습니다. 단순히 유전자이름의 수는 아니지만, 해당 노드의 값이 1인 경우, 즉 켜져 있는 mutation 수를 data의 종류(mutation, copy number alteration of amplification, copy number alteration of delete)에 따라서 카운트 한 것입니다.
 
 CCLE cell line | CCLE mutation의 수 | CCLE CNV AMP의 수 | CCLE CNV DEL의 수 | Network mutation | Network CNV AMP | Network CNV DEL | Ratio of Mut | Ratio of CNV AMP | Ratio of CNV DEL
 ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
@@ -16,8 +14,8 @@ SW1116_Large_Intestine | 32 | 621 | 678 | 5 | 8 | 10 | 15.625 | 1.288245 | 1.474
 COLO205_Large_Intestine | 20 | 623 | 170 | 4 | 15 | 1 | 20 | 2.407705 | 0.588235
 OUMS23_Large_Intestine | 36 | 455 | 927 | 8 | 11 | 12 | 22.22222 | 2.417582 | 1.294498
 
-#### D. TABLE.S1D.NUM_DRUG.csv
-Therapy data에서 약물에 따라서 cell line이 large intestine인 데이터의 개수를 세었다. 그리고 drug target이 node와 겹치면 Target in Network에 노드이름을 써주었다.
+#### (**D**) Drug converage
+Therapy 데이터셋에서 약물과 관련이 있는 샘플의 갯수와 fumia network에서 몇개나 관련이 있는지를 조사하였습니다.
 
 Drug | Target | Total Cell line number | Number of Large intsetine | Target in Network
 ---- | ---- | ---- | ---- | ---- |
@@ -25,8 +23,8 @@ AEW541 | IGF1R | 503 | 23 | X
 Nilotinib | ABL | 420 | 20 | X
 Nutlin-3 | MDM2 | 504 | 23 | MDM2
 
-#### E. TABLE.S1E.LOF_GOF_INDV.csv
-(A)에서 검색한 gene name들을 기준으로 gene name이 node를 gain(더 만들도록 하는 작용)하도록 하는지, loss(덜 만들도록 하는 작용)하도록 하는지 판단하여 loss나 gain으로 적어둔 파일이다.
+#### (**E**) Table of LOF and GOF
+(**A**)에서 검색한 유전자 이름들을 기준으로 유전자 이름이 노드를 gain(더 만들도록 하는 작용)하도록 하는지, loss(덜 만들도록 하는 작용)하도록 하는지 판단하여 loss나 gain으로 기록하였습니다.
 
 Description | Loss or Gain
 ---- | ---- |
@@ -34,8 +32,8 @@ TGFB1_MUT | Gain
 TGFB2_MUT | Gain
 TGFB3_MUT | Gain
 
-#### F. LOF and GOF of complex node.xlsx
-GSK/APC와 같이 두 node에 의해서 영향을 받는 node의 Gain of function과 Loss of function을 결정할 때 여러 case들을 분류해 놓은 표이다.
+#### (**F**) Rule table for LOF and GOF
+GSK/APC와 같이 두 node에 의해서 영향을 받는 node가 존재할수 있습니다. 이러한 모호한 경우에는 어떻게 LOF, GOF를 정해야 할까요? 이 테이블에서는 GOF, LOF를 결정할때 여러 경우들을 아래와 같이 분류하였습니다.
 
 GSK3 | APC | GSK3/APC
 ---- | ---- | ---- |

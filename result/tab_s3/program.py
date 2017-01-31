@@ -5,7 +5,8 @@ import pandas as pd
 from os.path import dirname,join,exists
 import sbie_optdrug
 from sbie_optdrug.dataset import ccle,filelist
-from termutil import progressbar
+# from termutil import progressbar
+
 
 # from sbie_optdrug.model.published import fumia_network
 
@@ -19,8 +20,6 @@ from sbie_optdrug.result import tab_s3
 outputfile = tab_s3.outputfilename
 
 config = {
-    'program': 'Table S3',
-    'input': None,
     'output': {
             'a': outputfile
             }

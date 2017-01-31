@@ -5,8 +5,8 @@ import pandas as pd
 from ipdb import set_trace
 import sbie_optdrug
 from sbie_optdrug.dataset import ccle,filelist
-from termutil import progressbar
-
+from mytermutils import progressbar
+from tqdm import tqdm
 
 """ requirements """
 inputfile = join(dirname(__file__), '..','tab_s2','TABLE.S2.NODE-NAME.CSV')
