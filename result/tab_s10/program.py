@@ -13,7 +13,7 @@ import pandas as pd
 from ipdb import set_trace
 import sbie_optdrug
 from sbie_optdrug.dataset import ccle
-from termutil import progressbar
+# from termutil import progressbar
 import ternary
 import math
 
@@ -114,7 +114,7 @@ def run(config=None):
                                                 'Total', 'Distance'])
 
     for i in range(len(attractor_result['scanning_results'])):
-        progressbar.update(i, len(attractor_result['scanning_results']))
+        # progressbar.update(i, len(attractor_result['scanning_results']))
         off_state = input_condi['configs'][i]['parameters']['off_states']
         on_state = input_condi['configs'][i]['parameters']['on_states']
         if 'S_GFs' in off_state:
