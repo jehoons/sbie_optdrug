@@ -14,13 +14,6 @@ import json
 
 default_config = program.getconfig()
 
-def check_outputs(config):
-
-    exist_list = [exists(config['output'][key]) for key \
-        in config['output'] ]
-
-    return numpy.product(exist_list)
-
 def test_a(with_small, force):
     program.run_a(config=default_config, force=force)
 

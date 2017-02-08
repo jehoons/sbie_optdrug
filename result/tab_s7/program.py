@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 import json,re
 from ipdb import set_trace
-from termutil import progressbar
+# from termutil import progressbar
 from os import system
 from os.path import dirname,join,exists
 from boolean3_addon import attr_cy
@@ -147,7 +147,7 @@ def run_c(config=None, force=False):
 
     config_list = []
     for k,inp in enumerate(table):
-        progressbar.update(k, len(table))
+        # progressbar.update(k, len(table))
         for com in combi:
             on_states = []
             off_states = []
@@ -622,20 +622,17 @@ def run_f(config=None, force=False):
 
     config_list = []
     for k,inp in enumerate(table):
-        progressbar.update(k, len(table))
+        # progressbar.update(k, len(table))
         for com in combi:
             on_states = []
             off_states = ['S_GSK_3_APC', 'S_APC']
             off_states = off_states + [c for c in com]
             for i,t in enumerate(inp):
-                # t - 각 입력조건을 의미
                 if t :
-                    # 입력이 true 인경우, on_states에 추가
                     on_states.append( input_nodes[i] )
                 else:
-                    # 입력이 false 인경우, off_states에 추가
                     off_states.append( input_nodes[i] )
-
+                    
             config1 = deepcopy(config)
             config1['parameters']['on_states'] = deepcopy(on_states)
             config1['parameters']['off_states'] = deepcopy(off_states)
