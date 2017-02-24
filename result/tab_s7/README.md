@@ -8,9 +8,9 @@
 
 입력조합의 설정은 예를 들면 아래와 같이 설정할 수 있을 것입니다.
 
-`Mutagenic` | `GFs` | `Nutrients` | `TNF-alpha` | `Hypoxia` |
+Mutagenic | GFs | Nutrients | TNF-alpha | Hypoxia |
 ---|---|---|---|---|
-True|True|True|True|False|
+True | True | True | True | False |
 
 #### (**C**) and (**D**) Input combinations and simulation results
 아무런 변이에 대한 정보를 주지 않았을 때의 네트워크 모델 및 시뮬레이션 결과입니다[(다운로드)](http://gofile.me/3gpVt/QgRA45O0V). 
