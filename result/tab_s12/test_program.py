@@ -225,7 +225,7 @@ def run_table_b(config=None, force=False):
 
 def run_table_c(config=None, force=False):
 
-    set_trace()
+    # set_trace()
 
     table_a = json.load( open(config['tables']['a'], 'r') )
     table_b = json.load( open(config['tables']['b'], 'r') )
@@ -240,8 +240,13 @@ def run_table_c(config=None, force=False):
 
 
 def test_this(with_small, force):
-    
-    run_table_a(config=tab_s12.get_config(), force=True)
+
+    # prepare input data 
+    run_table_a(config=tab_s12.get_config(), force=True) 
+
+    # simulation 
     run_table_b(config=tab_s12.get_config(), force=True)
+
+    # make summary 
     run_table_c(config=tab_s12.get_config(), force=True)
 
