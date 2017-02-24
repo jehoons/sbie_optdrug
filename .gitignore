@@ -5,3 +5,4 @@ __pycache__/
 dataset/material
 untracked*
 autogen.py
+private
