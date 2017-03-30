@@ -56,7 +56,7 @@ def getconfig():
 
 def run(config=None):
 
-    origin_logic = pyexcel.get_sheet(file_name = config['input']['input_a'])
+    origin_logic = pyexcel.get_sheet(file_name = 'fumia_2013.xlsx')
     #copy_number_data_s1 = json.load(open(config['input']['input_b'], 'rb'))
     #copy_number_data_s4 = json.load(open(config['input']['input_c'], 'rb'))
     #mutation_data_s1 = json.load(open(config['input']['input_d'], 'rb'))
@@ -70,4 +70,4 @@ def run(config=None):
     # resolve current state -> next state, and attractor
     # state sampling
 
-    #set_trace()
+    set_trace()
