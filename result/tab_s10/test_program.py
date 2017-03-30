@@ -27,11 +27,3 @@ def test(with_small, force):
         program.run(default_config)
 
     assert check_outputs(default_config)
-
-
-#def test_1():
-
-
-    #from sbie_optdrug.dataset import ccle
-
-    # set_trace()
