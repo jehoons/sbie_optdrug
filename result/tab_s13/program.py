@@ -6,8 +6,9 @@
 #*************************************************************************
 
 from os.path import dirname,join
-from termutil import progressbar
+#from termutil import progressbar
 from pdb import set_trace
+import pyexcel as pe
 
 """ requirements """
 inputfile_a = join(dirname(__file__), '..','tab_s13','fumia_2013.xlsx')
@@ -55,7 +56,7 @@ def getconfig():
 
 def run(config=None):
 
-    origin_logic = pd.read_csv(config['input']['input_a'])
+    origin_logic = pe.iget_records(config['input']['input_a'])
     #copy_number_data_s1 = json.load(open(config['input']['input_b'], 'rb'))
     #copy_number_data_s4 = json.load(open(config['input']['input_c'], 'rb'))
     #mutation_data_s1 = json.load(open(config['input']['input_d'], 'rb'))
