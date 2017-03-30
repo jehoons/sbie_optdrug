@@ -56,7 +56,7 @@ def getconfig():
 
 def run(config=None):
 
-    origin_logic = pe.iget_records(config['input']['input_a'])
+    origin_logic = get_array(file_name = config['input']['input_a'])
     #copy_number_data_s1 = json.load(open(config['input']['input_b'], 'rb'))
     #copy_number_data_s4 = json.load(open(config['input']['input_c'], 'rb'))
     #mutation_data_s1 = json.load(open(config['input']['input_d'], 'rb'))
