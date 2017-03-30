@@ -56,6 +56,7 @@ def getconfig():
 
 def run(config=None):
 
+    set_trace()
     origin_logic = pyexcel.get_array(file_name = config['input']['input_a'])
     #copy_number_data_s1 = json.load(open(config['input']['input_b'], 'rb'))
     #copy_number_data_s4 = json.load(open(config['input']['input_c'], 'rb'))
@@ -70,4 +71,4 @@ def run(config=None):
     # resolve current state -> next state, and attractor
     # state sampling
 
-    set_trace()
+    #set_trace()
