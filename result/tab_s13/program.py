@@ -10,6 +10,8 @@ from sbie_optdrug.result import tab_s13
 from ipdb import set_trace
 import json
 import pandas as pd
+from itertools import combinations,product
+from copy import deepcopy
 #from pyexcel-xlsx import get_data
 #from termutil import progressbar
 
@@ -57,16 +59,18 @@ def getconfig():
     return config
 
 
-def run(config=None,force=force): #network model
+def run(config=None): #network model
 
     #origin_logic = get_data(file_name = 'fumia_2013.xlsx')
     set_trace()
-    x1 = x2 + x3 - 1
-    x2 = x1 - x2 + 1
-    x3 = x2 - 1
-    input_node = [x1, x2, x3]
+    input_nodes = [aa, bb, cc]
+    aa = bb + cc - 1
+    bb = aa - bb + 1
+    cc = bb - 1
+    table = list(product([False, True], repeat=len(input_nodes)))
 
-    #for i in range(len(input_node))
+    for i in range(len(input_node)):
+
 
     # get the node & logic and make node = logic file
     # resolve current state -> next state, and attractor
