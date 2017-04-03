@@ -11,12 +11,12 @@ from sbie_optdrug.result.tab_s13 import program
 from pdb import set_trace
 from pyexcel-xlsx import get_data
 
-#def check_outputs(config):
+def check_outputs(config):
 
-    #exist_list = [exists(config['output'][key]) for key \
-        #in config['output'] ]
+    exist_list = [exists(config['output'][key]) for key \
+        in config['output'] ]
 
-    #return numpy.product(exist_list)
+    return numpy.product(exist_list)
 
 
 #def test(with_small, force):
@@ -29,7 +29,11 @@ from pyexcel-xlsx import get_data
     #assert check_outputs(default_config)
 
 def test_a(with_small, force):
-    program.run_a(config=default_config, force=force)
+
+    if not check_outputs(default_config) or force:
+        program.run_a(config=default_config, force=force)
+
+    assert check_outputs(default_config)
 
 #def test_b(with_small, force):
     #program.run_b(config=default_config, force=force)
