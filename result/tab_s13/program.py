@@ -69,7 +69,7 @@ def run(config=None): #network model
     cc = bb - 1
     table = list(product([False, True], repeat=len(input_nodes)))
 
-    for i in range(len(input_node)):
+    #for i in range(len(input_node)):
 
 
     # get the node & logic and make node = logic file
