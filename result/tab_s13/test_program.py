@@ -8,7 +8,9 @@
 import numpy
 from os.path import exists
 from sbie_optdrug.result.tab_s13 import program
-from pdb import set_trace
+from ipdb import set_trace
+import json
+
 #from pyexcel-xlsx import get_data
 
 def check_outputs(config):
