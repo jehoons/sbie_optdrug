@@ -72,7 +72,7 @@ def run_a(config=None): #network model
 
     set_trace()
 
-def run_b(config=None): #get attractor
+#def run_b(config=None): #get attractor
 
     #traj = []
     #for i in range(1000 # step)
@@ -82,12 +82,12 @@ def run_b(config=None): #get attractor
         #else
             #cyclic attractor
 
-    set_trace()
+    #set_trace()
 
-def run_c(config=None): #get phenotype
+#def run_c(config=None): #get phenotype
 
     #att = []
     #for i in range(att)
-        #att(i) -> 
+        #att(i) ->
 
-    set_trace()
+    #set_trace()
