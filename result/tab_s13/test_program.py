@@ -11,12 +11,12 @@ from sbie_optdrug.result.tab_s13 import program
 from pdb import set_trace
 
 
-def check_outputs(config):
+#def check_outputs(config):
 
-    exist_list = [exists(config['output'][key]) for key \
-        in config['output'] ]
+    #exist_list = [exists(config['output'][key]) for key \
+        #in config['output'] ]
 
-    return numpy.product(exist_list)
+    #return numpy.product(exist_list)
 
 
 #def test(with_small, force):
