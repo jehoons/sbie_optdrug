@@ -62,13 +62,14 @@ def getconfig():
 def run(config=None): #network model
 
     #origin_logic = get_data(file_name = 'fumia_2013.xlsx')
-    set_trace()
     input_nodes = [aa, bb, cc]
     aa = bb + cc - 1
     bb = aa - bb + 1
     cc = bb - 1
     table = list(product([False, True], repeat=len(input_nodes)))
 
+    set_trace()
+    
     #for i in range(len(input_node)):
 
 
