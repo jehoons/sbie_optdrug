@@ -66,7 +66,7 @@ def run(config=None,force=force): #network model
     x3 = x2 - 1
     input_node = [x1, x2, x3]
 
-    for i in range(len(input_node))
+    #for i in range(len(input_node))
 
     # get the node & logic and make node = logic file
     # resolve current state -> next state, and attractor
