@@ -8,7 +8,7 @@
 from os.path import dirname,join
 #from termutil import progressbar
 from pdb import set_trace
-import pyexcel
+from pyexcel-xlsx import get_data
 
 """ requirements """
 inputfile_a = join(dirname(__file__), '..','tab_s13','fumia_2013.xlsx')
@@ -54,7 +54,7 @@ def getconfig():
     return config
 
 
-def run(config=None):
+def run_a(config=None): #network model
 
     origin_logic = pyexcel.get_sheet(file_name = 'fumia_2013.xlsx')
     #copy_number_data_s1 = json.load(open(config['input']['input_b'], 'rb'))
@@ -69,5 +69,25 @@ def run(config=None):
     # get the node & logic and make node = logic file
     # resolve current state -> next state, and attractor
     # state sampling
+
+    set_trace()
+
+def run_b(config=None): #get attractor
+
+    #traj = []
+    #for i in range(1000 # step)
+        #traj(t) = network model result
+        #if traj(t) = before one
+            #point attractor
+        #else
+            #cyclic attractor
+
+    set_trace()
+
+def run_c(config=None): #get phenotype
+
+    #att = []
+    #for i in range(att)
+        #att(i) -> 
 
     set_trace()

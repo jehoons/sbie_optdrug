@@ -27,3 +27,12 @@ def test(with_small, force):
         program.run(default_config)
 
     assert check_outputs(default_config)
+
+def test_a(with_small, force):
+    program.run_a(config=default_config, force=force)
+
+def test_b(with_small, force):
+    program.run_b(config=default_config, force=force)
+
+def test_c(with_small, force):
+    program.run_c(config=default_config, force=force)
