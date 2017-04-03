@@ -54,9 +54,9 @@ def getconfig():
     return config
 
 
-def run_a(config=None): #network model
+def run_a(config=None,force=force): #network model
 
-    origin_logic = pyexcel.get_sheet(file_name = 'fumia_2013.xlsx')
+    origin_logic = get_data(file_name = 'fumia_2013.xlsx')
     #copy_number_data_s1 = json.load(open(config['input']['input_b'], 'rb'))
     #copy_number_data_s4 = json.load(open(config['input']['input_c'], 'rb'))
     #mutation_data_s1 = json.load(open(config['input']['input_d'], 'rb'))
