@@ -5,12 +5,13 @@
 # This file is part of {sbie_optdrug}.
 #*************************************************************************
 
-from os.path import dirname,join
-#from termutil import progressbar
-from pdb import set_trace
+from os.path import dirname,join,exists
+from sbie_optdrug.result import tab_s13
+from ipdb import set_trace
 import json
-
+import pandas as pd
 #from pyexcel-xlsx import get_data
+#from termutil import progressbar
 
 """ requirements """
 inputfile_a = join(dirname(__file__), '..','tab_s13','fumia_2013.xlsx')
