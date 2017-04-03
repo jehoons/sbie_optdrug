@@ -19,21 +19,21 @@ def check_outputs(config):
     return numpy.product(exist_list)
 
 
-#def test(with_small, force):
+def test(with_small, force):
 
-    #default_config = program.getconfig()
-
-    #if not check_outputs(default_config) or force:
-        #program.run(default_config)
-
-    #assert check_outputs(default_config)
-
-def test_a(with_small, force):
+    default_config = program.getconfig()
 
     if not check_outputs(default_config) or force:
-        program.run_a(config=default_config, force=force)
+        program.run(default_config)
 
     assert check_outputs(default_config)
+
+#def test_a(with_small, force):
+
+    #if not check_outputs(default_config) or force:
+        #program.run_a(config=default_config, force=force)
+
+    #assert check_outputs(default_config)
 
 #def test_b(with_small, force):
     #program.run_b(config=default_config, force=force)

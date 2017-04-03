@@ -54,23 +54,22 @@ def getconfig():
     return config
 
 
-def run_a(config=None,force=force): #network model
+def run(config=None,force=force): #network model
 
-    origin_logic = get_data(file_name = 'fumia_2013.xlsx')
-    #copy_number_data_s1 = json.load(open(config['input']['input_b'], 'rb'))
-    #copy_number_data_s4 = json.load(open(config['input']['input_c'], 'rb'))
-    #mutation_data_s1 = json.load(open(config['input']['input_d'], 'rb'))
-    #mutation_data_s4 = json.load(open(config['input']['input_e'], 'rb'))
-    #drug_data = json.load(open(config['input']['input_f'], 'rb'))
-    #equation = pd.read_csv(config['input']['input_g'])
-    #input_condi = json.load(open(config['input']['input_h'], 'rb'))
-    #attractor_result = json.load(open(config['input']['input_i'], 'rb'))
+    #origin_logic = get_data(file_name = 'fumia_2013.xlsx')
+    set_trace()
+    x1 = x2 + x3 - 1
+    x2 = x1 - x2 + 1
+    x3 = x2 - 1
+    input_node = [x1, x2, x3]
+
+    for i in range(len(input_node))
 
     # get the node & logic and make node = logic file
     # resolve current state -> next state, and attractor
     # state sampling
 
-    set_trace()
+    #set_trace()
 
 #def run_b(config=None): #get attractor
 
