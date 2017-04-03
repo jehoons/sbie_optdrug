@@ -8,7 +8,7 @@
 from os.path import dirname,join
 #from termutil import progressbar
 from pdb import set_trace
-from pyexcel-xlsx import get_data
+#from pyexcel-xlsx import get_data
 
 """ requirements """
 inputfile_a = join(dirname(__file__), '..','tab_s13','fumia_2013.xlsx')
