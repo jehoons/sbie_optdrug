@@ -27,7 +27,7 @@ inputfile_a = join(dirname(__file__), '..','tab_s13','fumia_2013.xlsx')
 #inputfile_i = join(dirname(__file__), '..','tab_s7','untracked_Table_S7G-Scanning-results-APC.json')
 
 """ results """
-outputfile_a = join(dirname(__file__), 'TABLE.S13A_fumia_weighted_sum_network_logic')
+outputfile_a = join(dirname(__file__), 'TABLE.S13A.Toy_model.json')
 #outputfile_b = join(dirname(__file__), 'TABLE.S10B_total_attractor_input_condition.csv')
 #outputfile_d = join(dirname(__file__), 'TABLE.S8B.MUTATION_data_s4.json')
 #outputfile_e = join(dirname(__file__), 'TABLE.S8C.DRUG_data.json')
@@ -58,19 +58,75 @@ def getconfig():
 
     return config
 
+def sgn(x):
+    if x > 0:
+        return 1
+    elif x == 0:
+        return 0
+    elif x < 0:
+        return 0
 
 def run(config=None): #network model
 
     #origin_logic = get_data(file_name = 'fumia_2013.xlsx')
-    input_nodes = [aa, bb, cc]
-    aa = bb + cc - 1
-    bb = aa - bb + 1
-    cc = bb - 1
-    table = list(product([False, True], repeat=len(input_nodes)))
-
+    #attractor_result = open(config['output']['output_a'], 'w')
+    steps = 10
+    x1 = x2 = x3 = 0
+    input_nodes = [x1, x2, x3]
+    table = list(product([0, 1], repeat=len(input_nodes)))
+    att_result = {}
+    check_cyclic = 0
+    for i in range(len(table)):
+        x1 = table[i][0]
+        x2 = table[i][1]
+        x3 = table[i][2]
+        curr_state = [x1,x2,x3]
+        trajectory = [curr_state]
+        check_cyclic = 0
+        for j in range(steps):
+            print(curr_state)
+            x1 = sgn(curr_state[1] + curr_state[2] - 1)
+            x2 = sgn(curr_state[0] - curr_state[1] + 1)
+            x3 = sgn(curr_state[1])
+            next_state = [x1, x2, x3]
+            print('->')
+            print(next_state)
+            if cmp(curr_state,next_state) == 0:
+                att = {i: {'input': table[i], 'attractor': next_state, 'type': 'point'}}
+                if len(att_result) == 0:
+                    print('a')
+                    att_result = att
+                else:
+                    att_result = dict(att_result.items() + att.items())
+                    print('b')
+                break
+            elif cmp(curr_state,next_state) != 0:
+                if len(trajectory) == 1:
+                    trajectory.append(next_state)
+                    print('c')
+                elif len(trajectory) > 1:
+                    for k in range(len(trajectory)):
+                        if cmp(next_state,trajectory[k]) == 0:
+                            check_cyclic = 1
+                            att = {i: {'input': table[i], 'attractor': trajectory[k:len(trajectory)], 'type': 'cyclic'}}
+                            if len(att_result) == 0:
+                                att_result = att
+                                print('d')
+                            else:
+                                att_result = dict(att_result.items() + att.items())
+                                print('e')
+                    trajectory.append(next_state)
+            print(check_cyclic)
+            if check_cyclic == 1:
+                print('f')
+                break
+            curr_state = [x1, x2, x3]
+            j += 1
+        print('---')
+        i += 1
     set_trace()
-    
-    #for i in range(len(input_node)):
+    #json.dump(att_result, attractor_result, indent=3, sort_keys=True)
+    #attractor_result.close()
 
 
     # get the node & logic and make node = logic file
