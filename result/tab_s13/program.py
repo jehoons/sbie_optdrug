@@ -291,6 +291,7 @@ def run_b(config=None, force=False):
 #def run_c(config=None, force=False):
 
     #attractor_result = att_result['scanning_reuslts']
+    #input_num = 100000
     #nodes_set = [MUTAGEN, GFS, NUTRIENTS, TNF_A, HYPOXIA, TGF_B, DNA_DAMAGE, P53_MDM2, AMP_ATP,
     #NF1, PKC, RTK, RAGS, RAS, PI3K, PTEN, PIP3, PDK1, IKK, NFKB, RAF, ERK12, P90RSK, AKT, WNT, DSH,
     #APC, GSK3, GSK3_APC, BCAT, SLUG, MTOR, HIF1, COX412, VHL, PHDS, MYC_MAX, MYC, MAX, MXI1, TSC12,
@@ -314,7 +315,7 @@ def run_b(config=None, force=False):
         #i += 1
 
     #for i in range(32):
-        #att_info = attractor_result[1000000*i:(i+1)*1000000-1]
+        #att_info = attractor_result[input_num*i:input_num*(i+1)-1]
         #att_total = att_info.get['attractor']
         #basin_size  = 0
         #total_attractor_info = {'input_condition': {'on_states': '', 'off_states': ''}, 'total_attractors': {}}
