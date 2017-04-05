@@ -11,24 +11,27 @@ from sbie_optdrug.result.tab_s13 import program
 from ipdb import set_trace
 import json
 
-#from pyexcel-xlsx import get_data
+default_config = program.getconfig()
 
-def check_outputs(config):
+def test_b(with_small, force):
+    program.run_b(config=default_config, force=force)
 
-    exist_list = [exists(config['output'][key]) for key \
-        in config['output'] ]
+#def check_outputs(config):
 
-    return numpy.product(exist_list)
+    #exist_list = [exists(config['output'][key]) for key \
+        #in config['output'] ]
+
+    #return numpy.product(exist_list)
 
 
-def test(with_small, force):
+#def test(with_small, force):
 
-    default_config = program.getconfig()
+    #default_config = program.getconfig()
 
-    if not check_outputs(default_config) or force:
-        program.run(default_config)
+    #if not check_outputs(default_config) or force:
+        #program.run(default_config)
 
-    assert check_outputs(default_config)
+    #assert check_outputs(default_config)
 
 #def test_a(with_small, force):
 
