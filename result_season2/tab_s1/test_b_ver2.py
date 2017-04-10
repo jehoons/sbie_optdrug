@@ -186,8 +186,8 @@ def test_2():
 
 
 # @pytest.mark.skip(reason='')
-def test_all():
-    if exists(file_b1):
+def test_all(force):
+    if exists(file_b1) and force == False:
         return;
 
     inputs = [ {
@@ -201,8 +201,10 @@ def test_all():
             in itertools.product([False,True], repeat=5)]
 
     results = []
-    for sim_input in inputs:
-        print('inputcondition:', sim_input)
+    
+    from tqdm import tqdm 
+
+    for sim_input in tqdm(inputs):
         on_states = [] 
         off_states = [] 
         for lbl in sim_input:
@@ -211,15 +213,15 @@ def test_all():
             else: 
                 off_states.append(lbl)
 
-        res = attr_cy.run(samples=1000000, steps=60, debug=False, 
+        res = attr_cy.run(samples=10000, steps=60, debug=False, 
                             on_states=on_states, off_states=off_states)
-        res = attach_phenotype(res)
-        results.append({'input_condition':sim_input, 'simul_result': res})
+        res = attach_phenotype({'input_condition':sim_input, 'simul_result': res})
+        results.append(res)
 
     json.dump(results, open(file_b1, 'w'), indent=4)
 
 
-@pytest.mark.skip(reason='')
+# @pytest.mark.skip(reason='')
 def test_summary_32results():
     with open(file_b1,'r') as fin:
         res32 = json.load(fin)
@@ -244,7 +246,6 @@ def test_summary_32results():
             k += 1
                 
     df0.groupby(['input','phenotype']).sum().to_csv(file_b2)
-
 
 
 # input 
@@ -274,6 +275,7 @@ with open(file_a2, 'r') as fobj:
 attr_cy.build(modeltext, weighted_sum=True)
 import pyximport; pyximport.install()
 cycs = ['State_CycA','State_CycB','State_CycD','State_CycE']
+
 template = {
     'State_Mutagen' : False,
     'State_GFs': False,
