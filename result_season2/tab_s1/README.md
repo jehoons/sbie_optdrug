@@ -8,7 +8,7 @@
 
 *A3. fumia model processed logical*
 
-#### (B) Attractor analysis - *Ver 1*
+#### (B) Attractor analysis
 
 *B1. Simulation*
 
@@ -32,13 +32,13 @@ else:
 > 발견된 문제 - 논문에 의하면 00000은 Q상태로 100% 가지만, 시뮬레이션에서는 P상태로 100%가 되는 문제가 있다. See Figure 1. 
 
 
-#### (B) Attractor analysis - *Ver 2*
+#### (B) Attractor analysis - *Update 1*
 
 *B1. Simulation*
 
 *B2. Simulation summary*
 
-> *Ver 1*의 문제는 거의 해결된 것으로 보인다. 차이점은, 아래 입력 템플릿에서 `State_Gli: False` 로 세팅한 것이다. 그리고 point attractor에서 apoptosis 값이 false인 경우, cyc a,b,d,e값의 상태가 모두 0이라면 Q 페노타입을 가진다고 설정하였다.
+> *Ver 1*의 문제는 거의 해결된 것으로 보인다. 차이점은, 아래 입력 템플릿에서 `State_Gli: False` 로 세팅한 것이다. 그리고 point attractor에서 apoptosis 값이 false인 경우, Cyclin A,B,D,E값의 상태가 모두 False라면 Q페노타입을 가진다고 설정하였다.
 
 ```
 Input = {
@@ -69,9 +69,4 @@ else:
             Unknown 
 
 ```
-
-
-
-
-
 

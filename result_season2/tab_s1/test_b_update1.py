@@ -252,10 +252,10 @@ def test_summary_32results():
 file_a2 = dirname(tab_s1.__file__) + '/a/a2-fumia-model-processed-weighted-sum.txt'
 
 # output 
-file_test1 = dirname(tab_s1.__file__) + '/b/ver2-test1-simul-result-with-00000.json'
-file_test2 = dirname(tab_s1.__file__) + '/b/ver2-test2-simul-result-with-11100.json'
-file_b1 = dirname(tab_s1.__file__) + '/b/ver2-b1-simul-result-with-32-conditions.json'
-file_b2 = dirname(tab_s1.__file__) + '/b/ver2-b2-simul-result-table-summary.csv'
+file_test1 = dirname(tab_s1.__file__) + '/b/update1-test1-simul-result-with-00000.json'
+file_test2 = dirname(tab_s1.__file__) + '/b/update1-test2-simul-result-with-11100.json'
+file_b1 = dirname(tab_s1.__file__) + '/b/update1-b1-simul-result-with-32-conditions.json'
+file_b2 = dirname(tab_s1.__file__) + '/b/update1-b2-simul-result-table-summary.csv'
 
 with open(file_a2, 'r') as fobj:
     lines = fobj.readlines()
