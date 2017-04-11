@@ -15,6 +15,9 @@ def pytest_addoption(parser):
     parser.addoption("--force", action="store_true",
             help="Force overwriting existing results")
 
+    parser.addoption("--progress", action="store_true",
+            help="display progressbar")
+
 
 def pytest_generate_tests(metafunc):
     if 'with_small' in metafunc.fixturenames:
@@ -32,3 +35,11 @@ def pytest_generate_tests(metafunc):
             force = False
 
         metafunc.parametrize("force", [force])
+
+    if 'progress' in metafunc.fixturenames:
+        if metafunc.config.option.force:
+            progress = True
+        else:
+            progress = False
+
+        metafunc.parametrize("progress", [progress])

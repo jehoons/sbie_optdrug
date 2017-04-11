@@ -70,3 +70,24 @@ else:
 
 ```
 
+#### (C) Mutational sequence analysis 
+
+*C1. All possible combinations*
+
+Use `get_mutations_config_all()` 
+
+*C2. Reduced number of combinations*
+
+Use `get_mutations_config()`
+
+
+
+
+
+
+
+
+
+
+
+
