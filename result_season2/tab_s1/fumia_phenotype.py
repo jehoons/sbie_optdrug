@@ -70,7 +70,7 @@ def attach_phenotype(result):
 # E, A, B 순서로 켜져야 한다는 것을 알 수 있다.
 
     simul_result = result['simul_result']
-    input_cond = result['input_condition']
+    # input_cond = result['input_condition']
 
     atts = simul_result['attractors']
     lbls = simul_result['labels']
@@ -94,7 +94,9 @@ def attach_phenotype(result):
             elif cycstatus == '0000': 
                 result['simul_result']['attractors'][att]['phenotype'] = 'Q'
             else: 
-                result['simul_result']['attractors'][att]['phenotype'] = 'Unknown'
+                result['simul_result']['attractors'][att]['phenotype'] = 'U'
+        else: 
+            result['simul_result']['attractors'][att]['phenotype'] = 'U'
 
     return result
 

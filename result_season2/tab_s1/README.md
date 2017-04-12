@@ -72,19 +72,17 @@ else:
 
 #### (C) Mutational sequence analysis 
 
-*C1. All possible combinations*
-
-Use `get_mutations_config_all()` 
-
-*C2. Reduced number of combinations*
+*C1. Simulation with Reduced number of combinations*
 
 Use `get_mutations_config()`
 
+*C2. Summary for C1*
 
+*C3. All possible combinations*
 
+Use `get_mutations_config_all()` 
 
-
-
+*C4. Summary for C3*
 
 
 
