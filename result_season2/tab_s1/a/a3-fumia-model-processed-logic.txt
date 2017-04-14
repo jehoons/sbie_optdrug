@@ -196,7 +196,7 @@ State_PI3K *= State_Ras or State_hTERT
 # input: 
 # output: State_PTEN
 # table: 
-N/A
+# N/A
 # SOP: State_PTEN *= True
 State_PTEN *= True
 # source: State_PIP3 *= sign(+State_PI3K-State_PTEN-State_p53_PTEN+1)
@@ -799,7 +799,7 @@ State_Myc *= State_E2F and State_ERK and State_FosJun or State_E2F and State_ERK
 # input: 
 # output: State_Max
 # table: 
-N/A
+# N/A
 # SOP: State_Max *= True
 State_Max *= True
 # source: State_MXI1 *= sign(+State_HIF1)

@@ -12,8 +12,9 @@ from sbie_optdrug.result_season2 import tab_s1
 from sbie_optdrug.result_season2.tab_s1 import fumia_phenotype
 from fumia_phenotype import *
 
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-
 
 def get_input_combinations():    
 
@@ -170,8 +171,8 @@ def test_c2_summary():
     with open(file_c1,'r') as fin:
         previous_results = json.load(fin)
 
-    # simul_mode = 'nohypoxia'
-    simul_mode = 'normal'
+    simul_mode = 'nohypoxia'
+    #simul_mode = 'normal'
 
     df0 = pd.DataFrame([], columns=['input','mutation','A','P','Q','U'])
 
