@@ -170,7 +170,7 @@ def run(config=None):
                 next_state[15] = sgn(1)
                 next_state[16] = sgn(curr_state[14]-curr_state[15]-curr_state[92]+1)
                 next_state[17] = sgn(curr_state[16]+curr_state[32]+curr_state[36])
-                next_state[18] = sgn(curr_state[10]+ curr_state[23]+ curr_state[31]-curr_state[35]-curr_state[42]+curr_state[81])
+                next_state[18] = sgn(curr_state[10]+curr_state[23]+curr_state[31]-curr_state[35]-curr_state[42]+curr_state[81])
                 next_state[19] = sgn(curr_state[16]+2*curr_state[18]-curr_state[75]+curr_state[95]-1)
                 next_state[20] = sgn(curr_state[10]+curr_state[13])
                 next_state[21] = sgn(curr_state[20])
@@ -271,11 +271,13 @@ def run(config=None):
                                 att_input_condi[i]['attractor_info'] = att_result
                                 check_cyclic = 1
                                 set_trace()
+                                break
                             l += 1
                         trajectory.append("".join(str(n) for n in next_state)
 
                 if check_cyclic == 1:
                     break
+
                 curr_state = next_state
                 set_trace()
                 k += 1
