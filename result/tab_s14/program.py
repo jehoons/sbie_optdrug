@@ -84,7 +84,7 @@ def sgn(x):
 def run(config=None):
 
     steps = 50
-    input_num = 100000
+    input_num = 10000
     MUTAGEN = GFS = NUTRIENTS = TNF_A = HYPOXIA = 0
     TGF_B = DNA_DAMAGE = P53_MDM2 = AMP_ATP = NF1 = PKC = RTK = RAGS = RAS = PI3K = PTEN = 0
     PIP3 = PDK1 = IKK = NFKB = RAF = ERK12 = P90RSK = AKT = WNT = DSH = APC = GSK3 = GSK3_APC = 0
@@ -122,6 +122,9 @@ def run(config=None):
         on_states = []
         off_states = []
         att_result = {}
+        point_att = []
+        cyclic_att = []
+        att_num = 0
         for m in range(len(curr_input)):
             if m == 0:
                 states = 'MUTAGEN'
@@ -150,6 +153,8 @@ def run(config=None):
             trajectory = []
             next_state = total_states
             check_cyclic = 0
+            check_cyclic_same = 0
+            check_point_same = 0
             trajectory = ["".join(str(n) for n in curr_state)]
             for k in range(steps):
                 next_state[0] = curr_state[0]
@@ -248,40 +253,82 @@ def run(config=None):
                 next_state[93] = sgn(curr_state[32]+curr_state[36]-1)
                 next_state[94] = sgn(curr_state[93])
                 next_state[95] = sgn(curr_state[19]-curr_state[27]-curr_state[42]+curr_state[60]-1)
-                if cmp(curr_state,next_state) == 0:
-                    att = {'attractor': "".join(str(n) for n in next_state), 'type': 'point'}
-                    if len(att_result) == 0:
-                        att_result = att
+                if curr_state == next_state:
+                    point_att_ele = "".join(str(n) for n in next_state)
+                    att = {'attractor': point_att_ele, 'type': 'point', 'basin_size': 1}
+                    if len(point_att) == 0:
+                        point_att = [point_att_ele]
+                        att_result[att_num] = att
+                        att_num += 1
+                        set_trace()
                     else:
-                        att_result[j] = att
-                    att_input_condi[i]['attractor_info'] = att_result
-                    set_trace()
-                    break
-                elif cmp(curr_state,next_state) != 0:
-                    if len(trajectory) == 1:
-                        trajectory.append("".join(str(n) for n in next_state))
-                    elif len(trajectory) > 1:
-                        for l in range(len(trajectory)):
-                            if "".join(str(n) for n in next_state) == trajectory[l]:
-                                att = {'attractor': trajectory[k:len(trajectory)], 'type': 'cyclic'}
-                                if len(att_result) == 0:
-                                    att_result = att
-                                else:
-                                    att_result[j] = att
-                                att_input_condi[i]['attractor_info'] = att_result
-                                check_cyclic = 1
+                        for point_list in range(len(point_att)):
+                            if point_att_ele == point_att[point_list]:
+                                for att_list_po in range(len(att_result)):
+                                    att_element = att_result[att_list_po]
+                                    if att == att_element:
+                                        att_result[att_list_po]['basin_size'] += 1
+                                        check_point_same = 1
+                                        set_trace()
+                                        break
+                                    att_list_po += 1
+                            if check_point_same == 1:
                                 set_trace()
                                 break
-                            l += 1
-                        trajectory.append("".join(str(n) for n in next_state)
-
-                if check_cyclic == 1:
+                            point_list += 1
+                        if check_point_same != 1:
+                            point_att.append(point_att_ele)
+                            att_result[att_num] = att
+                            att_num += 1
+                            set_trace()
                     break
-
+                elif curr_state != next_state:
+                    if len(trajectory) == 1:
+                        trajectory.append("".join(str(n) for n in next_state))
+                        set_trace()
+                    elif len(trajectory) > 1:
+                        for traj in range(len(trajectory)):
+                            if "".join(str(n) for n in next_state) == trajectory[traj]:
+                                cyc_att_ele = trajectory[traj:len(trajectory)]
+                                att = {'attractor': cyc_att_ele, 'type': 'cyclic', 'basin_size': 1, 'cyclic_size': len(cyc_att_ele)}
+                                if len(cyclic_att) == 0:
+                                    cyclic_att = [cyc_att_ele]
+                                    att_result[att_num] = att
+                                    att_num += 1
+                                    set_trace()
+                                    break
+                                else:
+                                    for cyclic_list in range(len(cyclic_att)):
+                                        if cyc_att_ele == cyclic_att[cyclic_list]:
+                                            for att_list_cyc in range(len(att_result)):
+                                                att_element = att_result[att_list_cyc]
+                                                if att == att_element:
+                                                    att_result[att_list_cyc]['basin_size'] += 1
+                                                    check_cyclic_same = 1
+                                                    set_trace()
+                                                    break
+                                                att_list_cyc += 1
+                                        if check_cyclic_same == 1:
+                                            set_trace()
+                                            break
+                                        cyclic_list += 1
+                                    if check_cyclic_same != 1:
+                                        cyclic_att.append(cyc_att_ele)
+                                        att_result[att_num] = att
+                                        att_num += 1
+                                        set_trace()
+                                check_cyclic = 1
+                                break
+                            traj += 1
+                        trajectory.append("".join(str(n) for n in next_state))
+                if check_cyclic == 1:
+                    set_trace()
+                    break
                 curr_state = next_state
-                set_trace()
+                #set_trace()
                 k += 1
             j += 1
+        att_input_condi[i]['attractor_info'] = att_result
         if len(total_attractor_info) == 0:
             total_attractor_info = att_input_condi
             set_trace()
